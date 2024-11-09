@@ -1,0 +1,111 @@
+<div class="flex h-screen bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r">
+      <div class="flex items-center justify-center h-16 border-b">
+        <span class="text-lg font-semibold text-blue-600">preline</span>
+      </div>
+      <nav class="flex-1 p-4 space-y-2">
+        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
+          <span class="material-icons-outlined mr-3">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+        
+        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
+          <span class="material-icons-outlined mr-3">people</span>
+          <span>Usuarios</span>
+        </a>
+  
+        <!-- Submenu desplegable -->
+        <div>
+          <button (click)="toggleSubMenu1()" class="flex items-center justify-between w-full p-2 text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none">
+            <div class="flex items-center">
+              <span class="material-icons-outlined mr-3">account_circle</span>
+              <span>Documentos</span>
+            </div>
+            <span class="material-icons-outlined transform transition-transform duration-300" [class.rotate-180]="isSubMenu1Open">expand_more</span>
+          </button>
+          
+          <!-- Items del Submenú (Dropdown) -->
+          <div *ngIf="isSubMenu1Open" class="ml-8 space-y-1 mt-2">
+            <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Politicas de privacidad</a>
+            <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Terminos y condiciones</a>
+            <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Dislende legal</a>
+          </div>
+        </div>
+
+
+         <!-- Submenu desplegable 2 -->
+         <div>
+            <button (click)="toggleSubMenu2()" class="flex items-center justify-between w-full p-2 text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none">
+              <div class="flex items-center">
+                <span class="material-icons-outlined mr-3">account_circle</span>
+                <span>Empresa</span>
+              </div>
+              <span class="material-icons-outlined transform transition-transform duration-300" [class.rotate-180]="isSubMenu1Open2">expand_more</span>
+            </button>
+            
+            <!-- Items del Submenú (Dropdown) -->
+            <div *ngIf="isSubMenu1Open2" class="ml-8 space-y-1 mt-2">
+              <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Redes sociales</a>
+              <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Slogan</a>
+              <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Logo</a>
+              <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Titulo de la pagina</a>
+              <a href="#" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Datos del contacto</a>
+            </div>
+          </div>
+  
+        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
+          <span class="material-icons-outlined mr-3">work</span>
+          <span>Projects</span>
+        </a>
+        
+        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
+          <span class="material-icons-outlined mr-3">calendar_today</span>
+          <span>Calendar</span>
+        </a>
+        
+        <a href="#" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
+          <span class="material-icons-outlined mr-3">description</span>
+          <span>Documentation</span>
+        </a>
+      </nav>
+    </aside>
+  
+    <!-- Main content -->
+    <div class="flex-1">
+      <!-- Header -->
+      <header class="flex items-center justify-between h-16 px-6 bg-white border-b">
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-600 rounded-lg hover:bg-gray-100 focus:outline-none">
+            <span class="material-icons-outlined">menu</span>
+          </button>
+          <div class="relative">
+            <input type="text" class="w-64 p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500" placeholder="Search" />
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 material-icons-outlined">search</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
+            <span class="material-icons-outlined">notifications</span>
+          </button>
+          <img src="https://via.placeholder.com/30" alt="User avatar" class="w-8 h-8 rounded-full" />
+        </div>
+      </header>
+  
+      <!-- Main dashboard content -->
+      <div class="p-6 bg-gray-100">
+        <!-- Aquí puedes agregar el contenido principal de tu dashboard -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div class="p-4 bg-white border rounded-lg">TOTAL USERS</div>
+          <div class="p-4 bg-white border rounded-lg">SESSIONS</div>
+          <div class="p-4 bg-white border rounded-lg">AVG. CLICK RATE</div>
+          <div class="p-4 bg-white border rounded-lg">PAGEVIEWS</div>
+        </div>
+        <div class="mt-6 p-4 bg-white border rounded-lg">
+          <!-- Aquí podrían ir gráficos u otros widgets -->
+          <p>Content for analytics and other widgets</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
