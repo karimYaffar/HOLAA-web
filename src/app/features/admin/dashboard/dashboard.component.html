@@ -1,79 +1,70 @@
 <div class="flex h-screen bg-gray-100">
   <!-- Sidebar -->
-  <aside class="w-64 bg-white border-r">
+  <aside class="w-64 bg-white border-r shadow-lg">
     <div class="flex items-center justify-center h-16 border-b">
-      <span class="text-lg font-semibold text-blue-600">preline</span>
+      <span class="text-xl font-semibold text-blue-600">Preline Admin</span>
     </div>
     <nav class="flex-1 p-4 space-y-2">
-      <a routerLink="/admin" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
-        <span class="material-icons-outlined mr-3">dashboard</span>
+      <!-- Enlace Inicio -->
+      <a routerLink="/admin" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+        <span class="material-icons-outlined mr-3 text-blue-500">dashboard</span>
         <span>Inicio</span>
       </a>
       
-      <a routerLink="/usuarios" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
-        <span class="material-icons-outlined mr-3">people</span>
+      <!-- Enlace Usuarios -->
+      <a routerLink="/admin/user" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+        <span class="material-icons-outlined mr-3 text-blue-500">people</span>
         <span>Usuarios</span>
       </a>
 
-      <!-- Submenu desplegable -->
+      <!-- Submenu Documentos -->
       <div>
-        <button (click)="toggleSubMenu1()" class="flex items-center justify-between w-full p-2 text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none">
+        <button (click)="toggleSubMenu1()" class="flex items-center justify-between w-full p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all focus:outline-none">
           <div class="flex items-center">
-            <span class="material-icons-outlined mr-3">description</span>
+            <span class="material-icons-outlined mr-3 text-blue-500">description</span>
             <span>Documentos</span>
           </div>
           <span class="material-icons-outlined transform transition-transform duration-300" [class.rotate-180]="isSubMenu1Open">expand_more</span>
         </button>
         
-        <!-- Items del Submenú (Dropdown) -->
-        <div *ngIf="isSubMenu1Open" class="ml-8 space-y-1 mt-2">
-          <a routerLink="/politicas-privacidad" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Políticas de privacidad</a>
-          <a routerLink="/terminos" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Términos y condiciones</a>
-          <a routerLink="/dislende-legal" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Dislende legal</a>
+        <!-- Items del Submenú -->
+        <div *ngIf="isSubMenu1Open" class="ml-8 mt-2 space-y-1">
+          <a routerLink="/admin/privacy" class="block p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">Políticas de privacidad</a>
+          <a routerLink="/admin/terms" class="block p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">Términos y condiciones</a>
+          <a routerLink="/admin/disclaimer" class="block p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">Disclaimer</a>
         </div>
       </div>
 
-      <!-- Submenu desplegable 2 -->
-      <div>
-        <button (click)="toggleSubMenu2()" class="flex items-center justify-between w-full p-2 text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none">
-          <div class="flex items-center">
-            <span class="material-icons-outlined mr-3">account_circle</span>
-            <span>Empresa</span>
-          </div>
-          <span class="material-icons-outlined transform transition-transform duration-300" [class.rotate-180]="isSubMenu1Open2">expand_more</span>
-        </button>
-        
-        <!-- Items del Submenú (Dropdown) -->
-        <div *ngIf="isSubMenu1Open2" class="ml-8 space-y-1 mt-2">
-          <a routerLink="/admin/logo" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Logo</a>
-          <a routerLink="/slogan" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Slogan</a>
-          <a routerLink="/titulo" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Título de la página</a>
-          <a routerLink="/contacto" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Datos del contacto</a>
-        </div>
-      </div>
+      <!-- Enlace Empresa -->
+      <a routerLink="/admin/business" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+        <span class="material-icons-outlined mr-3 text-blue-500">account_circle</span>
+        <span>Empresa</span>
+      </a>
   
-      <a routerLink="/auditoria" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
-        <span class="material-icons-outlined mr-3">work</span>
+      <!-- Enlace Auditoría -->
+      <a routerLink="/admin/audit" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+        <span class="material-icons-outlined mr-3 text-blue-500">work</span>
         <span>Auditoría</span>
       </a>
       
-      <a routerLink="/incidencias" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
-        <span class="material-icons-outlined mr-3">description</span>
+      <!-- Enlace Incidencias -->
+      <a routerLink="/admin/incidents" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+        <span class="material-icons-outlined mr-3 text-blue-500">description</span>
         <span>Incidencias</span>
       </a>
     </nav>
   </aside>
 
   <!-- Main content -->
-  <div class="flex-1">
+  <div class="flex-1 flex flex-col">
     <!-- Header -->
-    <header class="flex items-center justify-between h-16 px-6 bg-white border-b">
+    <header class="flex items-center justify-between h-16 px-6 bg-white border-b shadow-sm">
       <div class="flex items-center space-x-4">
         <button class="p-2 text-gray-600 rounded-lg hover:bg-gray-100 focus:outline-none">
           <span class="material-icons-outlined">menu</span>
         </button>
         <div class="relative">
-          <input type="text" class="w-64 p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500" placeholder="Search" />
+          <input type="text" class="w-64 p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" placeholder="Buscar..." />
           <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 material-icons-outlined">search</span>
         </div>
       </div>
@@ -85,8 +76,8 @@
       </div>
     </header>
   
-    <!-- Content section where routes are displayed -->
-    <div class="p-6 bg-gray-100">
+    <!-- Content Section -->
+    <div class="flex-1 p-6 bg-gray-100">
       <router-outlet></router-outlet>
     </div>
   </div>
