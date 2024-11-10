@@ -15,14 +15,10 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'auth/dashboard', component: DashboardAuthComponent, canActivate: [authGuard] },
-  { path: 'admin/login', component: LoginAdminComponent },
-  {
-    path: 'admin',
-    component: DashboardAdminComponent,
-    children: [
-      { path: '', component: HomeAdminComponent }, // Ruta por defecto
+  { path: 'admin', component: DashboardAdminComponent, children: [
+      { path: '', component: HomeAdminComponent },
+      { path: 'login', component: LoginAdminComponent },
       { path: 'logo', component: LogoComponent },
-      // Agrega aquí más rutas hijas específicas de la administración
     ]
   },
 ];

@@ -5,9 +5,9 @@
       <span class="text-lg font-semibold text-blue-600">preline</span>
     </div>
     <nav class="flex-1 p-4 space-y-2">
-      <a routerLink="/dashboard" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
+      <a routerLink="/admin" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
         <span class="material-icons-outlined mr-3">dashboard</span>
-        <span>Dashboard</span>
+        <span>Inicio</span>
       </a>
       
       <a routerLink="/usuarios" class="flex items-center p-2 text-gray-700 rounded-lg hover:bg-gray-100">
@@ -45,7 +45,7 @@
         
         <!-- Items del Submenú (Dropdown) -->
         <div *ngIf="isSubMenu1Open2" class="ml-8 space-y-1 mt-2">
-          <a routerLink="admin/logo" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Logo</a>
+          <a routerLink="/admin/logo" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Logo</a>
           <a routerLink="/slogan" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Slogan</a>
           <a routerLink="/titulo" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Título de la página</a>
           <a routerLink="/contacto" class="block p-2 text-gray-700 rounded-lg hover:bg-gray-100">Datos del contacto</a>

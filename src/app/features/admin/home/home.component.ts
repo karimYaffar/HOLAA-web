@@ -10,9 +10,4 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeAdminComponent {
-  constructor(private readonly router: Router) {}
-     isRootAdminRoute(): boolean {
-      return this.router.url === '/admin';
-  }
-}
+export class HomeAdminComponent {}
