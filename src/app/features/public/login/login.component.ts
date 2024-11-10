@@ -56,7 +56,7 @@ export class LoginComponent {
               next: () => {
                 // Implementacion de la logica para guardar la cookie de manera segura
                 // Enviamos a la nueva ruta
-                this.router.navigate(["auth/dashboard"]);
+                this.router.navigate(["/auth"]);
               },
             });
         },

@@ -11,13 +11,21 @@ export const authGuard: CanActivateFn = (route, state) => {
   const _authService = inject(AuthService);
   const _router = inject(Router);
 
-  console.log("HOLA");
 
   // Se activa el guarda cuando el usuario inicia sesion
-  _authService.authenticateVerification().pipe(
-    map(res => {console.log(res.authenticate)}),
-    catchError(() => of(false))
+  return _authService.authenticateVerification().pipe(
+    map((response: any) => {
+      if (response.authenticate) {
+        return true;
+      } else {
+        _router.navigate(['/login']);
+        return false;
+      }
+    }),
+    catchError(() => {
+      _router.navigate(['/login']);
+      return of(false);
+    })
   );
 
-  return true
 };

@@ -62,18 +62,9 @@ export class AuthService {
     // activando esta solicitud que solo verifica el envio de la cookie
     // y regresando true para obtener la respues solicitada y verificar
     // que claro el usuario esta authenticado
-    return (
-      this.httpClient
-        .get<{ authenticate: boolean }>(
-          `${this.api}/auth/authenticate-verification`,
-          this.httpOptions
-        )
-        // Manejaddor de errores en caso de que ocurre una excepcion inesperada
-        .pipe(
-          catchError((error) => {
-            return throwError(() => new Error(error.error.message));
-          })
-        )
+    return this.httpClient.get<{ authenticate: boolean }>(
+      `${this.api}/auth/authenticate-verification`,
+      this.httpOptions
     );
   }
 }
