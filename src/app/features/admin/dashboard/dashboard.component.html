@@ -2,7 +2,7 @@
   <!-- Sidebar -->
   <aside class="w-64 bg-white border-r shadow-lg">
     <div class="flex items-center justify-center h-16 border-b">
-      <span class="text-xl font-semibold text-blue-600">Preline Admin</span>
+      <span class="text-xl font-semibold text-blue-600">HOLAA<sub>Admin</sub></span>
     </div>
     <nav class="flex-1 p-4 space-y-2">
       <!-- Enlace Inicio -->
@@ -17,28 +17,23 @@
         <span>Usuarios</span>
       </a>
 
-      <!-- Submenu Documentos -->
-      <div>
-        <button (click)="toggleSubMenu1()" class="flex items-center justify-between w-full p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all focus:outline-none">
-          <div class="flex items-center">
-            <span class="material-icons-outlined mr-3 text-blue-500">description</span>
-            <span>Documentos</span>
-          </div>
-          <span class="material-icons-outlined transform transition-transform duration-300" [class.rotate-180]="isSubMenu1Open">expand_more</span>
-        </button>
-        
-        <!-- Items del Submenú -->
-        <div *ngIf="isSubMenu1Open" class="ml-8 mt-2 space-y-1">
-          <a routerLink="/admin/privacy" class="block p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">Políticas de privacidad</a>
-          <a routerLink="/admin/terms" class="block p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">Términos y condiciones</a>
-          <a routerLink="/admin/disclaimer" class="block p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">Disclaimer</a>
-        </div>
-      </div>
+      <!-- Enlace Usuarios -->
+      <a routerLink="/admin/document" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+        <span class="material-icons-outlined mr-3 text-blue-500">description</span>
+        <span>Documentos</span>
+      </a>
+
 
       <!-- Enlace Empresa -->
       <a routerLink="/admin/business" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">account_circle</span>
         <span>Empresa</span>
+      </a>
+
+      <!-- Redes Sociales -->
+      <a routerLink="/admin/socials" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+        <span class="material-icons-outlined mr-3 text-blue-500">business</span>
+        <span>Redes Sociales</span>
       </a>
   
       <!-- Enlace Auditoría -->
@@ -72,7 +67,9 @@
         <button class="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
           <span class="material-icons-outlined">notifications</span>
         </button>
-        <img src="https://via.placeholder.com/30" alt="User avatar" class="w-8 h-8 rounded-full" />
+        <button (click)="logOut()" class="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
+          Cerrar Sesion
+        </button>
       </div>
     </header>
   

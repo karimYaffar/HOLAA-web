@@ -1,0 +1,256 @@
+<div class="p-8 bg-gray-100">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6">Documentos Regulatorios</h2>
+
+  <button
+    (click)="openAddModal()"
+    class="bg-blue-600 text-white font-semibold rounded-lg px-6 py-2 mb-6 hover:bg-blue-700 transition duration-200 shadow-lg transform hover:scale-105"
+  >
+    Agregar Nuevo Documento
+  </button>
+
+  <!-- Filtros -->
+  <div class="flex mb-6 space-x-4 justify-end">
+    <input
+      type="text"
+      placeholder="Filtrar por Título"
+      [(ngModel)]="titleFilter"
+      (input)="applyFilters()"
+      class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+    />
+    <select
+      [(ngModel)]="statusFilter"
+      (change)="applyFilters()"
+      class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+    >
+      <option value="">Todos los Estados</option>
+      <option value="Vigente">Vigente</option>
+      <option value="No Vigente">No Vigente</option>
+      <option value="Eliminado">Eliminado</option>
+    </select>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-2xl shadow-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th
+            class="px-6 py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wide"
+          >
+            Título
+          </th>
+          <th
+            class="px-6 py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wide"
+          >
+            Contenido
+          </th>
+          <th
+            class="px-6 py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wide"
+          >
+            Fecha de Efectividad
+          </th>
+          <th
+            class="px-6 py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wide"
+          >
+            Versión
+          </th>
+          <th
+            class="px-6 py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wide"
+          >
+            Estado
+          </th>
+          <th
+            class="px-6 py-4 text-center text-sm font-semibold text-gray-600 uppercase tracking-wide"
+          >
+            Acciones
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr
+          *ngFor="let document of displayedDocuments"
+          class="hover:bg-gray-50 transition-colors duration-200 text-center"
+        >
+          <td class="px-6 py-4 text-sm text-gray-700">{{ document.title }}</td>
+          <td class="px-6 py-4 text-sm text-gray-700">
+            {{ document.content | slice : 0 : 50 }}...
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-700">
+            {{ document.effective_date | date }}
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-700">
+            {{ document.version }}
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-700">
+            <span
+              [ngClass]="
+                document.current
+                  ? 'text-green-600 font-semibold'
+                  : 'text-red-600 font-semibold'
+              "
+            >
+            {{ document.isDelete ? "Eliminado" : (document.current ? "Vigente" : "No Vigente") }}
+            </span>
+          </td>
+          <td class="text-sm flex flex-col space-y-3 mb-3 mt-3">
+            <button
+              (click)="openEditModal(document)"
+              class="bg-green-600 text-white rounded-md px-3 py-1 mr-3 hover:bg-green-700 transition duration-200"
+            >
+              Editar
+            </button>
+            <button
+              (click)="deleteDocument(document._id)"
+              class="bg-red-600 text-white rounded-md px-3 py-1 mr-3 hover:bg-red-700 transition duration-200"
+            >
+              Eliminar
+            </button>
+            <button
+              (click)="activeDocument(document._id, document.current)"
+              [disabled]="document.isDelete"
+              class="bg-yellow-600 text-white rounded-md px-3 py-1 mr-3 hover:bg-yellow-700 transition duration-200"
+            >
+              Activar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="flex justify-center mt-6">
+    <button
+      *ngFor="let page of getTotalPages(); let i = index"
+      (click)="setPage(i + 1)"
+      [ngClass]="{
+        'bg-blue-600 text-white font-semibold': currentPage === i + 1,
+        'bg-gray-200': currentPage !== i + 1
+      }"
+      class="rounded-full px-5 py-2 mx-1 shadow-sm hover:shadow-md transition duration-200 transform hover:scale-105"
+    >
+      {{ i + 1 }}
+    </button>
+  </div>
+
+  <!-- Modal para agregar documento -->
+  <div
+    *ngIf="isAddMode"
+    class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center transition ease-in-out duration-300"
+  >
+    <div
+      class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg transform transition-transform duration-300 hover:scale-105"
+    >
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Agregar nuevo Documento
+      </h2>
+      <form (ngSubmit)="createDocument()" [formGroup]="formDocument">
+        <label for="title" class="block text-sm font-medium text-gray-800"
+          >Título</label
+        >
+        <select
+          id="title"
+          name="title"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-200"
+          required
+          formControlName="title"
+        >
+          <option value="Politicas de Privacidad" selected>
+            Politicas de Privacidad
+          </option>
+          <option value="Términos y condiciones">Términos y condiciones</option>
+          <option value="Deslinde legal">Deslinde legal</option>
+        </select>
+
+        <label
+          for="content"
+          class="block text-sm font-medium text-gray-800 mt-4"
+          >Contenido</label
+        >
+        <textarea
+          id="content"
+          formControlName="content"
+          name="content"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-200"
+          required
+        ></textarea>
+
+        <div class="flex justify-end mt-8 space-x-4">
+          <button
+            type="button"
+            (click)="closeModals()"
+            class="bg-gray-400 text-white px-5 py-2 rounded-lg shadow-md hover:bg-gray-500 transition ease-in-out duration-200"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg transition ease-in-out duration-200 transform hover:scale-105"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Editar documento -->
+  <div
+    *ngIf="isEditMode"
+    class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center transition ease-in-out duration-300"
+  >
+    <div
+      class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg transform transition-transform duration-300 hover:scale-105"
+    >
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Editar Document
+      </h2>
+      <form (ngSubmit)="editDocument()">
+        <label for="title" class="block text-sm font-medium text-gray-800"
+          >Título</label
+        >
+        <select
+          id="title"
+          name="title"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-200"
+          required
+          [(ngModel)]="this.currentDocument.title"
+        >
+          <option value="Politicas de Privacidad" selected>
+            Politicas de Privacidad
+          </option>
+          <option value="Términos y condiciones">Términos y condiciones</option>
+          <option value="Deslinde legal">Deslinde legal</option>
+        </select>
+
+        <label
+          for="content"
+          class="block text-sm font-medium text-gray-800 mt-4"
+          >Contenido</label
+        >
+        <textarea
+          id="content"
+          name="content"
+          [(ngModel)]="this.currentDocument.content"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-200"
+          required
+        ></textarea>
+
+        <div class="flex justify-end mt-8 space-x-4">
+          <button
+            type="button"
+            (click)="closeModals()"
+            class="bg-gray-400 text-white px-5 py-2 rounded-lg shadow-md hover:bg-gray-500 transition ease-in-out duration-200"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg transition ease-in-out duration-200 transform hover:scale-105"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

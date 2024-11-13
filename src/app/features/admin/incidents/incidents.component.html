@@ -12,7 +12,7 @@
               id="emailTitle"
               name="title"
               type="text"
-              [(ngModel)]="emailConfig.title"
+              [(ngModel)]="emailConfiguration.title"
               class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
             />
           </div>
@@ -22,7 +22,7 @@
               id="emailFooter"
               name="footer"
               type="text"
-              [(ngModel)]="emailConfig.footer"
+              [(ngModel)]="emailConfiguration.footer"
               class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
             />
           </div>
@@ -32,13 +32,13 @@
           <textarea
             id="emailContent"
             name="content"
-            [(ngModel)]="emailConfig.content"
+            [(ngModel)]="emailConfiguration.content"
             rows="4"
             class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
           ></textarea>
         </div>
         <button
-          (click)="saveEmailConfig()"
+          (click)="editEmailConfiguration()"
           class="mt-6 px-6 py-3 border border-gray-500 text-gray-700 font-semibold rounded-lg transition duration-200 hover:bg-gray-700 hover:text-white"
         >
           Guardar Configuración de Correo
@@ -55,7 +55,7 @@
               id="maxFailedAttempts"
               name="maxFailedAttempts"
               type="number"
-              [(ngModel)]="incidentConfig.maxFailedAttempts"
+              [(ngModel)]="incidentConfiguration.maxFailedAttempts"
               class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
             />
           </div>
@@ -65,13 +65,23 @@
               id="blockDuration"
               name="blockDuration"
               type="number"
-              [(ngModel)]="incidentConfig.blockDuration"
+              [(ngModel)]="incidentConfiguration.blockDuration"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+            />
+          </div>
+          <div>
+            <label for="otpLifeTime" class="block text-sm font-medium text-gray-700">Tiempo de vida de codigo OTP</label>
+            <input
+              id="otpLifeTime"
+              name="otpLifeTime"
+              type="number"
+              [(ngModel)]="incidentConfiguration.otpLifeTime"
               class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
             />
           </div>
         </div>
         <button
-          (click)="saveIncidentConfig()"
+          (click)="editIncidentConfiguration()"
           class="mt-6 px-6 py-3 border border-gray-500 text-gray-700 font-semibold rounded-lg transition duration-200 hover:bg-gray-700 hover:text-white"
         >
           Guardar Configuración de Incidencias
@@ -92,7 +102,7 @@
           />
         </div>
         <button
-          (click)="saveBlockedUserFilterDays()"
+          (click)="editIncidentConfiguration()"
           class="mt-6 px-6 py-3 border border-gray-500 text-gray-700 font-semibold rounded-lg transition duration-200 hover:bg-gray-700 hover:text-white"
         >
           Guardar Filtro de Usuarios Bloqueados

@@ -2,108 +2,181 @@
 <app-prommobanner></app-prommobanner>
 
 <div class="flex flex-col lg:flex-row h-screen overflow-hidden">
-    <!-- Imagen Izquierda (oculta en pantallas pequeñas) -->
-    <div class="w-full lg:w-1/2 hidden lg:block">
-        <img src="./assets/images/485846c3a4fd2ab5570488170be7d1a3.jpeg" alt="data-image-model" class="object-cover w-full h-full">
+  <!-- Imagen Izquierda (oculta en pantallas pequeñas) -->
+  <div class="w-full lg:w-1/2 hidden lg:block">
+    <img
+      src="./assets/images/485846c3a4fd2ab5570488170be7d1a3.jpeg"
+      alt="data-image-model"
+      class="object-cover w-full h-full"
+    />
+  </div>
+
+  <!-- Formulario Derecho -->
+  <div
+    class="flex items-center justify-center w-full lg:w-1/2 p-6 md:p-10 lg:p-12"
+  >
+    <div class="w-full max-w-md">
+      <!-- Botón de Regreso -->
+      <!-- <button
+        onclick="window.history.back()"
+        class="flex items-center mb-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+      >
+        <span class="icon-[mdi--arrow-left] w-5 h-5 mr-1"></span>
+        <span>Regresar</span>
+      </button> -->
+
+      <!-- Título -->
+      <h1
+        class="text-2xl font-bold mb-4 font-inter text-center text-gray-800 dark:text-gray-200"
+      >
+        Registrate con nosotros
+      </h1>
+
+      <!-- Formulario de Registro -->
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre de Usuario -->
+    <div class="mb-5">
+      <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">
+        Nombre de usuario
+      </label>
+      <div class="relative">
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--account-outline] w-5 h-5 text-gray-500"></span>
+        <input
+          formControlName="username"
+          type="text"
+          id="username"
+          class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
+          placeholder="Ingresa tu nombre de usuario"
+          aria-describedby="usernameError"
+          attr.aria-invalid="{{ registerForm.get('username')?.invalid }}"
+        />
+      </div>
+      <span
+        *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+        id="usernameError"
+        class="text-red-500 text-sm"
+      >
+        El nombre de usuario es requerido y debe tener al menos 5 caracteres.
+      </span>
     </div>
-
-    <!-- Formulario Derecho -->
-    <div class="flex items-center justify-center w-full lg:w-1/2 p-6 md:p-10 lg:p-12">
-        <div class="w-full max-w-md">
-            <!-- Botón de Regreso -->
-            <button onclick="window.history.back()" class="flex items-center mb-3 text-gray-500 hover:text-gray-700 focus:outline-none">
-                <span class="icon-[mdi--arrow-left] w-5 h-5 mr-1"></span>
-                <span>Regresar</span>
-            </button>
-
-            <!-- Título -->
-            <h1 class="text-2xl font-bold mb-4 font-inter text-center text-gray-800 dark:text-gray-200">
-                Registrate con nosotros
-            </h1>
-
-            <!-- Formulario de Registro -->
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                <!-- Nombre de Usuario -->
-                <div class="relative mb-5">
-                    <input type="text" placeholder=" " class="peer w-full border-b-2 rounded-full shadow-md border-gray-300 py-3 pl-10 pr-3 text-base bg-transparent 
-                                  focus:pt-5 focus:pb-1 
-                                  [&:not(:placeholder-shown)]:pt-5 [&:not(:placeholder-shown)]:pb-1 
-                                  focus:outline-none focus:border-gray-500 dark:focus:border-neutral-600 
-                                  dark:border-neutral-700 dark:text-neutral-200 placeholder-transparent">
-                    <label class="absolute left-10 top-3 text-gray-600 text-sm font-sans transform origin-left 
-                           transition-all duration-200 ease-in-out pointer-events-none 
-                           dark:text-neutral-400 
-                           peer-focus:text-blue-500 peer-focus:font-bold peer-focus:top-1 peer-focus:scale-90 peer-focus:-translate-y-1.5 
-                           peer-placeholder-shown:top-3 peer-placeholder-shown:left-10 peer-placeholder-shown:scale-100 
-                           peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:scale-90 peer-[:not(:placeholder-shown)]:-translate-y-1.5">
-                        Nombre de usuario
-                    </label>
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--account-outline] w-5 h-5 text-gray-500"></span>
-                </div>
-
-                <!-- Correo Electrónico -->
-                <div class="relative mb-5">
-                    <input type="email" placeholder=" " class="peer w-full border-b-2 rounded-full shadow-md border-gray-300 py-3 pl-10 pr-3 text-base bg-transparent 
-                                  focus:pt-5 focus:pb-1 
-                                  [&:not(:placeholder-shown)]:pt-5 [&:not(:placeholder-shown)]:pb-1 
-                                  focus:outline-none focus:border-gray-500 dark:focus:border-neutral-600 
-                                  dark:border-neutral-700 dark:text-neutral-200 placeholder-transparent">
-                    <label class="absolute left-10 top-3 text-gray-600 text-sm font-sans transform origin-left 
-                           transition-all duration-200 ease-in-out pointer-events-none 
-                           dark:text-neutral-400 
-                           peer-focus:text-blue-500 peer-focus:font-bold peer-focus:top-1 peer-focus:scale-90 peer-focus:-translate-y-1.5 
-                           peer-placeholder-shown:top-3 peer-placeholder-shown:left-10 peer-placeholder-shown:scale-100 
-                           peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:scale-90 peer-[:not(:placeholder-shown)]:-translate-y-1.5">
-                        Correo electrónico
-                    </label>
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--email-outline] w-5 h-5 text-gray-500"></span>
-                </div>
-                
-                <!-- Contraseña -->
-                <div class="relative mb-5">
-
-                    <input type="password" placeholder=" " class="peer w-full border-b-2 rounded-full shadow-md border-gray-300 py-3 pl-10 pr-3 text-base bg-transparent 
-                           focus:pt-5 focus:pb-1 [&:not(:placeholder-shown)]:pt-5 [&:not(:placeholder-shown)]:pb-1 
-                           focus:outline-none focus:border-gray-500 dark:focus:border-neutral-600 
-                           dark:border-neutral-700 dark:text-neutral-200 placeholder-transparent">
-                        
-                    <label class="absolute left-10 top-3 text-gray-600 text-sm font-sans transform origin-left 
-                    transition-all duration-200 ease-in-out pointer-events-none 
-                    dark:text-neutral-400 
-                    peer-focus:text-blue-500 peer-focus:font-bold peer-focus:top-1 peer-focus:scale-90 peer-focus:-translate-y-1.5 
-                    peer-placeholder-shown:top-3 peer-placeholder-shown:left-10 peer-placeholder-shown:scale-100 
-                    peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:scale-90 peer-[:not(:placeholder-shown)]:-translate-y-1.5">
-                        Contraseña
-                    </label>
-
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--key-outline] w-5 h-5 text-gray-500"></span>
-                    
-                </div>
-
-                <!-- Confirmar Contraseña -->
-                <div class="relative mb-5">
-                    <input type="password" placeholder=" " class="peer w-full border-b-2 rounded-full shadow-md border-gray-300 py-3 pl-10 pr-3 text-base bg-transparent 
-                           focus:pt-5 focus:pb-1 [&:not(:placeholder-shown)]:pt-5 [&:not(:placeholder-shown)]:pb-1 
-                           focus:outline-none focus:border-gray-500 dark:focus:border-neutral-600 
-                           dark:border-neutral-700 dark:text-neutral-200 placeholder-transparent">
-                    <label class="absolute left-10 top-3 text-gray-600 text-sm font-sans transform origin-left 
-                    transition-all duration-200 ease-in-out pointer-events-none 
-                    dark:text-neutral-400 
-                    peer-focus:text-blue-500 peer-focus:font-bold peer-focus:top-1 peer-focus:scale-90 peer-focus:-translate-y-1.5 
-                    peer-placeholder-shown:top-3 peer-placeholder-shown:left-10 peer-placeholder-shown:scale-100 
-                    peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:scale-90 peer-[:not(:placeholder-shown)]:-translate-y-1.5">
-                        Confirmar contraseña
-                    </label>
-                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--lock-check-outline] w-5 h-5 text-gray-500"></span>
-                </div>
-
-                <!-- Botón de Registro -->
-                <button type="submit" [disabled]="registerForm.invalid" class="w-full py-2 mt-3 bg-black hover:bg-gray-800 text-white rounded-lg 
-                        transition-colors duration-300 text-lg font-semibold shadow-md 
-                        focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-neutral-700">
-                    Registrate con nosotros
-                </button>
-            </form>
-        </div>
+  
+    <!-- Correo Electrónico -->
+    <div class="mb-5">
+      <label class="block text-gray-700 text-sm font-semibold mb-2" for="email">
+        Correo electrónico
+      </label>
+      <div class="relative">
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--email-outline] w-5 h-5 text-gray-500"></span>
+        <input
+          formControlName="email"
+          type="email"
+          id="email"
+          class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
+          placeholder="correo@electronico.com"
+          aria-describedby="emailError"
+          attr.aria-invalid="{{ registerForm.get('email')?.invalid }}"
+        />
+      </div>
+      <span
+        *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+        id="emailError"
+        class="text-red-500 text-sm"
+      >
+        Introduzca un correo electrónico válido.
+      </span>
     </div>
+  
+    <!-- Contraseña -->
+    <div class="mb-5">
+      <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">
+        Contraseña
+      </label>
+      <div class="relative">
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--key-outline] w-5 h-5 text-gray-500"></span>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          id="password"
+          class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
+          placeholder="Ingresa tu contraseña"
+          aria-describedby="passwordError passwordTooltip"
+          attr.aria-invalid="{{ registerForm.get('password')?.invalid }}"
+        />
+        <!-- Botón para mostrar/ocultar contraseña -->
+        <button
+          type="button"
+          (click)="togglePasswordVisibility()"
+          class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+        >
+          <span [class.icon-[mdi--eye-outline]]="!showPassword" [class.icon-[mdi--eye-off-outline]]="showPassword" class="w-5 h-5"></span>
+        </button>
+      </div>
+      <span
+        *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+        id="passwordError"
+        class="text-red-500 text-sm"
+      >
+        La contraseña no cumple con los requisitos.
+      </span>
+    </div>
+  
+    <!-- Confirmar Contraseña -->
+    <div class="mb-5">
+      <label class="block text-gray-700 text-sm font-semibold mb-2" for="confirmPassword">
+        Confirmar contraseña
+      </label>
+      <div class="relative">
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--lock-check-outline] w-5 h-5 text-gray-500"></span>
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          id="confirmPassword"
+          class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
+          placeholder="Confirma tu contraseña"
+          aria-describedby="confirmPasswordError"
+          attr.aria-invalid="{{ registerForm.get('confirmPassword')?.invalid }}"
+        />
+        <!-- Botón para mostrar/ocultar confirmar contraseña -->
+        <button
+          type="button"
+          (click)="toggleConfirmPasswordVisibility()"
+          class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+        >
+          <span [class.icon-[mdi--eye-outline]]="!showConfirmPassword" [class.icon-[mdi--eye-off-outline]]="showConfirmPassword" class="w-5 h-5"></span>
+        </button>
+      </div>
+      <span
+        *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+        id="confirmPasswordError"
+        class="text-red-500 text-sm"
+      >
+        Las contraseñas deben coincidir.
+      </span>
+    </div>
+  
+    <!-- Botón de Registro -->
+    <button
+      type="submit"
+      [disabled]="registerForm.invalid"
+      class="w-full py-2 mt-3 bg-black hover:bg-gray-800 text-white rounded-lg transition-colors duration-300 text-lg font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+    >
+      Regístrate con nosotros
+    </button>
+  </form>
+  
+      <!-- Link de Registro -->
+      <small
+        class="block mt-4 text-center text-gray-500 dark:text-neutral-400 text-sm"
+      >
+        ¿Ya tienes cuenta?
+        <a
+          routerLink="/login"
+          class="text-blue-500 hover:text-blue-700 font-medium transition-colors duration-200"
+        >
+          aquí
+        </a>
+        para inciar sesion.
+      </small>
+    </div>
+  </div>
 </div>

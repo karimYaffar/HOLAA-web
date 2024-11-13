@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { NotificationService } from '../../../core/services/notification.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -18,5 +21,34 @@ export class DashboardAdminComponent {
   }
   toggleSubMenu2() {
     this.isSubMenu1Open2 = !this.isSubMenu1Open2;
+  }
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly notificationService: NotificationService,
+    private readonly router: Router,
+  ) {}
+
+  logOut(): void {
+    
+    this.authService.logOut().subscribe({
+      next: (res) => {
+        this.notificationService
+          .success("Sesion Cerrada Exitosamente", `${res.message}`)
+          .onHidden.subscribe({
+            next: () => {
+
+              this.authService.stopTokenRefreshCycle();
+              this.router.navigate(["/login"]);
+            },
+          });
+      },
+      error: (err) => {
+        this.notificationService.info(
+          "Estimado Usuario",
+          `${err.message}`
+        );
+      },
+    })
   }
 }

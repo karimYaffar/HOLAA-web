@@ -7,25 +7,28 @@ import {
 } from "@angular/forms";
 import { CommonModule, Location } from "@angular/common";
 import { PrommobannerComponent } from "../prommobanner/prommobanner.component";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { NotificationService } from "../../../core/services/notification.service";
 import { AuthService } from "../../../core/services/auth.service";
+import { CookieService } from "ngx-cookie-service";
 
 @Component({
   selector: "app-login",
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PrommobannerComponent],
+  imports: [ReactiveFormsModule, CommonModule, PrommobannerComponent, RouterLink],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.css",
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  showPassword: boolean = false;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly location: Location,
     private readonly router: Router,
     private readonly notificationService: NotificationService,
+    private readonly cookieService: CookieService,
     private readonly authService: AuthService
   ) {
     this.loginForm = this.fb.group({
@@ -47,31 +50,41 @@ export class LoginComponent {
       // JWT con los datos cifrados
 
       // Enviamos a la nueva ruta que es el auth dashboard
-      
+
       this.authService.logIn(email, password).subscribe({
         next: (res) => {
-          this.notificationService
-            .success("Verificacion Necesaria", `${res.message}`)
-            .onHidden.subscribe({
-              next: () => {
-                // Implementacion de la logica para guardar la cookie de manera segura
-                // Enviamos a la nueva ruta
-                this.router.navigate(["/auth"]);
-              },
-            });
+          this.notificationService.success(
+            "Verificacion Necesaria",
+            "Se requiere autenticacion, hemos enviado un codigo a su correo electronico asociado"
+          );
+
+          this.cookieService.set('verification', 'true', {
+            sameSite: 'Strict',
+            path: '/'
+          });
+
+          this.cookieService.set('verification-auth', 'true', {
+            sameSite: 'Strict',
+            path: '/'
+          });
+
+          this.authService.startTokenRefreshCycle();
+
+          this.router.navigate(["/verification"]);
         },
         error: (err) => {
-          this.notificationService.info(
-            "Estimado Usuario",
-            `${err.message}`
-          );
+          this.notificationService.info("Estimado Usuario", `${err.message}`);
         },
       });
     } else {
       this.notificationService.error(
         "Ups...",
-        "Parece que las credenciales son incorrectas"
+        "Por favor ingrese bien los campos"
       );
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

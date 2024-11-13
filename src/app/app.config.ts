@@ -6,7 +6,8 @@ import { provideClientHydration } from "@angular/platform-browser";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/http";
 import { provideToastr } from "ngx-toastr";
-import { authInterceptor } from "./core/interceptors/auth.interceptor";
+import { jwtInterceptor } from "./core/interceptor/jwt.interceptor";
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideAnimations(),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([jwtInterceptor])),
     provideToastr(),
   ],
 };

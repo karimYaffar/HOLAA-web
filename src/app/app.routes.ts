@@ -6,17 +6,23 @@ import { DashboardAuthComponent } from './features/auth/dashboard/dashboard.auth
 import { authGuard } from './core/guards/auth.guard';
 import { LoginAdminComponent } from './features/admin/login/login.component';
 import { DashboardAdminComponent } from './features/admin/dashboard/dashboard.component';
-
-import { PrivacyComponent } from './features/admin/privacy/privacy.component';
 import {HomeAdminComponent} from './features/admin/home/home.component';
-import {TermsComponent } from './features/admin/terms/terms.component';
-import {DisclaimerComponent} from './features/admin/disclaimer/disclaimer.component'
 import { BusinessComponent } from './features/admin/business/business.component';
 import { UserComponent } from './features/admin/user/user.component';
 import { IncidentsComponent } from './features/admin/incidents/incidents.component';
 import { AuditComponent } from './features/admin/audit/audit.component';
-import { combineLatest } from 'rxjs';
-import { Component } from '@angular/core';
+import { adminGuard } from './core/guards/admin.guard';
+import { DocumentComponent } from './features/admin/document/document.component';
+import { SocialComponent } from './features/admin/social/social.component';
+import { PagenotfoundComponent } from './shared/components/pagenotfound/pagenotfound.component';
+import { VerificationComponent } from './shared/components/verification/verification.component';
+import { publicGuard } from './core/guards/public.guard';
+import { RequestPasswordComponent } from './shared/components/requestpassword/requestpassword.component';
+import { ResetPasswordComponent } from './shared/components/reset-password/reset-password.component';
+import { VisionMissionComponent } from './shared/components/vision-mission/vision-mission.component';
+
+import { PolicesComponent } from './shared/components/polices/polices.component';
+import { ContactsComponent } from './shared/components/contacts/contacts.component';
 
 
 export const routes: Routes = [
@@ -24,17 +30,24 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'auth', component:DashboardAuthComponent, canActivate: [authGuard] },
-  { path: 'admin', component: DashboardAdminComponent, children: [
+  { path: 'verification', component: VerificationComponent, canActivate:[publicGuard]},
+  { path: 'request-password', component: RequestPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent},
+  { path: 'ht/admin/login', component: LoginAdminComponent},
+  { path: 'vision-mision', component: VisionMissionComponent},
+  { path: 'contact-us', component: ContactsComponent},
+  { path: 'polices', component: PolicesComponent},
+  
+  { path: 'admin', component: DashboardAdminComponent, canActivate: [adminGuard], children: [
       { path: '', component: HomeAdminComponent },
-      { path: 'login', component: LoginAdminComponent },
-      { path: 'privacy', component: PrivacyComponent},
-      { path: 'terms', component: TermsComponent},
+      { path: 'document', component:DocumentComponent},
       { path: 'homeAdmin', component: HomeAdminComponent},
-      { path: 'disclaimer' , component: DisclaimerComponent},
       { path: 'business' , component: BusinessComponent},
+      { path: 'socials', component: SocialComponent},
       { path: 'user' , component: UserComponent},
       { path: 'incidents' , component: IncidentsComponent},
       { path: 'audit' , component: AuditComponent},
     ]
   },
+  { path: '**', component: PagenotfoundComponent},
 ];

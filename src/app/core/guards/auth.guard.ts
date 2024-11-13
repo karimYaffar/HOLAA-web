@@ -10,22 +10,24 @@ export const authGuard: CanActivateFn = (route, state) => {
   // esta autenticado
   const _authService = inject(AuthService);
   const _router = inject(Router);
-
+  const _cookieService = inject(CookieService);
 
   // Se activa el guarda cuando el usuario inicia sesion
   return _authService.authenticateVerification().pipe(
     map((response: any) => {
-      if (response.authenticate) {
+      if (response.authenticate || _cookieService.check("authenticate")) {
+        _cookieService.set("authenticate", "true", {
+          sameSite: "Strict",
+          path: "/",
+        });
         return true;
       } else {
-        _router.navigate(['/login']);
-        return false;
+        return _router.createUrlTree(["/login"]);
       }
     }),
     catchError(() => {
-      _router.navigate(['/login']);
+      
       return of(false);
     })
   );
-
 };

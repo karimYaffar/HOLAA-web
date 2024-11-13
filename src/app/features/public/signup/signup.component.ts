@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { PrommobannerComponent } from "../prommobanner/prommobanner.component";
-import { gsap } from "gsap";
 import {
   FormBuilder,
   FormGroup,
@@ -11,31 +10,32 @@ import { CookieService } from "ngx-cookie-service";
 import { NotificationService } from "../../../core/services/notification.service";
 import { AuthService } from "../../../core/services/auth.service";
 import { CommonModule, Location } from "@angular/common";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-signup",
   standalone: true,
-  imports: [PrommobannerComponent, ReactiveFormsModule, CommonModule],
+  imports: [PrommobannerComponent, ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: "./signup.component.html",
   styleUrl: "./signup.component.css",
   providers: [CookieService],
 })
 export class SignupComponent {
   registerForm: FormGroup;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
   
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly location: Location,
     private readonly cookieService: CookieService,
     private readonly router: Router,
     private readonly notificationService: NotificationService,
     private readonly authService: AuthService
   ) {
     this.registerForm = this.fb.group({
-      username: ["", [Validators.required, Validators.minLength(8)]],
+      username: ["", [Validators.required, Validators.minLength(5)]],
       email: ["", [Validators.required, Validators.email]],
       password: [
         "",
@@ -55,23 +55,41 @@ export class SignupComponent {
 
       // Implementar logica para el registro y peticion al backend
       // se debe de enviar los datos enviar al siguiente pagina que es login
+      this.authService.signIn(username, email, password).subscribe({
+        next: (res) => {
+          this.notificationService.success('Verficacion necesaria', res.message);
 
-      // Enviamos al login para que se pueda authenticar
-      this.notificationService.success('Exito', 'Registro completado con exito').onHidden.subscribe({
-        next: () => {
+          this.cookieService.set('verification', 'true', {
+            sameSite: 'Strict',
+            path: '/'
+          });
 
-          // Implementacion de la logica de envio de correo electronico de activacion
-          // este sucede cuando se envia los datos, se validan y por ultimo se registran
-          // entonces en este caso la mejor practica sseria un servicio compartido para guardar el correo
-          // Lo ideal seria SMS O OTP
+          this.router.navigate(['/verification']);
 
-          // Enviamos a la nueva ruta
-          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.log(err);
+          this.notificationService.error(
+            'Error',
+            'Parece que hubo un error al momento de mandar la solicitud'
+          )
         }
       })
+
     } else {
-      this.notificationService.error('Ups...', 'Por favor de revisar los campos')
+      this.notificationService.error(
+        'Campos Invalidos', 
+        'Por favor de revisar los campos'
+      )
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
 }

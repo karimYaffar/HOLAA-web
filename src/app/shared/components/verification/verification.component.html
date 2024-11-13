@@ -1,0 +1,93 @@
+<!-- otp.component.html -->
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded shadow-md max-w-sm w-full">
+    <h2 class="text-center text-2xl font-semibold mb-6">Verificación OTP</h2>
+    <p class="text-center text-gray-600 mb-4">
+      Introduce el código de verificación
+    </p>
+
+    <!-- OTP Inputs -->
+    <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+      <div class="flex justify-between mb-4">
+        <input
+          #otp0
+          type="text"
+          maxlength="1"
+          class="otp-input"
+          formControlName="otp0"
+          (input)="onInputChange($event, 0)"
+        />
+        <input
+          #otp1
+          type="text"
+          maxlength="1"
+          class="otp-input"
+          formControlName="otp1"
+          (input)="onInputChange($event, 1)"
+        />
+        <input
+          #otp2
+          type="text"
+          maxlength="1"
+          class="otp-input"
+          formControlName="otp2"
+          (input)="onInputChange($event, 2)"
+        />
+        <input
+          #otp3
+          type="text"
+          maxlength="1"
+          class="otp-input"
+          formControlName="otp3"
+          (input)="onInputChange($event, 3)"
+        />
+        <input
+          #otp4
+          type="text"
+          maxlength="1"
+          class="otp-input"
+          formControlName="otp4"
+          (input)="onInputChange($event, 4)"
+        />
+        <input
+          #otp5
+          type="text"
+          maxlength="1"
+          class="otp-input"
+          formControlName="otp5"
+          (input)="onInputChange($event, 5)"
+        />
+      </div>
+
+      <!-- Countdown Timer -->
+      <div class="text-center text-gray-600 mb-4">
+        <ng-container *ngIf="!canResendOtp; else resend">
+          Tiempo restante:
+          <countdown
+            [config]="{ leftTime: incidentConfiguration.otpLifeTime }"
+            (event)="handleCountdownEvent($event)"
+          >
+          </countdown>
+        </ng-container>
+
+        <!-- Botón de Reenviar Código -->
+        <ng-template #resend>
+          <span
+            class="text-blue-500 hover:underline font-medium">
+            Expiro codigo de verificacion
+          </span>
+        </ng-template>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button
+          type="submit"
+          class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+        >
+          Verificar OTP
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

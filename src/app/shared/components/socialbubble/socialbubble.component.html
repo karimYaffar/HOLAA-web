@@ -1,0 +1,11 @@
+<div class="social-bubble">
+    <a
+      *ngFor="let site of socialSites"
+      [href]="site.url"
+      target="_blank"
+      class="social-icon"
+      [ngClass]="site.name"
+    >
+      <img [src]="site.icon" class="w-8 h-8 rounded-xl"/>
+    </a>
+</div>

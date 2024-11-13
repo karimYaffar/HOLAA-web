@@ -11,11 +11,12 @@ export class NotificationService {
 
   constructor(private readonly toastrService: ToastrService) {}
 
-  success(title: string, message: string) {
+  success(title: string, message: string, options: {} = {}) {
     return this.toastrService.success(message, title, {
       timeOut: this.timer,
       progressBar: this.progressBar,
       progressAnimation: this.progressBarAnimation,
+      ...options
     });
   }
 
