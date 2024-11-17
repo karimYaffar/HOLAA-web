@@ -45,6 +45,7 @@
           formControlName="username"
           type="text"
           id="username"
+          autocomplete="username"
           class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
           placeholder="Ingresa tu nombre de usuario"
           aria-describedby="usernameError"
@@ -74,6 +75,7 @@
           class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
           placeholder="correo@electronico.com"
           aria-describedby="emailError"
+          autocomplete="email"
           attr.aria-invalid="{{ registerForm.get('email')?.invalid }}"
         />
       </div>
@@ -97,6 +99,7 @@
           [type]="showPassword ? 'text' : 'password'"
           formControlName="password"
           id="password"
+          autocomplete="new-password"
           class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
           placeholder="Ingresa tu contraseña"
           aria-describedby="passwordError passwordTooltip"
@@ -131,6 +134,7 @@
           [type]="showConfirmPassword ? 'text' : 'password'"
           formControlName="confirmPassword"
           id="confirmPassword"
+          autocomplete="new-password"
           class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
           placeholder="Confirma tu contraseña"
           aria-describedby="confirmPasswordError"

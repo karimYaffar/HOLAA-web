@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { catchError, Observable, throwError } from "rxjs";
 import { CreateDocument, Document, UpdateDocument } from "../interfaces/document";
 import {
   BusinessProfile,
@@ -28,6 +28,10 @@ export class AdminService {
     return this.httpClient.get<[]>(
       `${this.api}/users/get/all`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -35,7 +39,11 @@ export class AdminService {
     return this.httpClient.get<Document[]>(
       `${this.api}/document/get/all`,
       this.httpOptions
-    );
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
+    )
   }
 
   createDocument(document: CreateDocument): Observable<{ state: boolean; message: string }> {
@@ -43,6 +51,10 @@ export class AdminService {
       `${this.api}/document/create`,
       document,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -54,6 +66,10 @@ export class AdminService {
       `${this.api}/document/update/${id}`,
       document,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -61,6 +77,10 @@ export class AdminService {
     return this.httpClient.delete<{ state: boolean; message: string }>(
       `${this.api}/document/delete/${id}`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -80,6 +100,10 @@ export class AdminService {
     return this.httpClient.get<BusinessProfile>(
       `${this.api}/business/info`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -91,6 +115,10 @@ export class AdminService {
       `${this.api}/business/update/profile/${id}`,
       updateBusinessProfile,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -101,6 +129,10 @@ export class AdminService {
     return this.httpClient.get<Audit[]>(
       `${this.api}/audit/info`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -111,6 +143,10 @@ export class AdminService {
     return this.httpClient.get<IncidentConfiguration>(
       `${this.api}/incident/configuration`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -125,6 +161,10 @@ export class AdminService {
       `${this.api}/incident/update/configuration/${id}`,
       updateIncidentConfiguration,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     )
   }
 
@@ -135,6 +175,10 @@ export class AdminService {
     return this.httpClient.get<EmailConfiguration>(
       `${this.api}/email/configuration`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -149,6 +193,10 @@ export class AdminService {
       `${this.api}/email/update/configuration/${id}`,
       updateEmailConfiguration,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     )
   }
 
@@ -159,6 +207,10 @@ export class AdminService {
     return this.httpClient.get<SocialSite[]>(
       `${this.api}/business/get/social`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -172,6 +224,10 @@ export class AdminService {
       `${this.api}/business/create/social`,
       createSocialSite,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -186,6 +242,10 @@ export class AdminService {
       `${this.api}/business/update/social/${id}`,
       updateSocialSite,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     )
   }
 
@@ -198,6 +258,10 @@ export class AdminService {
     return this.httpClient.delete<{ state: boolean; message: string}>(
       `${this.api}/business/delete/social/${id}`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     )
   }
 

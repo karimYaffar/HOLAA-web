@@ -90,6 +90,10 @@ export class AuthService {
     return this.httpClient.post<{ status: number; message: string }>(
       `${this.api}/auth/account-activation`,
       { otp }
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -102,6 +106,10 @@ export class AuthService {
       `${this.api}/auth/reset-password`,
       { email, password },
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 
@@ -113,6 +121,10 @@ export class AuthService {
     return this.httpClient.get<{ authenticate: boolean }>(
       `${this.api}/auth/authenticate-verification`,
       this.httpOptions
+    ).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      })
     );
   }
 

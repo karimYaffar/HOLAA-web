@@ -18,6 +18,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
       if (response.authenticate && response.role == 'admin' || _cookieService.check("authenticate-admin")) {
         _cookieService.set("authenticate-admin", "true", {
           sameSite: "Strict",
+          secure: true,
           path: "/",
         });
         return true;

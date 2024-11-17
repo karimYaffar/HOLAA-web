@@ -70,6 +70,13 @@
         },
         "serve": {
           "builder": "@ngx-env/builder:dev-server",
+          "options": {
+            "host": "HOLAATrendy.local",
+            "port": 4200,
+            "ssl": true,
+            "sslKey": "ssl/HOLAATrendy.local-key.pem",
+            "sslCert": "ssl/HOLAATrendy.local.pem"
+          },
           "configurations": {
             "production": {
               "buildTarget": "holaa-web:build:production",

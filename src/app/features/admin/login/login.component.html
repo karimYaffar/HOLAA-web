@@ -12,13 +12,13 @@
       <form class="space-y-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div>
           <label class="block text-sm font-medium text-gray-700">Correo electronico</label>
-          <input formControlName="email" type="email" class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+          <input formControlName="email" type="email" autocomplete="email" class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
         </div>
   
         <div>
           <label class="block text-sm font-medium text-gray-700">Contraseña</label>
           <div class="flex items-center justify-between">
-            <input formControlName="password" type="password" class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+            <input formControlName="password" type="password" autocomplete="current-password" class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
             
           </div>
         

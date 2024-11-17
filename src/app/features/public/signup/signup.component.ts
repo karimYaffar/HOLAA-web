@@ -61,7 +61,8 @@ export class SignupComponent {
 
           this.cookieService.set('verification', 'true', {
             sameSite: 'Strict',
-            path: '/'
+            path: '/',
+            secure: true
           });
 
           this.router.navigate(['/verification']);

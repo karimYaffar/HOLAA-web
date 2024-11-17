@@ -60,12 +60,14 @@ export class LoginComponent {
 
           this.cookieService.set('verification', 'true', {
             sameSite: 'Strict',
-            path: '/'
-          });
+            path: '/',
+            secure: true
+,          });
 
           this.cookieService.set('verification-auth', 'true', {
             sameSite: 'Strict',
-            path: '/'
+            path: '/',
+            secure: true
           });
 
           this.authService.startTokenRefreshCycle();

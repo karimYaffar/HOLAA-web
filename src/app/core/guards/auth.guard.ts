@@ -18,6 +18,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       if (response.authenticate || _cookieService.check("authenticate")) {
         _cookieService.set("authenticate", "true", {
           sameSite: "Strict",
+          secure: true,
           path: "/",
         });
         return true;
