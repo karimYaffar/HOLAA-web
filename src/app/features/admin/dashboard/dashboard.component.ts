@@ -14,13 +14,10 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardAdminComponent {
-  isSubMenu1Open = false; 
-  isSubMenu1Open2 = false;
-  toggleSubMenu1() {
-    this.isSubMenu1Open = !this.isSubMenu1Open;
-  }
-  toggleSubMenu2() {
-    this.isSubMenu1Open2 = !this.isSubMenu1Open2;
+  isSidebarOpen = true;
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 
   constructor(
@@ -38,7 +35,6 @@ export class DashboardAdminComponent {
           .onHidden.subscribe({
             next: () => {
 
-              this.authService.stopTokenRefreshCycle();
               this.router.navigate(["/login"]);
             },
           });

@@ -1,37 +1,69 @@
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-      <h2 class="text-2xl font-semibold text-center text-gray-800">Iniciar sesion</h2>
-      
-  
-      <div class="flex items-center justify-between">
-        <span class="w-full border-b border-gray-300"></span>
-        <span class="px-2 text-sm text-gray-500">Admin</span>
-        <span class="w-full border-b border-gray-300"></span>
+<div class="relative flex items-center justify-center min-h-screen bg-gray-100">
+  <!-- Botón de regresar -->
+  <a
+    routerLink="/"
+    class="absolute top-4 left-4 text-sm text-gray-600 hover:text-gray-800 focus:ring focus:ring-blue-300 rounded-full p-2 flex items-center gap-1"
+  >
+    <span class="icon-[mdi--arrow-left]" style="color: gray; font-size: 1.25rem;"></span>
+    Regresar
+  </a>
+
+  <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-center text-gray-800">
+      Iniciar sesión
+    </h2>
+
+    <form class="space-y-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label class="block text-sm font-medium text-gray-700"
+          >Nombre de Usuario</label
+        >
+        <div class="relative">
+          <input
+            formControlName="username"
+            type="text"
+            autocomplete="username"
+            placeholder="Nombre de Usuario"
+            class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pl-10"
+          />
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"
+          >
+            <span
+              class="icon-[mdi--email-outline]"
+              style="font-size: 1.25rem;"
+            ></span>
+          </span>
+        </div>
       </div>
-  
-      <form class="space-y-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Correo electronico</label>
-          <input formControlName="email" type="email" autocomplete="email" class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Contraseña</label>
+        <div class="relative">
+          <input
+            formControlName="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Contraseña"
+            class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pl-10"
+          />
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"
+          >
+            <span
+              class="icon-[mdi--lock-outline]"
+              style="font-size: 1.25rem;"
+            ></span>
+          </span>
         </div>
-  
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Contraseña</label>
-          <div class="flex items-center justify-between">
-            <input formControlName="password" type="password" autocomplete="current-password" class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-            
-          </div>
-        
-        </div>
-  
-        <div class="flex items-center">
-         
-        </div>
-  
-        <button type="submit" class="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Inciar sesion</button>
-      </form>
-  
-      <a href="#" class="text-sm text-center text-gray-600 hover:underline block">Regresar</a>
-    </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform transform hover:scale-105"
+      >
+        Iniciar sesión
+      </button>
+    </form>
   </div>
-  
+</div>

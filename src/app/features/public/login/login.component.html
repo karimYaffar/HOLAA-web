@@ -36,29 +36,28 @@
             class="block text-gray-700 text-sm font-semibold mb-2 dark:text-neutral-400"
             for="email"
           >
-            Correo Electrónico
+            Nombre de Usuario
           </label>
           <div class="relative">
             <span
               class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--email-outline] w-5 h-5 text-gray-500"
             ></span>
             <input
-              type="email"
-              formControlName="email"
-              id="email"
-              autocomplete="email"
+              type="text"
+              formControlName="username"
+              autocomplete="username"
               class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500 dark:border-neutral-700 dark:text-neutral-200"
-              placeholder="correo@electronico.com"
-              aria-describedby="emailError"
-              attr.aria-invalid="{{ loginForm.get('email')?.invalid }}"
+              placeholder="Nombre de Usuario"
+              aria-describedby="usernameError"
+              attr.aria-invalid="{{ loginForm.get('username')?.invalid }}"
             />
           </div>
           <span
-            *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+            *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
             id="emailError"
             class="text-red-500 text-sm"
           >
-            Introduzca un correo electrónico válido.
+            Introduzca un nombre usuario valido
           </span>
         </div>
 

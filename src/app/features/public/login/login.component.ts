@@ -32,7 +32,7 @@ export class LoginComponent {
     private readonly authService: AuthService
   ) {
     this.loginForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
+      username: ["", [Validators.required]],
       password: ["", [Validators.required]],
     });
   }
@@ -43,19 +43,14 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      // Obtenemos los datos
-      const { email, password } = this.loginForm.value;
+      const { username, password } = this.loginForm.value;
 
-      // Implementacion de la logica para enviar datos al backend y recuperar
-      // JWT con los datos cifrados
-
-      // Enviamos a la nueva ruta que es el auth dashboard
-
-      this.authService.logIn(email, password).subscribe({
+      this.authService.logIn(username, password).subscribe({
         next: (res) => {
           this.notificationService.success(
             "Verificacion Necesaria",
-            "Se requiere autenticacion, hemos enviado un codigo a su correo electronico asociado"
+            "Se requiere autenticacion, hemos enviado un codigo a su correo electronico asociado",
+            
           );
 
           this.cookieService.set('verification', 'true', {
@@ -70,7 +65,6 @@ export class LoginComponent {
             secure: true
           });
 
-          this.authService.startTokenRefreshCycle();
 
           this.router.navigate(["/verification"]);
         },

@@ -3,8 +3,12 @@ import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { BusinessProfile } from '../../../core/interfaces/business.profile';
+import { CompanyProfile } from '../../../core/interfaces/business.profile';
 import { AdminService } from '../../../core/services/admin.service';
+import { VisionMissionComponent } from '../../../shared/components/vision-mission/vision-mission.component';
+import { PolicesComponent } from '../../../shared/components/polices/polices.component';
+import { ContactsComponent } from '../../../shared/components/contacts/contacts.component';
+import { ModalService } from 'ngx-modal-ease';
 
 @Component({
   selector: 'app-dashboard.auth',
@@ -15,12 +19,14 @@ import { AdminService } from '../../../core/services/admin.service';
 })
 export class DashboardAuthComponent implements OnInit {
 
-  businessProfile: Partial<BusinessProfile> = {}
+  businessProfile: Partial<CompanyProfile> = {}
 
   constructor(private readonly authService: AuthService,
     private readonly adminService: AdminService,
     private readonly notificationService: NotificationService,
     private readonly router: Router,
+    private readonly modalService: ModalService,
+    private readonly cookieService: CookieService,
   ) {}
 
   logOut(): void {
@@ -31,8 +37,8 @@ export class DashboardAuthComponent implements OnInit {
           .success("Sesion Cerrada Exitosamente", `${res.message}`)
           .onHidden.subscribe({
             next: () => {
-              this.authService.stopTokenRefreshCycle();
-              this.router.navigate(["/login"]);
+              this.cookieService.delete('authenticate');
+              this.router.navigate(["/"]);
             },
           });
       },
@@ -62,5 +68,27 @@ export class DashboardAuthComponent implements OnInit {
         this.businessProfile = profile;
       },
     });
+  }
+
+
+  /**
+   * Metodo para mostrar informacion sobre vision y mision
+   */
+  aboutVisionMisionCompany(): void {
+    this.modalService.open(VisionMissionComponent);
+  }
+  
+  /**
+   * Metodo para mostrar informacion sobre las politicas
+   */
+  aboutPolicesCompany(): void {
+    this.modalService.open(PolicesComponent);
+  }
+
+  /**
+   * Metodo para mostrar informacion de contacto de la empresa
+   */
+  aboutContactCompany(): void {
+    this.modalService.open(ContactsComponent)
   }
 }

@@ -2,7 +2,7 @@
 declare interface Env {
   readonly NODE_ENV: string;
   readonly GOOGLE_API_KEY: string;
-  readonly API: string
+  readonly BASE_URL: string
   // Replace the following with your own environment variables.
   // Example: NGX_VERSION: string;
   [key: string]: any;

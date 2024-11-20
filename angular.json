@@ -43,8 +43,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1.5MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -71,11 +71,11 @@
         "serve": {
           "builder": "@ngx-env/builder:dev-server",
           "options": {
-            "host": "HOLAATrendy.local",
+            "host": "holaatrendy",
             "port": 4200,
             "ssl": true,
-            "sslKey": "ssl/HOLAATrendy.local-key.pem",
-            "sslCert": "ssl/HOLAATrendy.local.pem"
+            "sslKey": "ssl/holaatrendy-key.pem",
+            "sslCert": "ssl/holaatrendy.pem"
           },
           "configurations": {
             "production": {

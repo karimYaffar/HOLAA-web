@@ -1,51 +1,37 @@
-<div class="flex h-screen bg-gray-100">
+<div class="flex h-screen bg-gray-50">
   <!-- Sidebar -->
   <aside class="w-64 bg-white border-r shadow-lg">
-    <div class="flex items-center justify-center h-16 border-b">
-      <span class="text-xl font-semibold text-blue-600">HOLAA<sub>Admin</sub></span>
+    <div class="flex items-center justify-center h-16 bg-blue-500 text-white">
+      <span class="text-xl font-bold tracking-wide">HOLAA<sub class="text-sm font-light">Admin</sub></span>
     </div>
     <nav class="flex-1 p-4 space-y-2">
-      <!-- Enlace Inicio -->
-      <a routerLink="/admin" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+      <a routerLink="/admin" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">dashboard</span>
-        <span>Inicio</span>
+        <span class="font-medium">Inicio</span>
       </a>
-      
-      <!-- Enlace Usuarios -->
-      <a routerLink="/admin/user" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+      <a routerLink="/admin/user" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">people</span>
-        <span>Usuarios</span>
+        <span class="font-medium">Usuarios</span>
       </a>
-
-      <!-- Enlace Usuarios -->
-      <a routerLink="/admin/document" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+      <a routerLink="/admin/document" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">description</span>
-        <span>Documentos</span>
+        <span class="font-medium">Documentos</span>
       </a>
-
-
-      <!-- Enlace Empresa -->
-      <a routerLink="/admin/business" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+      <a routerLink="/admin/business" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">account_circle</span>
-        <span>Empresa</span>
+        <span class="font-medium">Empresa</span>
       </a>
-
-      <!-- Redes Sociales -->
-      <a routerLink="/admin/socials" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+      <a routerLink="/admin/socials" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">business</span>
-        <span>Redes Sociales</span>
+        <span class="font-medium">Redes Sociales</span>
       </a>
-  
-      <!-- Enlace Auditoría -->
-      <a routerLink="/admin/audit" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+      <a routerLink="/admin/audit" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">work</span>
-        <span>Auditoría</span>
+        <span class="font-medium">Auditoría</span>
       </a>
-      
-      <!-- Enlace Incidencias -->
-      <a routerLink="/admin/incidents" class="flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all">
+      <a routerLink="/admin/incidents" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
         <span class="material-icons-outlined mr-3 text-blue-500">description</span>
-        <span>Incidencias</span>
+        <span class="font-medium">Incidencias</span>
       </a>
     </nav>
   </aside>
@@ -53,28 +39,16 @@
   <!-- Main content -->
   <div class="flex-1 flex flex-col">
     <!-- Header -->
-    <header class="flex items-center justify-between h-16 px-6 bg-white border-b shadow-sm">
-      <div class="flex items-center space-x-4">
-        <button class="p-2 text-gray-600 rounded-lg hover:bg-gray-100 focus:outline-none">
-          <span class="material-icons-outlined">menu</span>
-        </button>
-        <div class="relative">
-          <input type="text" class="w-64 p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" placeholder="Buscar..." />
-          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 material-icons-outlined">search</span>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4">
-        <button class="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
-          <span class="material-icons-outlined">notifications</span>
-        </button>
-        <button (click)="logOut()" class="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
-          Cerrar Sesion
+    <header class="flex items-center justify-end h-16 px-6 bg-white border-b shadow-sm">
+      <div class="flex items-center space-x-4 p-4">
+        <button (click)="logOut()" class="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
+          Cerrar Sesión
         </button>
       </div>
     </header>
-  
+
     <!-- Content Section -->
-    <div class="flex-1 p-6 bg-gray-100">
+    <div class="flex-1 p-6 bg-gray-50">
       <router-outlet></router-outlet>
     </div>
   </div>

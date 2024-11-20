@@ -35,10 +35,10 @@
 
             <!-- Menú de Navegación -->
             <nav class="hidden md:flex space-x-6">
-                <a routerLink="/vision-mision" class="text-white text-base hover:text-gray-300 transition duration-200">Conócenos</a>
-                <a routerLink="/polices" class="text-white text-base hover:text-gray-300 transition duration-200">Políticas</a>
+                <a (click)="aboutVisionMisionCompany()" class="text-white text-base hover:text-gray-300 transition duration-200">Conócenos</a>
+                <a (click)="aboutPolicesCompany()" class="text-white text-base hover:text-gray-300 transition duration-200">Políticas</a>
                 <!-- <a href="#" class="text-white text-base hover:text-gray-300 transition duration-200">Únete</a> -->
-                <a routerLink="/contact-us" class="text-white text-base hover:text-gray-300 transition duration-200">Contáctanos</a>
+                <a (click)="aboutContactCompany()" class="text-white text-base hover:text-gray-300 transition duration-200">Contáctanos</a>
             </nav>
 
             <!-- Botones de Autenticación -->

@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../../core/services/admin.service';
-import { BusinessProfile } from '../../../core/interfaces/business.profile';
+import { CompanyProfile } from '../../../core/interfaces/business.profile';
 
 @Component({
   selector: 'app-contacts',
@@ -12,7 +12,7 @@ import { BusinessProfile } from '../../../core/interfaces/business.profile';
 })
 export class ContactsComponent implements OnInit{
 
-  businessProfile: Partial<BusinessProfile> = {}
+  businessProfile: Partial<CompanyProfile> = {}
 
 
   constructor(private location: Location,

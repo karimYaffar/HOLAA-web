@@ -56,9 +56,9 @@ export class RequestPasswordComponent {
 
         },
         error:(err) => {
-          this.notificationService.error(
-            "Excepcion producida",
-            "Error al momento de pedir peticion de recuperar contraseña"
+          this.notificationService.info(
+            "Estimado Usuario",
+            err.message
           )
         }
       });

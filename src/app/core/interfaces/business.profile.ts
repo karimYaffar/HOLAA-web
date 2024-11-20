@@ -1,4 +1,4 @@
-export interface BusinessProfile {
+export interface CompanyProfile {
     _id: string;
     slogan:string | undefined;
     logo: string;
@@ -10,4 +10,5 @@ export interface BusinessProfile {
     update_date: Date;
 }
 
-export interface UpdateBusinessProfile extends Omit<BusinessProfile, '_id' | 'update_date' | 'create_date'> {}
+
+export interface UpdateBusinessProfile extends Omit<CompanyProfile, '_id' | 'update_date' | 'create_date'> {}

@@ -3,7 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../../../core/services/admin.service';
-import { BusinessProfile } from '../../../core/interfaces/business.profile';
+import { CompanyProfile } from '../../../core/interfaces/business.profile';
+import { ModalService } from 'ngx-modal-ease';
+import { VisionMissionComponent } from '../../../shared/components/vision-mission/vision-mission.component';
+import { PolicesComponent } from '../../../shared/components/polices/polices.component';
+import { ContactsComponent } from '../../../shared/components/contacts/contacts.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,9 +19,12 @@ import { BusinessProfile } from '../../../core/interfaces/business.profile';
 })
 export class DashboardComponent implements OnInit {
 
-  businessProfile: Partial<BusinessProfile> = {}
+  businessProfile: Partial<CompanyProfile> = {}
 
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly modalService: ModalService
+  ) {}
 
   /**
    * Primero cargamos los datos de la base de datos
@@ -36,5 +43,27 @@ export class DashboardComponent implements OnInit {
       },
     });
   }
+
+  /**
+   * Metodo para mostrar informacion sobre vision y mision
+   */
+  aboutVisionMisionCompany(): void {
+    this.modalService.open(VisionMissionComponent);
+  }
+  
+  /**
+   * Metodo para mostrar informacion sobre las politicas
+   */
+  aboutPolicesCompany(): void {
+    this.modalService.open(PolicesComponent);
+  }
+
+  /**
+   * Metodo para mostrar informacion de contacto de la empresa
+   */
+  aboutContactCompany(): void {
+    this.modalService.open(ContactsComponent)
+  }
+
 
 }

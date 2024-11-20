@@ -45,7 +45,11 @@ export class SignupComponent {
         ],
       ],
       confirmPassword: ["", [Validators.required]],
-    });
+    }, { validators: this.passwordsMatch });
+  }
+
+  passwordsMatch(group: FormGroup): { [key: string]: boolean } | null {
+    return group.get('password')?.value === group.get('confirmPassword')?.value ? null : { mismatch: true };
   }
 
   onSubmit(): void {
@@ -69,10 +73,9 @@ export class SignupComponent {
 
         },
         error: (err) => {
-          console.log(err);
-          this.notificationService.error(
-            'Error',
-            'Parece que hubo un error al momento de mandar la solicitud'
+          this.notificationService.info(
+            "Estimado usuario",
+            err.message
           )
         }
       })

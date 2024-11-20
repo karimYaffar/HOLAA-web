@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
-  BusinessProfile,
+  CompanyProfile,
   UpdateBusinessProfile,
 } from "../../../core/interfaces/business.profile";
 import { SocialSite, UpdateSocialSite } from "../../../core/interfaces/social.site";
@@ -17,7 +17,7 @@ import { NotificationService } from "../../../core/services/notification.service
   styleUrls: ["./business.component.css"],
 })
 export class BusinessComponent implements OnInit {
-  businessProfile: Partial<BusinessProfile> = {};
+  businessProfile: Partial<CompanyProfile> = {};
   updateBusinessProfile: Partial<UpdateBusinessProfile> = {};
   
 

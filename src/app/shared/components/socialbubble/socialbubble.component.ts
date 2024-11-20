@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class SocialbubbleComponent implements OnInit {
 
+  isOpen = true;
+
   socialSites: SocialSite[] = [];
 
   constructor(
@@ -35,6 +37,13 @@ export class SocialbubbleComponent implements OnInit {
       error:(err) => {
       }
     })
+  }
+
+  /**
+   * Metodo para manipular el objecto
+   */
+  toggleBubble(): void {
+    this.isOpen = !this.isOpen;
   }
 
 }

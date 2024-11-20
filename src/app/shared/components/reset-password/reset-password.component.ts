@@ -15,6 +15,8 @@ import { DataService } from '../../../core/services/data.service';
 })
 export class ResetPasswordComponent {
   resetForm: FormGroup;
+  newShowPassword: boolean = false
+  confirmShowPassword: boolean = false;
 
   constructor(private readonly fb: FormBuilder,
     private readonly authService: AuthService,
@@ -31,6 +33,16 @@ export class ResetPasswordComponent {
   passwordsMatch(group: FormGroup): { [key: string]: boolean } | null {
     return group.get('newPassword')?.value === group.get('confirmPassword')?.value ? null : { mismatch: true };
   }
+
+  toggleNewPasswordVisibility(): void {
+    this.newShowPassword = !this.newShowPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.confirmShowPassword = !this.confirmShowPassword
+  }
+
+
 
   onSubmit(): void {
     if (this.resetForm.valid) {

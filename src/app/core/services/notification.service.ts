@@ -1,22 +1,30 @@
 import { Injectable } from "@angular/core";
-import { ProgressAnimationType, ToastrService } from "ngx-toastr";
+import {
+  IndividualConfig,
+  ProgressAnimationType,
+  ToastrService,
+} from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",
 })
 export class NotificationService {
-  private timer: number = 3000;
+  private timer: number = 5000;
   private progressBar: boolean = true;
   private progressBarAnimation: ProgressAnimationType = "decreasing";
 
   constructor(private readonly toastrService: ToastrService) {}
 
-  success(title: string, message: string, options: {} = {}) {
+  success(
+    title: string,
+    message: string,
+    options: Partial<IndividualConfig<any>> = {}
+  ) {
     return this.toastrService.success(message, title, {
       timeOut: this.timer,
       progressBar: this.progressBar,
       progressAnimation: this.progressBarAnimation,
-      ...options
+      ...options,
     });
   }
 
