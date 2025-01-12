@@ -25,7 +25,6 @@ import {
   UpdateSocialSite,
 } from "../interfaces/social.site";
 import { environment } from "../../../environments/environment";
-import { error } from "node:console";
 
 @Injectable({
   providedIn: "root",
@@ -118,7 +117,7 @@ export class AdminService {
     );
   }
 
-  getBusinessProfile(): Observable<CompanyProfile> {
+  getCompanyProfile(): Observable<CompanyProfile> {
     return this.httpClient
       .get<CompanyProfile>(`${this.api}/business/info`, this.httpOptions)
     .pipe(

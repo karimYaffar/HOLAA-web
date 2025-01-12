@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateSocialSite, SocialSite, UpdateSocialSite } from '../../../core/interfaces/social.site';
-import { AdminService } from '../../../core/services/admin.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { AdminService } from '../../../core/providers/admin.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { AdminService } from '../../../core/services/admin.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { AdminService } from '../../../core/providers/admin.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 
 interface User {
   username: string;

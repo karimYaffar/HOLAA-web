@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../../core/services/admin.service';
+import { AdminService } from '../../../core/providers/admin.service';
 import { SocialSite } from '../../../core/interfaces/social.site';
-import { NotificationService } from '../../../core/services/notification.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

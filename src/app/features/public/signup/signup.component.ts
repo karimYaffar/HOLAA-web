@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { PrommobannerComponent } from "../prommobanner/prommobanner.component";
+import { PrommobannerComponent } from "../../../shared/components/prommobanner/prommobanner.component";
 import {
   FormBuilder,
   FormGroup,
@@ -7,8 +7,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { CookieService } from "ngx-cookie-service";
-import { NotificationService } from "../../../core/services/notification.service";
-import { AuthService } from "../../../core/services/auth.service";
+import { NotificationService } from "../../../core/providers/notification.service";
+import { AuthService } from "../../../core/providers/auth.http";
 import { CommonModule, Location } from "@angular/common";
 import { Router, RouterLink } from "@angular/router";
 
@@ -24,8 +24,6 @@ export class SignupComponent {
   registerForm: FormGroup;
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
-
-  
 
   constructor(
     private readonly fb: FormBuilder,
@@ -59,31 +57,34 @@ export class SignupComponent {
 
       // Implementar logica para el registro y peticion al backend
       // se debe de enviar los datos enviar al siguiente pagina que es login
-      this.authService.signIn(username, email, password).subscribe({
+      this.authService.signup(username, email, password).subscribe({
         next: (res) => {
-          this.notificationService.success('Verficacion necesaria', res.message);
-
-          this.cookieService.set('verification', 'true', {
-            sameSite: 'Strict',
-            path: '/',
-            secure: true
+          this.notificationService.show(
+            'Verficacion necesaria', 
+            res.message,
+            "toast-top-right",
+            "toast-info"
+          ).onHidden.subscribe({
+            next: () => {
+              this.router.navigate(['/verification']);
+            }
           });
-
-          this.router.navigate(['/verification']);
-
         },
         error: (err) => {
-          this.notificationService.info(
+          this.notificationService.show(
             "Estimado usuario",
-            err.message
+            err.message,
+            "toast-top-right",
+            "toast-info"
           )
         }
       })
-
     } else {
-      this.notificationService.error(
+      this.notificationService.show(
         'Campos Invalidos', 
-        'Por favor de revisar los campos'
+        'Por favor de revisar los campos',
+        "toast-top-right",
+        "toast-warning"
       )
     }
   }

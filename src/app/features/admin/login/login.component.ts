@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NotificationService } from '../../../core/services/notification.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { NotificationService } from '../../../core/providers/notification.service';
+import { AuthService } from '../../../core/providers/auth.http';
 import { CommonModule, Location } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
@@ -42,7 +42,7 @@ export class LoginAdminComponent {
 
       // Enviamos a la nueva ruta que es el auth dashboard
       
-      this.authService.logIn(username, password).subscribe({
+      this.authService.login(username, password).subscribe({
         next: (res) => {
           this.notificationService
             .success(

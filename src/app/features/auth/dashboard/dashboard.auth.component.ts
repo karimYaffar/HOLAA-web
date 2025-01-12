@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { AuthService } from '../../../core/providers/auth.http';
+import { NotificationService } from '../../../core/providers/notification.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CompanyProfile } from '../../../core/interfaces/business.profile';
-import { AdminService } from '../../../core/services/admin.service';
+import { AdminService } from '../../../core/providers/admin.service';
 import { VisionMissionComponent } from '../../../shared/components/vision-mission/vision-mission.component';
 import { PolicesComponent } from '../../../shared/components/polices/polices.component';
 import { ContactsComponent } from '../../../shared/components/contacts/contacts.component';
 import { ModalService } from 'ngx-modal-ease';
+import { SessionTimerService } from '../../../core/providers/session-timer.service';
 
 @Component({
   selector: 'app-dashboard.auth',
@@ -31,7 +32,7 @@ export class DashboardAuthComponent implements OnInit {
 
   logOut(): void {
     
-    this.authService.logOut().subscribe({
+    this.authService.logout().subscribe({
       next: (res) => {
         this.notificationService
           .success("Sesion Cerrada Exitosamente", `${res.message}`)
@@ -57,13 +58,14 @@ export class DashboardAuthComponent implements OnInit {
    */
   ngOnInit(): void {
     this.loadBusinessProfile();
+    // this.sessionTimer.startTimer();
   }
 
   /**
    * Metodo para cargar la configuracion de incidencia de la base de datos
    */
   loadBusinessProfile(): void {
-    this.adminService.getBusinessProfile().subscribe({
+    this.adminService.getCompanyProfile().subscribe({
       next: (profile) => {
         this.businessProfile = profile;
       },

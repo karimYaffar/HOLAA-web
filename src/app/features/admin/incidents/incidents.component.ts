@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmailConfiguration, UpdateEmailConfiguration } from '../../../core/interfaces/emal.configuration';
 import { IncidentConfiguration, UpdateIncidentConfiguration } from '../../../core/interfaces/incident.configuration';
-import { AdminService } from '../../../core/services/admin.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { AdminService } from '../../../core/providers/admin.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
   selector: 'app-incidents',

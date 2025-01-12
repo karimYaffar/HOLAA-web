@@ -13,6 +13,7 @@
         "build": {
           "builder": "@ngx-env/builder:application",
           "options": {
+            
             "outputPath": "dist/holaa-web",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -28,10 +29,11 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/preline/preline.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -70,13 +72,6 @@
         },
         "serve": {
           "builder": "@ngx-env/builder:dev-server",
-          "options": {
-            "host": "holaatrendy",
-            "port": 4200,
-            "ssl": true,
-            "sslKey": "ssl/holaatrendy-key.pem",
-            "sslCert": "ssl/holaatrendy.pem"
-          },
           "configurations": {
             "production": {
               "buildTarget": "holaa-web:build:production",

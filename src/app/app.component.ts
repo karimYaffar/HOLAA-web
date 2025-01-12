@@ -5,10 +5,7 @@ import { SocialbubbleComponent } from "./shared/components/socialbubble/socialbu
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [
-    RouterOutlet,
-    SocialbubbleComponent
-  ],
+  imports: [RouterOutlet],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })

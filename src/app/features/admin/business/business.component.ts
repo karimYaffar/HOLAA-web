@@ -6,8 +6,8 @@ import {
   UpdateBusinessProfile,
 } from "../../../core/interfaces/business.profile";
 import { SocialSite, UpdateSocialSite } from "../../../core/interfaces/social.site";
-import { AdminService } from "../../../core/services/admin.service";
-import { NotificationService } from "../../../core/services/notification.service";
+import { AdminService } from "../../../core/providers/admin.service";
+import { NotificationService } from "../../../core/providers/notification.service";
 
 @Component({
   selector: "app-business",
@@ -43,7 +43,7 @@ export class BusinessComponent implements OnInit {
    * Metodo para cargar la configuracion de incidencia de la base de datos
    */
   loadBusinessProfile(): void {
-    this.adminService.getBusinessProfile().subscribe({
+    this.adminService.getCompanyProfile().subscribe({
       next: (profile) => {
         this.businessProfile = profile;
       },

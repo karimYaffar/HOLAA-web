@@ -8,8 +8,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { CreateDocument, Document, UpdateDocument } from "../../../core/interfaces/document";
-import { AdminService } from "../../../core/services/admin.service";
-import { NotificationService } from "../../../core/services/notification.service";
+import { AdminService } from "../../../core/providers/admin.service";
+import { NotificationService } from "../../../core/providers/notification.service";
 
 @Component({
   selector: "app-document",

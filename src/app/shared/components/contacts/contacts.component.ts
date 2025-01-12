@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../../core/services/admin.service';
+import { AdminService } from '../../../core/providers/admin.service';
 import { CompanyProfile } from '../../../core/interfaces/business.profile';
 
 @Component({
@@ -28,7 +28,7 @@ export class ContactsComponent implements OnInit{
   }
 
   loadBusinessProfile(): void {
-    this.adminService.getBusinessProfile().subscribe({
+    this.adminService.getCompanyProfile().subscribe({
       next: (profile) => {
         this.businessProfile = profile;
       },

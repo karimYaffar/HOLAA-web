@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Audit } from '../../../core/interfaces/audit';
-import { AdminService } from '../../../core/services/admin.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { AdminService } from '../../../core/providers/admin.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 @Component({
   selector: 'app-audit',
   standalone: true,

@@ -1,23 +1,29 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { CommonModule, Location } from "@angular/common";
-import { PrommobannerComponent } from "../prommobanner/prommobanner.component";
-import { Router, RouterLink } from "@angular/router";
-import { NotificationService } from "../../../core/services/notification.service";
-import { AuthService } from "../../../core/services/auth.service";
-import { CookieService } from "ngx-cookie-service";
+} from '@angular/forms';
+import { CommonModule, Location } from '@angular/common';
+import { PrommobannerComponent } from '../../../shared/components/prommobanner/prommobanner.component';
+import { Router, RouterLink } from '@angular/router';
+import { NotificationService } from '../../../core/providers/notification.service';
+import { AuthService } from '../../../core/providers/auth.http';
+import { CookieService } from 'ngx-cookie-service';
+import { VRF_PROCESS_AGE } from '../../../constants/constants';
 
 @Component({
-  selector: "app-login",
+  selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PrommobannerComponent, RouterLink],
-  templateUrl: "./login.component.html",
-  styleUrl: "./login.component.css",
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    PrommobannerComponent,
+    RouterLink,
+  ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -28,12 +34,11 @@ export class LoginComponent {
     private readonly location: Location,
     private readonly router: Router,
     private readonly notificationService: NotificationService,
-    private readonly cookieService: CookieService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {
     this.loginForm = this.fb.group({
-      username: ["", [Validators.required]],
-      password: ["", [Validators.required]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -45,37 +50,37 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
 
-      this.authService.logIn(username, password).subscribe({
-        next: (res) => {
-          this.notificationService.success(
-            "Verificacion Necesaria",
-            "Se requiere autenticacion, hemos enviado un codigo a su correo electronico asociado",
-            
-          );
-
-          this.cookieService.set('verification', 'true', {
-            sameSite: 'Strict',
-            path: '/',
-            secure: true
-,          });
-
-          this.cookieService.set('verification-auth', 'true', {
-            sameSite: 'Strict',
-            path: '/',
-            secure: true
-          });
-
-
-          this.router.navigate(["/verification"]);
+      this.authService.login(username, password).subscribe({
+        next: () => {
+          // Enviamos notificacion al cliente
+          this.notificationService
+            .show(
+              'Verificacion Necesaria',
+              'Se requiere autenticacion, hemos enviado un codigo a su correo electronico asociado',
+              'toast-top-right',
+              'toast-success',
+            )
+            .onHidden.subscribe({
+              next: () => {
+                this.router.navigate(['/verification']);
+              },
+            });
         },
         error: (err) => {
-          this.notificationService.info("Estimado Usuario", `${err.message}`);
+          this.notificationService.show(
+            'Estimado Usuario',
+            `${err.message}`,
+            'toast-top-right',
+            'toast-info',
+          );
         },
       });
     } else {
-      this.notificationService.error(
-        "Ups...",
-        "Por favor ingrese bien los campos"
+      this.notificationService.show(
+        'Ups...',
+        'Por favor ingrese bien los campos',
+        'toast-top-right',
+        'toast-warning',
       );
     }
   }

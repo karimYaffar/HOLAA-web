@@ -5,7 +5,7 @@ module.exports = {
   darkMode: 'false',
   content: [
     "./src/**/*.{html,ts}",
-    'node_modules/preline/dist/*.js'
+    './node_modules/preline/preline.js'
   ],
   theme: {
     extend: {

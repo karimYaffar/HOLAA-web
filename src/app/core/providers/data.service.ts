@@ -7,12 +7,22 @@ export class DataService {
 
   private readonly emailSignal = signal<string>('');
 
+  private readonly navigateSignal = signal<string>('');
+
+  setNavigate(navigate: string) {
+    this.navigateSignal.set(navigate);
+  }
+
+  getNavigate(): string {
+    return this.navigateSignal();
+  }
+
   setEmail(email: string) {
     this.emailSignal.set(email);
   }
 
-  getEmail(): Signal<string> {
-    return this.emailSignal;
+  getEmail(): string {
+    return this.emailSignal();
   }
 
 }

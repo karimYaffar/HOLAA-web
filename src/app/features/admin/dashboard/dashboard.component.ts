@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
-import { NotificationService } from '../../../core/services/notification.service';
+import { AuthService } from '../../../core/providers/auth.http';
+import { NotificationService } from '../../../core/providers/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 
 
@@ -28,7 +28,7 @@ export class DashboardAdminComponent {
 
   logOut(): void {
     
-    this.authService.logOut().subscribe({
+    this.authService.logout().subscribe({
       next: (res) => {
         this.notificationService
           .success("Sesion Cerrada Exitosamente", `${res.message}`)
