@@ -24,6 +24,7 @@ import { PolicesComponent } from './shared/components/polices/polices.component'
 import { ContactsComponent } from './shared/components/contacts/contacts.component';
 import { UserVerificationComponent } from './features/public/user-verification/user-verification.component';
 
+
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'login', component: LoginComponent },

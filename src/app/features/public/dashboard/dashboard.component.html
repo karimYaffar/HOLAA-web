@@ -1,96 +1,33 @@
-<section
-  class="relative h-screen bg-cover bg-center"
-  style="
-    background-image: url('https://pacoacuna.com/wp-content/uploads/2022/02/Como-Atraer-Clientes-a-Una-Tienda-de-Ropa.jpg');
-  "
->
-  <!-- Overlay -->
-  <div class="absolute inset-0 bg-black opacity-60"></div>
-
-  <!-- Contenido Principal -->
-  <div
-    class="relative z-10 container mx-auto flex flex-row justify-between items-center pt-48  lg:px-2 "
-  >
-    <div class="flex flex-col pl-14">
-      <!-- Texto Principal -->
-      <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4">
-        {{ businessProfile.slogan }}
-      </h1>
-      <p class="text-lg text-white max-w-md mb-6">
-        En Holaa, nos enfocamos en brindarte una experiencia que combine
-        comodidad y estilo para que puedas disfrutar y destacar en todo momento.
-      </p>
-
-      <!-- Botón Principal -->
-      <a href="#" class="inline-block">
-        <button
-          class="bg-neutral-950 text-neutral-400 border border-neutral-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
-        >
-          <span
-            class="bg-neutral-400 shadow-neutral-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"
-          ></span>
-          Ver Ahora
-        </button>
-      </a>
+<div class="bg-black min-h-screen px-8 py-4">
+  <!-- Header -->
+  <header class="flex justify-between items-center mb-8">
+    <h1 class="text-white text-2xl font-bold">HOLAA <span class="text-pink-500 italic">trendy</span></h1>
+    <div class="flex items-center gap-4">
+      <input 
+        type="text" 
+        placeholder="Buscar..." 
+        class="px-4 py-2 rounded-full bg-white text-black w-64"
+      />
+      <i class="fa-solid fa-user text-white text-2xl"></i>
+      <i class="fa-solid fa-heart text-white text-2xl"></i>
+      <i class="fa-solid fa-shopping-cart text-white text-2xl"></i>
     </div>
-    
-  </div>
+  </header>
 
-  <!-- Barra de Navegación -->
-  <div class="absolute top-0 left-0 right-0 z-20">
-    <div
-      class="container mx-auto flex justify-between items-center p-4 lg:px-20"
+  <!-- Grid de tipos de prendas -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+    <div 
+      *ngFor="let tipo of tipos" 
+      class="relative group overflow-hidden w-full h-[300px] md:h-[400px] lg:h-[500px]"
     >
-      <!-- Logo -->
-      <a href="#" class="text-white text-3xl font-bold tracking-wide">
-        <img [src]="businessProfile.logo" alt="HOLAA Trendy Logo" width="200" />
-      </a>
-
-      <!-- Menú de Navegación -->
-      <nav class="hidden md:flex space-x-6">
-        <a
-          (click)="aboutVisionMisionCompany()"
-          class="text-white text-base hover:text-gray-300 transition duration-200"
-          >Conócenos</a
-        >
-        <a
-          (click)="aboutPolicesCompany()"
-          class="text-white text-base hover:text-gray-300 transition duration-200"
-          >Políticas</a
-        >
-        <!-- <a href="#" class="text-white text-base hover:text-gray-300 transition duration-200">Únete</a> -->
-        <a
-          (click)="aboutContactCompany()"
-          class="text-white text-base hover:text-gray-300 transition duration-200"
-          >Contáctanos</a
-        >
-      </nav>
-
-      <!-- Botones de Autenticación -->
-      <div class="flex space-x-4">
-        <a routerLink="/login">
-          <button
-            class="bg-neutral-950 text-neutral-400 border border-neutral-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
-          >
-            <span
-              class="bg-neutral-400 shadow-neutral-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"
-            ></span>
-            Iniciar Sesion
-          </button>
-        </a>
-        <a routerLink="/signup">
-          <button
-            class="bg-neutral-950 text-neutral-400 border border-neutral-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
-          >
-            <span
-              class="bg-neutral-400 shadow-neutral-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"
-            ></span>
-            Registrar
-          </button>
-        </a>
+      <img 
+        [src]="tipo.image" 
+        [alt]="tipo.name" 
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+      />
+      <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+        <p class="text-white text-2xl font-semibold">{{ tipo.name }}</p>
       </div>
     </div>
   </div>
-</section>
-
-
+</div>
