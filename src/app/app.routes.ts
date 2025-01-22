@@ -23,10 +23,12 @@ import { VisionMissionComponent } from './shared/components/vision-mission/visio
 import { PolicesComponent } from './shared/components/polices/polices.component';
 import { ContactsComponent } from './shared/components/contacts/contacts.component';
 import { UserVerificationComponent } from './features/public/user-verification/user-verification.component';
+import { ProductCardComponent } from './features/public/product-card/product-card.component'; // Importa ProductCardComponent
 
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
+  { path: 'productos/:tipo', component: ProductCardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   {

@@ -1,32 +1,31 @@
-<div class="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden">
-    <img [src]="product.image" alt="Producto" class="w-full h-72 object-cover">
-    
-    <div class="p-4">
-      <h2 class="text-lg font-semibold text-gray-800">{{ product.name }}</h2>
-      <p class="text-gray-600">Color: <span class="font-bold">{{ product.color }}</span></p>
-      <p class="text-xl font-bold text-gray-900 mt-2">${{ product.price }}</p>
-  
-      <div class="mt-4">
-        <button 
-          (click)="toggleDropdown()" 
-          class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
-          Tallas
-        </button>
-        <div *ngIf="showDropdown" class="mt-2 bg-white border border-gray-200 rounded-md shadow-md">
-          <ul class="space-y-2 p-2">
-            <li *ngFor="let size of product.sizes" 
-                (click)="selectSize(size)" 
-                class="cursor-pointer px-3 py-2 hover:bg-gray-100 text-gray-700">
-              {{ size }}
-            </li>
-          </ul>
-        </div>
-      </div>
-  
+<div *ngFor="let product of productos" class="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden">
+  <img [src]="product.image" alt="Producto" class="w-full h-72 object-cover">
+
+  <div class="p-4">
+    <h2 class="text-lg font-semibold text-gray-800">{{ product.name }}</h2>
+    <p class="text-gray-600">Color: <span class="font-bold">{{ product.color }}</span></p>
+    <p class="text-xl font-bold text-gray-900 mt-2">${{ product.price }}</p>
+
+    <div class="mt-4">
       <button 
-        class="w-full mt-3 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
-        Agregar
+        (click)="toggleDropdown()" 
+        class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+        Tallas
       </button>
+      <div *ngIf="showDropdown" class="mt-2 bg-white border border-gray-200 rounded-md shadow-md">
+        <ul class="space-y-2 p-2">
+          <li *ngFor="let size of product.sizes" 
+              (click)="selectSize(size)" 
+              class="cursor-pointer px-3 py-2 hover:bg-gray-100 text-gray-700">
+            {{ size }}
+          </li>
+        </ul>
+      </div>
     </div>
+
+    <button 
+      class="w-full mt-3 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
+      Agregar
+    </button>
   </div>
-  
+</div>

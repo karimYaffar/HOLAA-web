@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';  // Importa Router
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  // Definición de los tipos de prendas
   tipos = [
     { name: 'Tops', image: '/assets/images/tops.png' },
     { name: 'Vestidos', image: '/assets/images/vestidos.jpg' },
@@ -15,9 +18,12 @@ export class DashboardComponent implements OnInit {
     { name: 'Faldas', image: '/assets/images/faldas.jpg' }
   ];
 
-  constructor() { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    // Aquí puedes agregar lógica si necesitas hacer algo cuando el componente se inicie
+  ngOnInit(): void {}
+
+  redirectToProduct(tipoName: string) {
+    // Redirige a la ruta de productos de ese tipo
+    this.router.navigate(['/productos', tipoName]);
   }
 }
