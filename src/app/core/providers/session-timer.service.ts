@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
-import { AuthService } from './auth.http';
-import { JWT_INTERVAL } from '../../constants/constants'
+import { JWT_INTERVAL } from '../../constants/constants';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',

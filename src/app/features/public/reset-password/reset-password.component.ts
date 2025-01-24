@@ -6,12 +6,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../../core/providers/auth.http';
-import { NotificationService } from '../../../core/providers/notification.service';
 import { Router } from '@angular/router';
-import { DataService } from '../../../core/providers/data.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { AuthService } from '../../../core/providers/auth.service';
+import { DataService } from '../../../core/providers/data.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
   selector: 'app-reset-password',

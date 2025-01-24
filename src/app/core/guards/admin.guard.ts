@@ -1,8 +1,8 @@
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../providers/auth.http';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, map, of } from 'rxjs';
-import { inject } from '@angular/core';
+import { AuthService } from '../providers/auth.service';
 
 export const adminGuard: CanActivateFn = (route, state) => {
   // Implementar logica para la activacion de guardian

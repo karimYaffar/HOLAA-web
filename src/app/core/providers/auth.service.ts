@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
-import { Api } from './api';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import {
+  User,
   UserVerification,
   UserWithoutCredentials,
   UserWithoutUsername,
 } from '../interfaces/users.interface';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService extends Api {
+export class AuthService extends BaseService {
   private isAuthenticate = new BehaviorSubject<boolean>(false);
 
   protected override httpOptions = {
@@ -19,7 +20,7 @@ export class AuthService extends Api {
   };
 
   constructor(protected override readonly httpClient: HttpClient) {
-    super();
+    super(httpClient);
   }
 
   /**
@@ -68,6 +69,7 @@ export class AuthService extends Api {
       email: email,
       password: password,
     };
+    
     return this.httpClient
       .post<{ status: number; message: string }>(
         `${this.SERVER}/auth/signup`,

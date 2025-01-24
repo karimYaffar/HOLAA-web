@@ -11,23 +11,25 @@ import { BusinessComponent } from './features/admin/business/business.component'
 import { UserComponent } from './features/admin/user/user.component';
 import { IncidentsComponent } from './features/admin/incidents/incidents.component';
 import { AuditComponent } from './features/admin/audit/audit.component';
-import { adminGuard } from './core/guards/admin.guard';
 import { DocumentComponent } from './features/admin/document/document.component';
 import { SocialComponent } from './features/admin/social/social.component';
-import { PagenotfoundComponent } from './shared/components/pagenotfound/pagenotfound.component';
 import { publicGuard } from './core/guards/public.guard';
 import { RequestForgotPasswordComponent } from './features/public/request-forgot-password/request-forgot-password.component';
 import { ResetPasswordComponent } from './features/public/reset-password/reset-password.component';
 import { VisionMissionComponent } from './shared/components/vision-mission/vision-mission.component';
 
 import { PolicesComponent } from './shared/components/polices/polices.component';
-import { ContactsComponent } from './shared/components/contacts/contacts.component';
+/* import { ContactsComponent } from './shared/components/contacts/contacts.component'; */
 import { UserVerificationComponent } from './features/public/user-verification/user-verification.component';
 import { ProductCardComponent } from './features/public/product-card/product-card.component'; // Importa ProductCardComponent
 import { PageNotFoundComponent } from './features/public/page-not-found/page-not-found.component';
+import { ProductDetailComponent } from './features/public/product-detail/product-detail.component';
+import { ContactsComponent} from './features/public/contacts/contacts.component';
+import { AboutUsComponent} from './features/public/about-us/about-us.component';
+import {PoliciesComponent} from './features/public/policies/policies.component';
 
 export const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: PoliciesComponent },
   { path: 'productos/:tipo', component: ProductCardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
@@ -71,5 +73,5 @@ export const routes: Routes = [
       { path: 'audit', component: AuditComponent },
     ],
   },
-  { path: '**', component: PagenotfoundComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];

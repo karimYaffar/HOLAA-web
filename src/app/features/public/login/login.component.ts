@@ -1,3 +1,4 @@
+import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -5,13 +6,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule, Location } from '@angular/common';
-import { PrommobannerComponent } from '../../../shared/components/prommobanner/prommobanner.component';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
-import { AuthService } from '../../../core/providers/auth.http';
-import { CookieService } from 'ngx-cookie-service';
-import { VRF_PROCESS_AGE } from '../../../constants/constants';
+import { PrommobannerComponent } from '../../../shared/components/prommobanner/prommobanner.component';
 
 @Component({
   selector: 'app-login',

@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/providers/auth.http';
-import { NotificationService } from '../../../core/providers/notification.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ModalService } from 'ngx-modal-ease';
 import { CompanyProfile } from '../../../core/interfaces/business.profile';
 import { AdminService } from '../../../core/providers/admin.service';
-import { VisionMissionComponent } from '../../../shared/components/vision-mission/vision-mission.component';
-import { PolicesComponent } from '../../../shared/components/polices/polices.component';
+import { AuthService } from '../../../core/providers/auth.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 import { ContactsComponent } from '../../../shared/components/contacts/contacts.component';
-import { ModalService } from 'ngx-modal-ease';
-import { SessionTimerService } from '../../../core/providers/session-timer.service';
+import { PolicesComponent } from '../../../shared/components/polices/polices.component';
+import { VisionMissionComponent } from '../../../shared/components/vision-mission/vision-mission.component';
 
 @Component({
   selector: 'app-dashboard.auth',

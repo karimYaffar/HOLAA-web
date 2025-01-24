@@ -1,8 +1,8 @@
-import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../providers/auth.http';
-import { catchError, map, of } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { catchError, map, of } from 'rxjs';
+import { AuthService } from '../providers/auth.service';
 
 export const publicGuard: CanActivateFn = (route, state) => {
   // Injectamos el servicio de autenticacion para poder obtener el siguiente paso de la verificacion del cliente

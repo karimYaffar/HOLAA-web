@@ -12,7 +12,9 @@ module.exports = {
       fontFamily: {
         sans: ['Open Sans', 'sans-serif'],
         monserrat: ['Monserrat', 'sans-serif'],
-        inter: ['Inter', 'sans-serif']
+        inter: ['Inter', 'sans-serif'],
+        wedgie: ['Wedgie', 'sans-serif'],
+        josefina_sans: ['Josefina Sans', 'sans-serif'],
       },
       keyframes: {
         marquee: {

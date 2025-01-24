@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Api } from './api';
 import { HttpClient } from '@angular/common/http';
-import {
-  UserVerification,
-  UserWithoutCredentials,
-  UserWithoutUsername,
-} from '../interfaces/users.interface';
+import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import {
+    UserVerification,
+    UserWithoutCredentials,
+    UserWithoutUsername,
+} from '../interfaces/users.interface';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends Api {
+export class UserService extends BaseService {
   protected override httpOptions = {
     withCredentials: true,
   };
 
   constructor(protected override readonly httpClient: HttpClient) {
-    super();
+    super(httpClient);
   }
 
   /**

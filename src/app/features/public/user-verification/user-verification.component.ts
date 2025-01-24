@@ -8,17 +8,14 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { CountdownEvent, CountdownModule } from 'ngx-countdown';
-import { AuthService } from '../../../core/providers/auth.http';
-import { NotificationService } from '../../../core/providers/notification.service';
 import { Router } from '@angular/router';
-import { AdminService } from '../../../core/providers/admin.service';
-import { IncidentConfiguration } from '../../../core/interfaces/incident.configuration';
-import { DataService } from '../../../core/providers/data.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import Swal, { SweetAlertResult } from 'sweetalert2';
-import { error } from 'console';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { CountdownEvent, CountdownModule } from 'ngx-countdown';
+import { IncidentConfiguration } from '../../../core/interfaces/incident.configuration';
+import { AdminService } from '../../../core/providers/admin.service';
+import { AuthService } from '../../../core/providers/auth.service';
+import { DataService } from '../../../core/providers/data.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
   selector: 'app-verification',

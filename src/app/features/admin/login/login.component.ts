@@ -1,9 +1,9 @@
+import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NotificationService } from '../../../core/providers/notification.service';
-import { AuthService } from '../../../core/providers/auth.http';
-import { CommonModule, Location } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/providers/auth.service';
+import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
   selector: 'app-login',

@@ -1,0 +1,47 @@
+<div class="flex h-screen w-full items-center justify-center p-10">
+    <div class="flex w-full max-w-screen-xl items-center">
+      <!-- Imagen del producto -->
+      <div class="flex-1">
+        <img [src]="product.imgUri[0]" alt="{{ product.name }}" class="w-full h-auto rounded-lg shadow-lg" />
+      </div>
+      
+      <!-- Detalles del producto -->
+      <div class="flex-1 px-10">
+        <h2 class="text-4xl font-bold mb-4">{{ product.name }}</h2>
+        <p class="text-2xl text-red-500 font-bold">{{ product.price | currency:'MXN' }}</p>
+        
+        <p class="mt-4 text-lg font-semibold">Color:</p>
+        
+        <!-- Opciones de colores -->
+        <div class="flex gap-4 my-4">
+          <button *ngFor="let color of product.colors" 
+                  [ngStyle]="{'background-color': color}" 
+                  class="w-12 h-12 rounded-full border-2 border-gray-300">
+          </button>
+        </div>
+  
+        <div class="mt-6">
+            <p class="text-lg font-semibold text-gray-700">Descripción:</p>
+            <p class="text-gray-600">{{ product.description }}</p>
+        </div>
+        
+        <!-- Selección de tallas -->
+        <div class="mt-4">
+          <p class="text-lg font-semibold mb-2">Tallas:</p>
+          <div class="flex gap-4">
+            <button *ngFor="let size of product.size" 
+                    class="px-6 py-3 border border-gray-400 rounded-lg text-lg font-medium hover:bg-gray-800 hover:text-white focus:ring-2 focus:ring-[#28A745]">
+              {{ size }}
+            </button>
+          </div>
+        </div>
+        
+        <!-- Botón de compra -->
+        <div class="mt-6">
+          <button class="w-full py-4 bg-[#28A745] text-white text-2xl font-bold rounded-lg shadow-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300">
+            Añadir al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+</div>

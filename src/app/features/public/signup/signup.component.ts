@@ -1,16 +1,16 @@
+import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { PrommobannerComponent } from "../../../shared/components/prommobanner/prommobanner.component";
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { CookieService } from "ngx-cookie-service";
-import { NotificationService } from "../../../core/providers/notification.service";
-import { AuthService } from "../../../core/providers/auth.http";
-import { CommonModule, Location } from "@angular/common";
 import { Router, RouterLink } from "@angular/router";
+import { CookieService } from "ngx-cookie-service";
+import { AuthService } from "../../../core/providers/auth.service";
+import { NotificationService } from "../../../core/providers/notification.service";
+import { PrommobannerComponent } from "../../../shared/components/prommobanner/prommobanner.component";
 
 @Component({
   selector: "app-signup",

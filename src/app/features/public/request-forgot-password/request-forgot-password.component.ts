@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/providers/auth.http';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../core/providers/auth.service';
 import { DataService } from '../../../core/providers/data.service';
 import { NotificationService } from '../../../core/providers/notification.service';
-import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-requestpassword',
