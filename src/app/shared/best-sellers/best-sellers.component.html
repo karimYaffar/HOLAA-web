@@ -1,0 +1,30 @@
+<section class="container mx-auto px-4 py-12">
+    <h2 class="font-bebas text-5xl font-bold text-center mb-12">LO MÁS VENDIDO</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let product of products" 
+           class="group relative overflow-hidden transition-all duration-300 hover:shadow-xl">
+        <!-- Product Image -->
+        <div class="aspect-[3/4] overflow-hidden bg-gray-100">
+          <img 
+            [src]="product.image" 
+            [alt]="product.name"
+            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        
+        <!-- Quick Shop Overlay -->
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <button class="bg-white text-black px-6 py-3 font-medium transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+            COMPRAR AHORA
+          </button>
+        </div>
+        
+        <!-- Product Info -->
+        <div class="pt-4 pb-6 px-4">
+          <h3 class="text-sm font-medium mb-2 line-clamp-2">{{product.name}}</h3>
+          <p class="text-lg font-bold">${{product.price}}</p>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -1,0 +1,61 @@
+<div class="flex items-center justify-center py-16">
+  <div
+    class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full transform transition-all duration-300 ease-in-out"
+  >
+    <h2 class="text-center text-3xl font-bold mb-6 text-gray-800">
+      Verificacion Necesaria
+    </h2>
+    <p class="text-center text-gray-600 mb-8">
+      Introduce el código de verificación enviado a tu dispositivo
+    </p>
+
+    <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div class="flex justify-between mb-4">
+        <ng-container
+          *ngFor="let control of otpForm.controls | keyvalue; let i = index"
+        >
+          <input
+            #otpInput
+            type="text"
+            maxlength="1"
+            class="w-12 h-12 text-center text-2xl font-semibold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none transition-all duration-200"
+            [formControlName]="control.key"
+            (input)="onInputChange($event, i)"
+            (keydown)="onKeyDown($event, i)"
+          />
+        </ng-container>
+      </div>
+
+      <div class="text-center text-gray-600 mb-4">
+        <ng-container *ngIf="!canResendOtp; else resend">
+          <p class="mb-2">Tiempo restante:</p>
+          <countdown
+            [config]="{ leftTime: incidentConfiguration.otpLifeTime }"
+            (event)="handleCountdownEvent($event)"
+            class="text-2xl font-semibold text-black"
+          >
+          </countdown>
+        </ng-container>
+
+        <ng-template #resend>
+          <button
+            (click)="resendOtp()"
+            class="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+          >
+            Reenviar código de verificación
+          </button>
+        </ng-template>
+      </div>
+
+      <div class="text-center">
+        <button
+          type="submit"
+          [disabled]="!otpForm.valid"
+          class="px-6 py-3 border-4 border-pink-500 text-black hover:bg-pink-500 hover:text-white font-medium transition-colors duration-200 rounded-lg focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:border-4"
+        >
+          Verificar OTP
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

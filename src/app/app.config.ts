@@ -8,6 +8,8 @@ import { provideHttpClient, withFetch, withInterceptors } from "@angular/common/
 import { provideToastr } from "ngx-toastr";
 import { jwtInterceptor } from "./core/interceptor/jwt.interceptor";
 import { provideAuth0 } from '@auth0/auth0-angular' 
+import { errorInterceptor } from "./core/interceptor/error.interceptor";
+import { serviceInterceptor } from "./core/interceptor/service.interceptor";
 
 
 export const appConfig: ApplicationConfig = {
@@ -16,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideAnimations(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([errorInterceptor, serviceInterceptor])),
     provideToastr(),
     provideAuth0({
       domain: 'dev-mxd0iyxdhh7uq4me.us.auth0.com', 

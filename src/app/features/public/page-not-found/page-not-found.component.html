@@ -1,24 +1,36 @@
-<div class="flex flex-col lg:flex-row items-center justify-center h-screen px-6 lg:px-20">
-  <!-- Contenido del error -->
-  <div class="text-center lg:text-left max-w-lg">
-    <h1 class="text-[150px] leading-none font-bold text-black drop-shadow-lg font-wedgie">404</h1>
-    <p class="text-3xl font-semibold mt-4 font-josefina_sans text-gray-800">
+<div
+  class="flex flex-col md:flex-row items-center justify-center mt-12"
+>
+  <!-- Sección del texto 404 -->
+  <div class="text-center flex justify-center items-end flex-col md:w-1/2 px-6">
+    <h1
+      class="text-[10rem] md:text-[12rem] font-bold text-black drop-shadow-lg leading-none font-wedgie"
+    >
+      404
+    </h1>
+    <p
+      class="text-2xl md:text-3xl font-medium text-gray-800 mt-4 font-josefina_sans"
+    >
       Oops... parece que te perdiste.
     </p>
-    <p class="text-2xl italic text-gray-500 mt-2 font-josefina_sans">
-      La <i>página que buscas</i> no está aquí, pero no te preocupes, ¡te ayudamos a volver al camino!
+    <p class="italic text-gray-500 mt-2 md:text-lg font-josefina_sans">
+      La página que buscas no está aquí, pero no te preocupes, ¡te ayudamos a
+      volver al camino!
     </p>
-    <a routerLink="/"
-      class="inline-block mt-6 px-8 py-3 border-2 border-pink-600 text-pink-600 font-josefina_sans font-semibold 
-      hover:bg-pink-600 hover:text-white transition duration-300 rounded-md">
+    <button
+      (click)="navigateToHome()"
+      class="mt-6 inline-block border border-pink-500 text-black px-8 py-4 rounded-md text-lg hover:bg-pink-500 hover:text-white transition duration-300 font-josefina_sans"
+    >
       Regresar al inicio
-    </a>
+    </button>
   </div>
 
   <!-- Imagen -->
-  <div class="mt-10 lg:mt-0 lg:ml-32">
-    <img src="./assets/images/404-fashion.png" 
-         alt="Página no encontrada" 
-         class="w-full max-w-lg lg:max-w-2xl">
+  <div class="md:w-1/2 flex justify-center mt-8 md:mt-0 h-full">
+    <img
+      src="assets/images/404-fashion.png"
+      alt="Chica con sombrero"
+      class="w-full h-full rounded-lg"
+    />
   </div>
 </div>

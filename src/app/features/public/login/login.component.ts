@@ -1,15 +1,18 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
+import { LoginResponse } from '../../../core/interfaces/auth.interface';
 import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
-import { PrommobannerComponent } from '../../../shared/components/prommobanner/prommobanner.component';
+import { CookieService } from 'ngx-cookie-service';
+import { COOKIE_AGE } from '../../../constants/constants';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +20,9 @@ import { PrommobannerComponent } from '../../../shared/components/prommobanner/p
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    PrommobannerComponent,
     RouterLink,
+    BreadcrumbComponent,
+    BreadcrumbItemDirective,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -32,6 +36,7 @@ export class LoginComponent {
     private readonly location: Location,
     private readonly router: Router,
     private readonly notificationService: NotificationService,
+    private readonly cookieService: CookieService,
     private readonly authService: AuthService,
   ) {
     this.loginForm = this.fb.group({
@@ -46,33 +51,38 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
+      const credentials = this.loginForm.value;
 
-      this.authService.login(username, password).subscribe({
-        next: () => {
-          // Enviamos notificacion al cliente
-          this.notificationService
-            .show(
-              'Verificacion Necesaria',
-              'Se requiere autenticacion, hemos enviado un codigo a su correo electronico asociado',
+      
+      this.authService.login(credentials)
+        .subscribe({
+          next: (response) => {
+            this.notificationService
+              .show(
+                'Verificacion Necesaria',
+                'Se requiere autenticacion, hemos enviado un codigo a su correo electronico asociado',
+                'toast-top-right',
+                'toast-success',
+              )
+              .onHidden.subscribe({
+                next: () => {
+                  this.cookieService.set('mfaPending', response.fromTo, {
+                    expires: COOKIE_AGE
+                  })
+                  this.router.navigate(['/account-verification']);
+                },
+              });
+          },
+          error: (err) => {
+            console.log(err);
+            this.notificationService.show(
+              'Estimado Usuario',
+              `${err.message}`,
               'toast-top-right',
-              'toast-success',
-            )
-            .onHidden.subscribe({
-              next: () => {
-                this.router.navigate(['/verification']);
-              },
-            });
-        },
-        error: (err) => {
-          this.notificationService.show(
-            'Estimado Usuario',
-            `${err.message}`,
-            'toast-top-right',
-            'toast-info',
-          );
-        },
-      });
+              'toast-info',
+            );
+          },
+        });
     } else {
       this.notificationService.show(
         'Ups...',

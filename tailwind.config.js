@@ -15,6 +15,9 @@ module.exports = {
         inter: ['Inter', 'sans-serif'],
         wedgie: ['Wedgie', 'sans-serif'],
         josefina_sans: ['Josefina Sans', 'sans-serif'],
+        bebas: ['"Bebas Neue"', 'sans-serif'],
+        cinzel: ['Cinzel', 'sans-serif'],
+        popins: ['Poppins', 'sans-serif'],
       },
       keyframes: {
         marquee: {
@@ -31,7 +34,6 @@ module.exports = {
     addDynamicIconSelectors(),
     require('@tailwindcss/forms'),
     require('tailwindcss-animate'),
-    require('preline/plugin')
   ],
 
 }

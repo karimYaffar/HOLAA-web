@@ -1,16 +1,9 @@
-<div class="bg-black min-h-screen px-8 py-4">
-  <!-- Grid de tipos de prendas -->
-  <div class="grid grid-cols-5 gap-4 h-[80vh]">
-    <div *ngFor="let tipo of tipos" class="relative group overflow-hidden" (click)="redirectToProduct(tipo.name)">
-      <img 
-        [src]="tipo.image" 
-        [alt]="tipo.name" 
-        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-      />
-      <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-        <p class="text-white text-2xl font-semibold">{{ tipo.name }}</p>
-      </div>
-    </div>
-  </div>  
-</div>
+<section class="container mx-auto px-4 py-10">
+  <app-promotional-banner></app-promotional-banner>
 
+  <app-service-features></app-service-features>
+</section>
+
+<app-slider-categories></app-slider-categories>
+
+<app-best-sellers></app-best-sellers>

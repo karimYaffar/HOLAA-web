@@ -9,8 +9,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === HttpStatusCode.InternalServerError) {
-            router.navigate(['/error-500']);
+            router.navigate(['/error-500', { state: { fromInterceptor: true }}]);
           }
+
+          if (error.status === HttpStatusCode.BadRequest) {
+            router.navigate(['/error-400'], { state: { fromInterceptor: true }})
+          }
+
           return throwError(() => error);
         })
       );

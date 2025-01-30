@@ -8,6 +8,11 @@ export interface UserVerification {
     otp: string
 }
 
-export type UserWithoutEmail = Omit<User, "email">
-export type UserWithoutCredentials = Omit<User, "username" | "password">
+export interface UserResetPassword {
+    email: string;
+    newPassword: string;
+}
+
+export type UserCredentials = Omit<User, "email">
+export type UserEmail = Omit<User, "username" | "password">
 export type UserWithoutUsername = Omit<User, "username">

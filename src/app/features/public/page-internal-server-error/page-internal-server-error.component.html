@@ -1,0 +1,35 @@
+<div
+  class="flex flex-col md:flex-row items-center justify-center bg-white mt-12"
+>
+  <!-- Sección del texto 404 -->
+  <div class="text-center md:w-1/2 px-6">
+    <h1
+      class="text-[10rem] md:text-[12rem] font-bold text-black drop-shadow-lg leading-none font-wedgie"
+    >
+      500
+    </h1>
+    <p
+      class="text-2xl md:text-3xl font-medium text-gray-800 mt-4 font-josefina_sans"
+    >
+      ¡Oops... algo salio mal!
+    </p>
+    <p class="italic text-gray-500 mt-2 md:text-lg font-josefina_sans">
+        Hemos encontrado un problema inesperado mientras procesábamos tu solicitud. No te preocupes, ya estamos trabajando para solucionarlo.
+    </p>
+    <button
+      (click)="navigateToHome()"
+      class="mt-6 inline-block border border-pink-500 text-black px-8 py-4 rounded-md text-lg hover:bg-pink-500 hover:text-white transition duration-300 font-josefina_sans"
+    >
+      Regresar al inicio
+    </button>
+  </div>
+
+  <!-- Imagen -->
+  <div class="md:w-1/2 flex justify-center mt-8 md:mt-0 h-full">
+    <img
+      src="assets/images/404-fashion.png"
+      alt="Chica con sombrero"
+      class="w-full h-full rounded-lg"
+    />
+  </div>
+</div>

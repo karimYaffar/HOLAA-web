@@ -1,10 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, throwError } from 'rxjs';
+import { ApiResponse } from '../interfaces/api.response.interface';
+import { LoginResponse, SignUpResponse } from '../interfaces/auth.interface';
 import {
   User,
+  UserCredentials,
+  UserEmail,
+  UserResetPassword,
   UserVerification,
-  UserWithoutCredentials,
   UserWithoutUsername,
 } from '../interfaces/users.interface';
 import { BaseService } from './base.service';
@@ -13,22 +17,26 @@ import { BaseService } from './base.service';
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
-  private isAuthenticate = new BehaviorSubject<boolean>(false);
+  private isLogged = new BehaviorSubject<boolean>(false);
 
   protected override httpOptions = {
     withCredentials: true,
   };
 
-  constructor(protected override readonly httpClient: HttpClient) {
-    super(httpClient);
+  constructor(protected override readonly http: HttpClient) {
+    super(http);
   }
 
   /**
    * Metodo que devuelve si el cliente esta autenticado o no
    * @returns Regresa el estado del cliente si esta autenticado
    */
-  stateAuthenticate(): boolean {
-    return this.isAuthenticate.value;
+  isAuth(): Observable<boolean> {
+    return this.isLogged.asObservable();
+  }
+
+  setAuth(v: boolean): void {
+    this.isLogged.next(v);
   }
 
   /**
@@ -37,19 +45,14 @@ export class AuthService extends BaseService {
    * @param password Contraseña del cliente
    * @returns
    */
-  login(username: string, password: string): Observable<any> {
-    return this.httpClient
-      .post(
+  login(userCredentials: UserCredentials): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(
         `${this.SERVER}/auth/login`,
-        { username: username, password: password },
+        userCredentials,
         this.httpOptions,
       )
-      .pipe(
-        map(() => this.isAuthenticate.next(true)),
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -59,28 +62,14 @@ export class AuthService extends BaseService {
    * @param password
    * @returns
    */
-  signup(
-    username: string,
-    email: string,
-    password: string,
-  ): Observable<{ status: number; message: string }> {
-    const signInDto = {
-      username: username,
-      email: email,
-      password: password,
-    };
-    
-    return this.httpClient
-      .post<{ status: number; message: string }>(
+  signup(user: User): Observable<SignUpResponse> {
+    return this.http
+      .post<SignUpResponse>(
         `${this.SERVER}/auth/signup`,
-        signInDto,
+        user,
         this.httpOptions,
       )
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -88,31 +77,39 @@ export class AuthService extends BaseService {
    * @returns
    */
   logout(): Observable<{ status: boolean; message: string }> {
-    return this.httpClient
+    return this.http
       .get<{ status: boolean; message: string }>(
-        `${this.SERVER}/auth/logOut`,
+        `${this.SERVER}/auth/logout`,
         this.httpOptions,
       )
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  /**
-   * Metodo que se conecta con el endpoint para poder verificar el estado de la cuenta del usuario
-   * @returns Regresa el estado de la verificacion del usuario
-   */
-  verification_status(): Observable<{ status: number }> {
-    return this.httpClient
-      .get<{ status: number }>(
-        `${this.SERVER}/auth/verification-status`,
+  acoountActivation(otp: string): Observable<ApiResponse> {
+    return this.http
+      .post<ApiResponse>(
+        `${this.SERVER}/auth/activate`,
+        { otp },
         this.httpOptions,
       )
+      .pipe(catchError(this.handleError));
+  }
+
+  accountVerification(otp: string): Observable<ApiResponse> {
+    return this.http
+      .post<ApiResponse>(`${this.SERVER}/mfa/verify`, { otp }, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  checkSession(): Observable<boolean> {
+    return this.http
+      .post<boolean>(`${this.SERVER}/auth/check-session`, null, {
+        withCredentials: true,
+      })
       .pipe(
         catchError((error) => {
-          return throwError(() => new Error(error.error.message));
+          console.error('Error en checkSession:', error);
+          return of(false);
         }),
       );
   }
@@ -127,10 +124,10 @@ export class AuthService extends BaseService {
     message: string;
     route: string;
   }> {
-    return this.httpClient
+    return this.http
       .post<{ status: number; message: string; route: string }>(
         `${this.SERVER}/auth/account-verification`,
-        user_verification ,
+        user_verification,
         this.httpOptions,
       )
       .pipe(
@@ -141,53 +138,37 @@ export class AuthService extends BaseService {
       );
   }
 
-  forgot_password_status(): Observable<{ status: number }> {
-    return this.httpClient
-      .get<{ status: number }>(
-        `${this.SERVER}/auth/forgot-password-status`,
+  forgotPassword(userEmail: UserEmail): Observable<{
+    status: number;
+    message: string;
+    MFA: string;
+    fromTo: string;
+  }> {
+    return this.http
+      .post<{
+        status: number;
+        message: string;
+        MFA: string;
+        fromTo: string;
+      }>(
+        `${this.SERVER}/auth/request/forgot-password`,
+        userEmail,
         this.httpOptions,
       )
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  forgot_password(
-    user_without_credentials: UserWithoutCredentials,
-  ): Observable<{
+  resetPassword(userResetPassword: UserResetPassword): Observable<{
     status: number;
     message: string;
   }> {
-    return this.httpClient
-      .post<{ status: number; message: string }>(
-        `${this.SERVER}/auth/forgot-password`,
-        user_without_credentials,
-        this.httpOptions,
-      )
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
-  }
-
-  reset_password(user_without_username: UserWithoutUsername): Observable<{
-    status: number;
-    message: string;
-  }> {
-    return this.httpClient
+    return this.http
       .post<{ status: number; message: string }>(
         `${this.SERVER}/auth/reset-password`,
-        user_without_username,
+        userResetPassword,
         this.httpOptions,
       )
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
+      .pipe(catchError(this.handleError));
   }
 
   authenticateVerification(): Observable<{ authenticate: boolean }> {
@@ -195,7 +176,7 @@ export class AuthService extends BaseService {
     // activando esta solicitud que solo verifica el envio de la cookie
     // y regresando true para obtener la respues solicitada y verificar
     // que claro el usuario esta authenticado
-    return this.httpClient
+    return this.http
       .get<{ authenticate: boolean }>(
         `${this.SERVER}/auth/authenticate-verification`,
         this.httpOptions,

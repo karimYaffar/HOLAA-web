@@ -6,9 +6,6 @@ import { CompanyProfile } from '../../../core/interfaces/business.profile';
 import { AdminService } from '../../../core/providers/admin.service';
 import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
-import { ContactsComponent } from '../../../shared/components/contacts/contacts.component';
-import { PolicesComponent } from '../../../shared/components/polices/polices.component';
-import { VisionMissionComponent } from '../../../shared/components/vision-mission/vision-mission.component';
 
 @Component({
   selector: 'app-dashboard.auth',
@@ -71,25 +68,4 @@ export class DashboardAuthComponent implements OnInit {
     });
   }
 
-
-  /**
-   * Metodo para mostrar informacion sobre vision y mision
-   */
-  aboutVisionMisionCompany(): void {
-    this.modalService.open(VisionMissionComponent);
-  }
-  
-  /**
-   * Metodo para mostrar informacion sobre las politicas
-   */
-  aboutPolicesCompany(): void {
-    this.modalService.open(PolicesComponent);
-  }
-
-  /**
-   * Metodo para mostrar informacion de contacto de la empresa
-   */
-  aboutContactCompany(): void {
-    this.modalService.open(ContactsComponent)
-  }
 }

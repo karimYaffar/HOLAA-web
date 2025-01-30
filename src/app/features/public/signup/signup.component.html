@@ -1,5 +1,35 @@
-<!-- Barra Promocional -->
-<app-prommobanner></app-prommobanner>
+<nav
+  aria-label="Breadcrumb"
+  class="font-josefina_sans text-lg italic px-5 py-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg shadow-md"
+>
+  <xng-breadcrumb
+    [separator]="iconTemplate"
+    class="flex items-center flex-wrap"
+  >
+    <ng-container
+      *xngBreadcrumbItem="let breadcrumb; let info = info; let last = last"
+    >
+      <div class="flex items-center group">
+        <span
+          [ngClass]="
+            info +
+            ' w-6 h-6 mr-2 text-purple-600 group-hover:text-pink-600 transition-colors duration-300 ease-in-out'
+          "
+        ></span>
+        <span
+          class="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 ease-in-out"
+          >{{ breadcrumb }}</span
+        >
+      </div>
+    </ng-container>
+  </xng-breadcrumb>
+</nav>
+
+<ng-template #iconTemplate>
+  <span
+    class="icon-[hugeicons--arrow-right-double] w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-600 transition-colors duration-300 ease-in-out"
+  ></span>
+</ng-template>
 
 <div class="flex flex-col lg:flex-row h-screen overflow-hidden">
   <!-- Imagen Izquierda (oculta en pantallas pequeñas) -->
@@ -17,19 +47,20 @@
   >
     <div class="w-full max-w-md">
       <!-- Botón de Regreso -->
-      <!-- <button
+      <button
         onclick="window.history.back()"
         class="flex items-center mb-3 text-gray-500 hover:text-gray-700 focus:outline-none"
       >
-        <span class="icon-[mdi--arrow-left] w-5 h-5 mr-1"></span>
-        <span>Regresar</span>
-      </button> -->
+      
+        <span class="icon-[hugeicons--circle-arrow-left-01] w-5 h-5 mr-1"></span>
+        <span class="font-cinzel">Regresar</span>
+      </button>
 
       <!-- Título -->
       <h1
-        class="text-2xl font-bold mb-4 font-inter text-center text-gray-800 dark:text-gray-200"
+        class="text-3xl font-bold mb-4 font-cinzel text-center text-gray-800 dark:text-gray-200"
       >
-        Registrate con nosotros
+        ¡Unete a nuestra familia!
       </h1>
 
       <!-- Formulario de Registro -->
@@ -37,7 +68,7 @@
         <!-- Nombre de Usuario -->
         <div class="mb-5">
           <label
-            class="block text-gray-700 text-sm font-semibold mb-2"
+            class="block text-gray-700 text-sm font-popins font-semibold mb-2"
             for="username"
           >
             Nombre de usuario
@@ -51,7 +82,7 @@
               type="text"
               id="username"
               autocomplete="username"
-              class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
+              class="w-full border font-popins border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
               placeholder="Ingresa tu nombre de usuario"
               aria-describedby="usernameError"
               attr.aria-invalid="{{ registerForm.get('username')?.invalid }}"
@@ -63,7 +94,7 @@
               registerForm.get('username')?.touched
             "
             id="usernameError"
-            class="text-red-500 text-sm"
+            class="text-red-500 text-sm font-popins"
           >
             El nombre de usuario es requerido y debe tener al menos 5
             caracteres.
@@ -73,7 +104,7 @@
         <!-- Correo Electrónico -->
         <div class="mb-5">
           <label
-            class="block text-gray-700 text-sm font-semibold mb-2"
+            class="block text-gray-700 text-sm font-semibold mb-2 font-popins"
             for="email"
           >
             Correo electrónico
@@ -86,7 +117,7 @@
               formControlName="email"
               type="email"
               id="email"
-              class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
+              class="w-full font-popins border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
               placeholder="correo@electronico.com"
               aria-describedby="emailError"
               autocomplete="email"
@@ -99,16 +130,62 @@
               registerForm.get('email')?.touched
             "
             id="emailError"
-            class="text-red-500 text-sm"
+            class="text-red-500 text-sm font-popins"
           >
             Introduzca un correo electrónico válido.
           </span>
         </div>
 
+        <!-- Número de teléfono -->
+        <div class="mb-5">
+          <label for="phone" class="block font-popins text-sm font-medium text-gray-700">
+            Número de teléfono
+          </label>
+          <div class="mt-1 relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                />
+              </svg>
+            </span>
+            <input
+              id="phone"
+              type="tel"
+              formControlName="phone"
+              placeholder="+52 1234567890"
+              class="pl-10 block w-full font-popins px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500"
+              [class.border-red-300]="
+                registerForm.get('phone')?.invalid &&
+                registerForm.get('phone')?.touched
+              "
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('phone')?.invalid &&
+              registerForm.get('phone')?.touched
+            "
+            class="mt-2 text-sm text-red-600"
+          >
+            <p *ngIf="registerForm.get('phone')?.errors?.['required']">
+              El número de teléfono es requerido
+            </p>
+            <p *ngIf="registerForm.get('phone')?.errors?.['pattern']">
+              Ingresa un número de teléfono válido (Ej: +52 1234567890)
+            </p>
+          </div>
+        </div>
+
         <!-- Contraseña -->
         <div class="mb-5">
           <label
-            class="block text-gray-700 text-sm font-semibold mb-2"
+            class="block font-popins text-gray-700 text-sm font-semibold mb-2"
             for="password"
           >
             Contraseña
@@ -119,10 +196,13 @@
             ></span>
             <input
               [type]="showPassword ? 'text' : 'password'"
+              (focus)="showRequirements = true"
+              (blur)="showRequirements = false"
+              (input)="checkPasswordStrength()"
               formControlName="password"
               id="password"
               autocomplete="new-password"
-              class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
+              class="w-full font-popins border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
               placeholder="Ingresa tu contraseña"
               aria-describedby="passwordError passwordTooltip"
               attr.aria-invalid="{{ registerForm.get('password')?.invalid }}"
@@ -139,6 +219,89 @@
                 class="w-5 h-5"
               ></span>
             </button>
+            <!-- Password Requirements Tooltip -->
+            <div
+              *ngIf="showRequirements"
+              class="absolute z-10 w-72 p-4 mt-2 bg-white border rounded-lg shadow-lg transition-opacity duration-200"
+              [class.opacity-100]="showRequirements"
+              [class.opacity-0]="!showRequirements"
+            >
+              <h4 class="font-medium text-sm mb-2">
+                La contraseña debe contener:
+              </h4>
+              <ul class="space-y-2 text-sm">
+                <li class="flex items-center space-x-2">
+                  <span
+                    [class.text-green-500]="requirements.length"
+                    [class.text-red-500]="!requirements.length"
+                  >
+                    {{ requirements.length ? '✓' : '×' }}
+                  </span>
+                  <span
+                    [class.text-green-500]="requirements.length"
+                    [class.text-gray-600]="!requirements.length"
+                  >
+                    8-20 caracteres
+                  </span>
+                </li>
+                <li class="flex items-center space-x-2">
+                  <span
+                    [class.text-green-500]="requirements.lowercase"
+                    [class.text-red-500]="!requirements.lowercase"
+                  >
+                    {{ requirements.lowercase ? '✓' : '×' }}
+                  </span>
+                  <span
+                    [class.text-green-500]="requirements.lowercase"
+                    [class.text-gray-600]="!requirements.lowercase"
+                  >
+                    Al menos una minúscula
+                  </span>
+                </li>
+                <li class="flex items-center space-x-2">
+                  <span
+                    [class.text-green-500]="requirements.uppercase"
+                    [class.text-red-500]="!requirements.uppercase"
+                  >
+                    {{ requirements.uppercase ? '✓' : '×' }}
+                  </span>
+                  <span
+                    [class.text-green-500]="requirements.uppercase"
+                    [class.text-gray-600]="!requirements.uppercase"
+                  >
+                    Al menos una mayúscula
+                  </span>
+                </li>
+                <li class="flex items-center space-x-2">
+                  <span
+                    [class.text-green-500]="requirements.number"
+                    [class.text-red-500]="!requirements.number"
+                  >
+                    {{ requirements.number ? '✓' : '×' }}
+                  </span>
+                  <span
+                    [class.text-green-500]="requirements.number"
+                    [class.text-gray-600]="!requirements.number"
+                  >
+                    Al menos un número
+                  </span>
+                </li>
+                <li class="flex items-center space-x-2">
+                  <span
+                    [class.text-green-500]="requirements.special"
+                    [class.text-red-500]="!requirements.special"
+                  >
+                    {{ requirements.special ? '✓' : '×' }}
+                  </span>
+                  <span
+                    [class.text-green-500]="requirements.special"
+                    [class.text-gray-600]="!requirements.special"
+                  >
+                    Al menos un carácter especial ($!%*?&)
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
           <span
             *ngIf="
@@ -155,14 +318,14 @@
         <!-- Confirmar Contraseña -->
         <div class="mb-5">
           <label
-            class="block text-gray-700 text-sm font-semibold mb-2"
+            class="block text-gray-700 font-popins text-sm font-semibold mb-2"
             for="confirmPassword"
           >
             Confirmar contraseña
           </label>
           <div class="relative">
             <span
-              class="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[mdi--lock-check-outline] w-5 h-5 text-gray-500"
+              class="absolute left-3 top-1/2 font-popins transform -translate-y-1/2 icon-[mdi--lock-check-outline] w-5 h-5 text-gray-500"
             ></span>
             <input
               [type]="showConfirmPassword ? 'text' : 'password'"
@@ -194,25 +357,33 @@
               registerForm.hasError('mismatch') &&
               registerForm.get('confirmPassword')?.touched
             "
-            class="text-red-500 text-sm"
+            class="text-red-500 text-sm font-popins"
           >
             Las contraseñas no coinciden.
           </span>
         </div>
 
+        <re-captcha
+          class="flex justify-center items-center"
+          [siteKey]="SITE_KEY"
+          (resolved)="resolved($event)"
+          required
+        >
+        </re-captcha>
+
         <!-- Botón de Registro -->
         <button
           type="submit"
           [disabled]="registerForm.invalid"
-          class="w-full py-2 mt-3 bg-black hover:bg-gray-800 text-white rounded-lg transition-colors duration-300 text-lg font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+          class="w-full py-2 mt-3 bg-black font-cinzel hover:bg-gray-800 text-white rounded-lg transition-colors duration-300 text-lg font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
         >
-          Regístrate con nosotros
+          ¡UNETE!
         </button>
       </form>
 
       <!-- Link de Registro -->
       <small
-        class="block mt-4 text-center text-gray-500 dark:text-neutral-400 text-sm"
+        class="block mt-4 text-center font-popins text-gray-500 dark:text-neutral-400 text-sm"
       >
         ¿Ya tienes cuenta?
         <a

@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import {
+    UserEmail,
     UserVerification,
-    UserWithoutCredentials,
     UserWithoutUsername,
 } from '../interfaces/users.interface';
 import { BaseService } from './base.service';
@@ -16,8 +16,8 @@ export class UserService extends BaseService {
     withCredentials: true,
   };
 
-  constructor(protected override readonly httpClient: HttpClient) {
-    super(httpClient);
+  constructor(protected override readonly http: HttpClient) {
+    super(http);
   }
 
   /**
@@ -30,7 +30,7 @@ export class UserService extends BaseService {
     message: string;
     route: string;
   }> {
-    return this.httpClient
+    return this.http
       .post<{ status: number; message: string; route: string }>(
         `${this.SERVER}/users/account-verification`,
         user_verification,
@@ -44,12 +44,12 @@ export class UserService extends BaseService {
   }
 
   forgot_password(
-    user_without_credentials: UserWithoutCredentials,
+    user_without_credentials: UserEmail,
   ): Observable<{
     status: number;
     message: string;
   }> {
-    return this.httpClient
+    return this.http
       .post<{ status: number; message: string }>(
         `${this.SERVER}/users/forgot-password`,
         user_without_credentials,
@@ -66,7 +66,7 @@ export class UserService extends BaseService {
     status: number;
     message: string;
   }> {
-    return this.httpClient
+    return this.http
       .post<{ status: number; message: string }>(
         `${this.SERVER}/users/reset-password`,
         user_without_username,

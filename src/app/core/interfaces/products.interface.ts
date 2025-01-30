@@ -1,4 +1,4 @@
-import { Categories } from "./categories.interface";
+import { Category } from "./categories.interface";
 
 export interface Products{
     code: string;
@@ -9,7 +9,7 @@ export interface Products{
     stock: number;
     size: string[];
     colors: string[];
-    categories: Categories[]
+    categories: Category[]
 }
 
 export type ProductsWithoutCode = Omit<Products, 'code'>

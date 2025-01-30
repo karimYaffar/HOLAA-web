@@ -1,4 +1,19 @@
-<div class="relative bg-gray-50 py-16 px-8">
+<nav aria-label="Breadcrumb" class="font-josefina_sans text-lg italic px-5 py-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg shadow-md">
+  <xng-breadcrumb [separator]="iconTemplate" class="flex items-center flex-wrap">
+    <ng-container *xngBreadcrumbItem="let breadcrumb; let info = info; let last = last">
+      <div class="flex items-center group">
+        <span [ngClass]="info + ' w-6 h-6 mr-2 text-purple-600 group-hover:text-pink-600 transition-colors duration-300 ease-in-out'"></span>
+        <span class="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 ease-in-out">{{ breadcrumb }}</span>
+      </div>
+    </ng-container>
+  </xng-breadcrumb>
+</nav>
+
+<ng-template #iconTemplate>
+  <span class="icon-[hugeicons--arrow-right-double] w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-600 transition-colors duration-300 ease-in-out"></span>
+</ng-template>
+
+<div class="relative py-16 px-8">
     <!-- Bubbles Background -->
     <div class="absolute inset-0 flex items-center justify-center space-x-20">
       <div class="w-32 h-32 bg-blue-100 rounded-full opacity-50"></div>

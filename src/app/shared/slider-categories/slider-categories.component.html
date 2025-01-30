@@ -1,0 +1,41 @@
+<section class="relative mx-auto px-4">
+  <owl-carousel-o #owlCarousel [options]="carouselOptions">
+    <ng-container *ngFor="let category of categories">
+      <ng-template carouselSlide>
+        <div class="w-full flex-shrink-0 px-2 group cursor-pointer" (click)="redirectToProduct(category.name)">
+          <div class="relative overflow-hidden">
+            <!-- Imagen -->
+            <img
+              [src]="category.image"
+              [alt]="category.name"
+              loading="lazy"
+              class="w-full h-[800px] object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+
+            <!-- Overlay con título -->
+            <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-8 transition-all duration-300 group-hover:bg-black/20">
+              <h3 class="font-bebas text-white text-6xl font-bold tracking-widest">
+                {{ category.name }}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+
+  <!-- Botones de navegación -->
+  <button
+    (click)="prev()"
+    class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-10"
+  >
+    <span class="icon-[hugeicons--arrow-left-01] w-12 h-12 bg-black"></span>
+  </button>
+
+  <button
+    (click)="next()"
+    class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-10"
+  >
+    <span class="icon-[hugeicons--arrow-right-01] w-12 h-12 bg-black"></span>
+  </button>
+</section>

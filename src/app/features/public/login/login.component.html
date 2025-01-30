@@ -1,11 +1,22 @@
-<!-- PrommoBanner -->
-<app-prommobanner></app-prommobanner>
+<nav aria-label="Breadcrumb" class="font-josefina_sans text-lg italic px-5 py-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg shadow-md">
+  <xng-breadcrumb [separator]="iconTemplate" class="flex items-center flex-wrap">
+    <ng-container *xngBreadcrumbItem="let breadcrumb; let info = info; let last = last">
+      <div class="flex items-center group">
+        <span [ngClass]="info + ' w-6 h-6 mr-2 text-purple-600 group-hover:text-pink-600 transition-colors duration-300 ease-in-out'"></span>
+        <span class="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 ease-in-out">{{ breadcrumb }}</span>
+      </div>
+    </ng-container>
+  </xng-breadcrumb>
+</nav>
 
+<ng-template #iconTemplate>
+  <span class="icon-[hugeicons--arrow-right-double] w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-600 transition-colors duration-300 ease-in-out"></span>
+</ng-template>
 <div class="flex flex-col lg:flex-row h-screen overflow-hidden">
   <!-- Imagen Izquierda (oculta en pantallas pequeñas) -->
   <div class="w-full lg:w-1/2 hidden lg:block">
     <img
-      src="./assets/images/485846c3a4fd2ab5570488170be7d1ae.jpg"
+      src="./assets/webp/login-wallpaper.webp"
       alt="data-image-model"
       class="object-cover w-full h-full"
     />
@@ -24,7 +35,7 @@
       </button> -->
 
       <!-- Título -->
-      <h1 class="text-2xl font-bold mb-4 font-inter text-center text-gray-800 dark:text-gray-200">
+      <h1 class="text-2xl font-bold font-josefina_sans mb-4 text-center text-gray-800 dark:text-gray-200">
         Iniciar Sesión
       </h1>
 

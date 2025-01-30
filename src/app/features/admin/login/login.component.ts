@@ -35,14 +35,14 @@ export class LoginAdminComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       // Obtenemos los datos
-      const { username, password } = this.loginForm.value;
+      const credentials = this.loginForm.value;
 
       // Implementacion de la logica para enviar datos al backend y recuperar
       // JWT con los datos cifrados
 
       // Enviamos a la nueva ruta que es el auth dashboard
       
-      this.authService.login(username, password).subscribe({
+      this.authService.login(credentials).subscribe({
         next: (res) => {
           this.notificationService
             .success(

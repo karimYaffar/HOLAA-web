@@ -1,71 +1,74 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProductsService } from '../../../core/providers/products.service';
-import { Products } from '../../../core/interfaces/products.interface';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Products } from '../../../core/interfaces/products.interface';
+import { ProductsService } from '../../../core/providers/products.service';
+import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
+import { SubCategory } from '../../../core/interfaces/sub-category.interface';
+import { SubCategoryService } from '../../../core/providers/sub-category.service';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BreadcrumbComponent,
+    BreadcrumbItemDirective
+  ],
   templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.component.css']
+  styleUrls: ['./product-card.component.css'],
 })
 export class ProductCardComponent implements OnInit {
-  showDropdown = false;
-  tipo: string = '';
+  category: string = '';
+  selectedSubCategory: string = '';
+  selectedSize: string = '';
+  maxPrice: number = 0.0;
+  minPrice: number = 0.0;
   products: Products[] = [];
-  currentPage: number = 1;
-  itemsPerPage: number = 8;
-  totalPages: number = 1;
+  subCategories: SubCategory[] = [];
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly productsService: ProductsService
+    private readonly productsService: ProductsService,
+    private readonly subCategoryService: SubCategoryService,
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.tipo = params['tipo'];
-      this.loadProductsByType(this.tipo);
+    this.route.params.subscribe((params) => {
+      this.category = params['category'];
+      this.loadProductsByCategory(this.category);
+      this.loadSubCategoriesByCategory(this.category);
     });
   }
 
-  async loadProductsByType(tipo: string) {
-    this.productsService.getProductsByCategorie(tipo).subscribe((products) => {
+  async loadProductsByCategory(tipo: string) {
+    this.productsService.getProductsByCategory(tipo).subscribe((products) => {
       this.products = products;
-      this.totalPages = Math.ceil(products.length / this.itemsPerPage);
-      this.paginateProducts();
     });
   }
 
-  paginateProducts() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.products = this.products.slice(start, end);
+  async loadSubCategoriesByCategory(category: string) {
+    this.subCategoryService
+      .getSubCategoriesByCategory(category)
+      .subscribe((subCategories) => {
+        this.subCategories = subCategories;
+      });
   }
 
-  selectSize(size: string) {
-    console.log('Talla seleccionada:', size);
-    this.showDropdown = false;
-  }
-
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.paginateProducts();
-    }
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.paginateProducts();
-    }
+  async filteredProduct() {
+    this.productsService
+      .getFilteredProducts(
+      this.category,
+      this.selectedSubCategory, 
+      this.selectedSize,
+      this.minPrice,
+      this.maxPrice
+    )
+      .subscribe((products) => {
+        this.products = products;
+      });
   }
 }

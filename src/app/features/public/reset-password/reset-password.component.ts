@@ -83,7 +83,13 @@ export class ResetPasswordComponent {
     if (this.resetForm.valid) {
       const newPassword = this.resetForm.value.newPassword;
       const email = this.dataService.getEmail();
-      this.authService.reset_password({ email: email, password: newPassword }).subscribe({
+
+      const resetPassword = {
+        email : email,
+        newPassword: newPassword
+      }
+
+      this.authService.resetPassword(resetPassword).subscribe({
         next: (res) => {
           this.notificationService.success(
             'Contraseña cambiada',
