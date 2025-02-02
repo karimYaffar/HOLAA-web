@@ -1,55 +1,10 @@
-<div class="flex h-screen bg-gray-50">
-  <!-- Sidebar -->
-  <aside class="w-64 bg-white border-r shadow-lg">
-    <div class="flex items-center justify-center h-16 bg-blue-500 text-white">
-      <span class="text-xl font-bold tracking-wide">HOLAA<sub class="text-sm font-light">Admin</sub></span>
-    </div>
-    <nav class="flex-1 p-4 space-y-2">
-      <a routerLink="/admin" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
-        <span class="material-icons-outlined mr-3 text-blue-500">dashboard</span>
-        <span class="font-medium">Inicio</span>
-      </a>
-      <a routerLink="/admin/user" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
-        <span class="material-icons-outlined mr-3 text-blue-500">people</span>
-        <span class="font-medium">Usuarios</span>
-      </a>
-      <a routerLink="/admin/document" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
-        <span class="material-icons-outlined mr-3 text-blue-500">description</span>
-        <span class="font-medium">Documentos</span>
-      </a>
-      <a routerLink="/admin/business" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
-        <span class="material-icons-outlined mr-3 text-blue-500">account_circle</span>
-        <span class="font-medium">Empresa</span>
-      </a>
-      <a routerLink="/admin/socials" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
-        <span class="material-icons-outlined mr-3 text-blue-500">business</span>
-        <span class="font-medium">Redes Sociales</span>
-      </a>
-      <a routerLink="/admin/audit" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
-        <span class="material-icons-outlined mr-3 text-blue-500">work</span>
-        <span class="font-medium">Auditoría</span>
-      </a>
-      <a routerLink="/admin/incidents" class="flex items-center p-3 text-gray-700 hover:bg-blue-100 rounded-lg transition-all">
-        <span class="material-icons-outlined mr-3 text-blue-500">description</span>
-        <span class="font-medium">Incidencias</span>
-      </a>
-    </nav>
-  </aside>
 
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col">
-    <!-- Header -->
-    <header class="flex items-center justify-end h-16 px-6 bg-white border-b shadow-sm">
-      <div class="flex items-center space-x-4 p-4">
-        <button (click)="logOut()" class="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
-          Cerrar Sesión
-        </button>
-      </div>
-    </header>
-
-    <!-- Content Section -->
-    <div class="flex-1 p-6 bg-gray-50">
-      <router-outlet></router-outlet>
-    </div>
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <app-sidebar />
+  <div class="ml-64">
+    <app-admin-header />
+    <main class="p-4">
+      <router-outlet   />
+    </main>
   </div>
 </div>

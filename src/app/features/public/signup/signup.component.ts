@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -22,8 +22,6 @@ import { COOKIE_AGE } from '../../../constants/constants';
     ReactiveFormsModule,
     CommonModule,
     RouterLink,
-    BreadcrumbComponent,
-    BreadcrumbItemDirective,
     RecaptchaModule,
     RecaptchaFormsModule,
   ],
@@ -31,11 +29,13 @@ import { COOKIE_AGE } from '../../../constants/constants';
   styleUrl: './signup.component.css',
   providers: [CookieService],
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+  formProgress = 0
   showRequirements = false;
+  isLoading = false;
   requirements = {
     length: false,
     lowercase: false,
@@ -58,7 +58,7 @@ export class SignupComponent {
         email: ['', [Validators.required, Validators.email]],
         phone: [
           '',
-          [Validators.required, Validators.pattern(/^\+52\d{10}$/)],
+          [Validators.required, Validators.pattern(/^\d{10}$/)],
         ],
         password: [
           '',
@@ -74,6 +74,12 @@ export class SignupComponent {
       },
       { validators: this.passwordsMatch },
     );
+  }
+
+  ngOnInit() {
+    this.registerForm.valueChanges.subscribe(() => {
+      this.updateFormProgress()
+    })
   }
 
   passwordsMatch(group: FormGroup): { [key: string]: boolean } | null {
@@ -96,9 +102,14 @@ export class SignupComponent {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
+      this.isLoading=true
+      const phoneNumber = '+52' + this.registerForm.get('phone')?.value;
       const user = this.registerForm.value;
 
-      this.authService.signup(user).subscribe({
+      this.authService.signup({
+        ...user,
+        phone: phoneNumber
+      }).subscribe({
         next: (response) => {
           this.notificationService
             .show(
@@ -150,5 +161,19 @@ export class SignupComponent {
 
   resolved(captchaResponse: string | null) {
     this.registerForm.get('captchaToken')?.setValue(captchaResponse);
+  }
+
+  updateFormProgress() {
+    const controls = this.registerForm.controls
+    const totalFields = Object.keys(controls).length
+    let filledFields = 0
+
+    Object.values(controls).forEach((control) => {
+      if (control.valid && control.value) {
+        filledFields++
+      }
+    })
+
+    this.formProgress = (filledFields / totalFields) * 100
   }
 }

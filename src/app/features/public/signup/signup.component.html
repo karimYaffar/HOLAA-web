@@ -1,74 +1,32 @@
-<nav
-  aria-label="Breadcrumb"
-  class="font-josefina_sans text-lg italic px-5 py-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg shadow-md"
->
-  <xng-breadcrumb
-    [separator]="iconTemplate"
-    class="flex items-center flex-wrap"
-  >
-    <ng-container
-      *xngBreadcrumbItem="let breadcrumb; let info = info; let last = last"
-    >
-      <div class="flex items-center group">
-        <span
-          [ngClass]="
-            info +
-            ' w-6 h-6 mr-2 text-purple-600 group-hover:text-pink-600 transition-colors duration-300 ease-in-out'
-          "
-        ></span>
-        <span
-          class="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 ease-in-out"
-          >{{ breadcrumb }}</span
-        >
-      </div>
-    </ng-container>
-  </xng-breadcrumb>
-</nav>
-
-<ng-template #iconTemplate>
-  <span
-    class="icon-[hugeicons--arrow-right-double] w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-600 transition-colors duration-300 ease-in-out"
-  ></span>
-</ng-template>
-
 <div class="flex flex-col lg:flex-row h-screen overflow-hidden">
-  <!-- Imagen Izquierda (oculta en pantallas pequeñas) -->
-  <div class="w-full lg:w-1/2 hidden lg:block">
+  <!-- Left Image (hidden on small screens) -->
+  <div class="w-full lg:w-1/2 hidden lg:block relative">
     <img
-      src="./assets/images/485846c3a4fd2ab5570488170be7d1a3.jpeg"
+      src="./assets/webp/login-wallpaper.webp"
       alt="data-image-model"
       class="object-cover w-full h-full"
     />
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
   </div>
 
-  <!-- Formulario Derecho -->
+  <!-- Right Form -->
   <div
-    class="flex items-center justify-center w-full lg:w-1/2 p-6 md:p-10 lg:p-12"
+    class="flex items-center justify-center w-full lg:w-1/2 p-6 md:p-10 lg:p-12 bg-white"
   >
     <div class="w-full max-w-md">
-      <!-- Botón de Regreso -->
-      <button
-        onclick="window.history.back()"
-        class="flex items-center mb-3 text-gray-500 hover:text-gray-700 focus:outline-none"
-      >
-      
-        <span class="icon-[hugeicons--circle-arrow-left-01] w-5 h-5 mr-1"></span>
-        <span class="font-cinzel">Regresar</span>
-      </button>
-
-      <!-- Título -->
+      <!-- Title -->
       <h1
-        class="text-3xl font-bold mb-4 font-cinzel text-center text-gray-800 dark:text-gray-200"
+        class="text-3xl font-bold mb-4 text-center text-gray-800 dark:text-gray-200"
       >
         ¡Unete a nuestra familia!
       </h1>
 
-      <!-- Formulario de Registro -->
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <!-- Nombre de Usuario -->
+      <!-- Registration Form -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="">
+        <!-- Username -->
         <div class="mb-5">
           <label
-            class="block text-gray-700 text-sm font-popins font-semibold mb-2"
+            class="block text-gray-700 text-sm font-semibold mb-2"
             for="username"
           >
             Nombre de usuario
@@ -82,10 +40,10 @@
               type="text"
               id="username"
               autocomplete="username"
-              class="w-full border font-popins border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
+              class="w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition-colors duration-300"
               placeholder="Ingresa tu nombre de usuario"
               aria-describedby="usernameError"
-              attr.aria-invalid="{{ registerForm.get('username')?.invalid }}"
+              [attr.aria-invalid]="registerForm.get('username')?.invalid"
             />
           </div>
           <span
@@ -94,14 +52,14 @@
               registerForm.get('username')?.touched
             "
             id="usernameError"
-            class="text-red-500 text-sm font-popins"
+            class="text-red-500 font-popins text-sm mt-1 animate-fade-in"
           >
             El nombre de usuario es requerido y debe tener al menos 5
             caracteres.
           </span>
         </div>
 
-        <!-- Correo Electrónico -->
+        <!-- Email -->
         <div class="mb-5">
           <label
             class="block text-gray-700 text-sm font-semibold mb-2 font-popins"
@@ -117,11 +75,11 @@
               formControlName="email"
               type="email"
               id="email"
-              class="w-full font-popins border border-gray-300 rounded-lg py-2 pl-10 pr-3 text-base shadow-sm focus:outline-none focus:border-gray-500"
+              class="w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition-colors duration-300"
               placeholder="correo@electronico.com"
               aria-describedby="emailError"
               autocomplete="email"
-              attr.aria-invalid="{{ registerForm.get('email')?.invalid }}"
+              [attr.aria-invalid]="registerForm.get('email')?.invalid"
             />
           </div>
           <span
@@ -130,59 +88,66 @@
               registerForm.get('email')?.touched
             "
             id="emailError"
-            class="text-red-500 text-sm font-popins"
+            class="text-red-500 font-popins text-sm mt-1 animate-fade-in"
           >
             Introduzca un correo electrónico válido.
           </span>
         </div>
 
-        <!-- Número de teléfono -->
+        <!-- Phone Number -->
         <div class="mb-5">
-          <label for="phone" class="block font-popins text-sm font-medium text-gray-700">
+          <label
+            for="phone"
+            class="block font-popins text-sm font-medium text-gray-700"
+          >
             Número de teléfono
           </label>
           <div class="mt-1 relative">
-            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 text-gray-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+            <!-- Country Prefix with Flag -->
+            <div
+              class="absolute left-0 inset-y-0 flex items-center pl-3 pointer-events-none"
+            >
+              <div class="flex items-center space-x-1">
+                <img
+                  src="https://flagcdn.com/w20/mx.png"
+                  alt="Bandera de México"
+                  class="w-5 h-auto rounded-sm shadow-sm"
                 />
-              </svg>
-            </span>
+                <span class="text-gray-700 font-medium">+52</span>
+              </div>
+            </div>
+
             <input
               id="phone"
               type="tel"
               formControlName="phone"
-              placeholder="+52 1234567890"
-              class="pl-10 block w-full font-popins px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500"
+              placeholder="1234567890"
+              class="w-full pl-[4.5rem] pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition-colors duration-300 font-popins"
               [class.border-red-300]="
                 registerForm.get('phone')?.invalid &&
                 registerForm.get('phone')?.touched
               "
             />
           </div>
+
+          <!-- Error Messages -->
           <div
             *ngIf="
               registerForm.get('phone')?.invalid &&
               registerForm.get('phone')?.touched
             "
-            class="mt-2 text-sm text-red-600"
+            class="text-red-500 text-sm mt-1 font-popins animate-fade-in"
           >
             <p *ngIf="registerForm.get('phone')?.errors?.['required']">
               El número de teléfono es requerido
             </p>
             <p *ngIf="registerForm.get('phone')?.errors?.['pattern']">
-              Ingresa un número de teléfono válido (Ej: +52 1234567890)
+              Ingresa un número de teléfono válido (10 dígitos)
             </p>
           </div>
         </div>
 
-        <!-- Contraseña -->
+        <!-- Password -->
         <div class="mb-5">
           <label
             class="block font-popins text-gray-700 text-sm font-semibold mb-2"
@@ -202,12 +167,11 @@
               formControlName="password"
               id="password"
               autocomplete="new-password"
-              class="w-full font-popins border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
+              class="w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition-colors duration-300"
               placeholder="Ingresa tu contraseña"
               aria-describedby="passwordError passwordTooltip"
-              attr.aria-invalid="{{ registerForm.get('password')?.invalid }}"
+              [attr.aria-invalid]="registerForm.get('password')?.invalid"
             />
-            <!-- Botón para mostrar/ocultar contraseña -->
             <button
               type="button"
               (click)="togglePasswordVisibility()"
@@ -309,13 +273,13 @@
               registerForm.get('password')?.touched
             "
             id="passwordError"
-            class="text-red-500 text-sm"
+            class="text-red-500 text-sm mt-1 animate-fade-in font-popins"
           >
             La contraseña no cumple con los requisitos.
           </span>
         </div>
 
-        <!-- Confirmar Contraseña -->
+        <!-- Confirm Password -->
         <div class="mb-5">
           <label
             class="block text-gray-700 font-popins text-sm font-semibold mb-2"
@@ -332,14 +296,11 @@
               formControlName="confirmPassword"
               id="confirmPassword"
               autocomplete="new-password"
-              class="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-10 text-base shadow-sm focus:outline-none focus:border-gray-500"
+              class="w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition-colors duration-300"
               placeholder="Confirma tu contraseña"
               aria-describedby="confirmPasswordError"
-              attr.aria-invalid="{{
-                registerForm.get('confirmPassword')?.invalid
-              }}"
+              [attr.aria-invalid]="registerForm.get('confirmPassword')?.invalid"
             />
-            <!-- Botón para mostrar/ocultar confirmar contraseña -->
             <button
               type="button"
               (click)="toggleConfirmPasswordVisibility()"
@@ -357,31 +318,51 @@
               registerForm.hasError('mismatch') &&
               registerForm.get('confirmPassword')?.touched
             "
-            class="text-red-500 text-sm font-popins"
+            class="text-red-500 text-sm mt-1 font-popins animate-fade-in"
           >
             Las contraseñas no coinciden.
           </span>
         </div>
 
         <re-captcha
-          class="flex justify-center items-center"
+          class="flex justify-center items-center mb-2"
           [siteKey]="SITE_KEY"
           (resolved)="resolved($event)"
           required
         >
         </re-captcha>
 
-        <!-- Botón de Registro -->
+        <!-- Register Button -->
         <button
           type="submit"
           [disabled]="registerForm.invalid"
-          class="w-full py-2 mt-3 bg-black font-cinzel hover:bg-gray-800 text-white rounded-lg transition-colors duration-300 text-lg font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#E91E63] hover:bg-[#D81B60] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E91E63] transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
-          ¡UNETE!
+          <svg
+            *ngIf="isLoading"
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          {{ isLoading ? 'Uniendote...' : 'Unete' }}
         </button>
       </form>
 
-      <!-- Link de Registro -->
+      <!-- Login Link -->
       <small
         class="block mt-4 text-center font-popins text-gray-500 dark:text-neutral-400 text-sm"
       >

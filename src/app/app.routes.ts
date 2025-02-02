@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './features/public/dashboard/dashboard.component';
+import { DashboardComponent } from './features/public/home/dashboard.component';
 import { LoginComponent } from './features/public/login/login.component';
 import { SignupComponent } from './features/public/signup/signup.component';
-import { DashboardAuthComponent } from './features/auth/dashboard/dashboard.auth.component';
 import { LoginAdminComponent } from './features/admin/login/login.component';
 import { DashboardAdminComponent } from './features/admin/dashboard/dashboard.component';
 import { HomeAdminComponent } from './features/admin/home/home.component';
@@ -18,7 +17,6 @@ import { ProductCardComponent } from './features/public/product-card/product-car
 import { PageNotFoundComponent } from './features/public/page-not-found/page-not-found.component';
 import { ContactsComponent } from './features/public/contacts/contacts.component';
 import { PageInternalServerErrorComponent } from './features/public/page-internal-server-error/page-internal-server-error.component';
-import { errorPageGuard } from './core/guards/error-page.guard';
 import { PageBadRequestErrorComponent } from './features/public/page-bad-request-error/page-bad-request-error.component';
 import { AboutUsComponent } from './features/public/about-us/about-us.component';
 import { PoliciesComponent } from './features/public/policies/policies.component';
@@ -28,6 +26,7 @@ import { MfaVerificationComponent } from './features/public/mfa-verification/mfa
 import { accountPendingGuard } from './core/guards/account-pending.guard';
 import { mfaPendingGuard } from './core/guards/mfa-pending.guard';
 import { AuthGuard } from './core/guards/auth.guard';
+import { CartComponent } from './features/public/cart/cart.component';
 
 export const routes: Routes = [
   {
@@ -71,6 +70,10 @@ export const routes: Routes = [
         info: 'icon-[hugeicons--user]',
       },
     },
+  },
+  {
+    path: 'cart',
+    component: CartComponent
   },
   {
     path: 'contactanos',

@@ -3,12 +3,14 @@ import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
+import { AdminHeaderComponent } from "../admin-header/admin-header.component";
+import { SidebarComponent } from "../sidebar/sidebar.component";
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, RouterOutlet, AdminHeaderComponent, SidebarComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
