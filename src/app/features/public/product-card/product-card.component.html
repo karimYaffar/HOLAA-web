@@ -120,6 +120,22 @@
             <option value="XL">XL</option>
           </select>
         </div>
+        <!-- Colores -->
+        <div class="mb-4">
+          <h4 class="text-sm font-medium mb-2">Colores</h4>
+          <select
+            [(ngModel)]="selectColor"
+            (change)="filteredProduct()"
+            class="w-full border rounded px-3 py-2 text-sm"
+          >
+            <option value="">Todos</option>
+            <option value="XS">Rojp</option>
+            <option value="S">Negro</option>
+            <option value="M">Blanco</option>
+            <option value="L">Gris</option>
+            
+          </select>
+        </div>
       </div>
     </aside>
 

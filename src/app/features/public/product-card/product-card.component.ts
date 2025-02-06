@@ -25,6 +25,7 @@ export class ProductCardComponent implements OnInit {
   category: string = '';
   selectedSubCategory: string = '';
   selectedSize: string = '';
+  selectColor: string = '';
   maxPrice: number = 0.0;
   minPrice: number = 0.0;
   products: Products[] = [];
@@ -65,7 +66,8 @@ export class ProductCardComponent implements OnInit {
       this.selectedSubCategory, 
       this.selectedSize,
       this.minPrice,
-      this.maxPrice
+      this.maxPrice, 
+      this.selectColor
     )
       .subscribe((products) => {
         this.products = products;

@@ -51,6 +51,7 @@ export class ProductsService extends BaseService {
     size: string,
     minPrice: number,
     maxPrice: number,
+    color: string,
   ): Observable<Products[]> {
     let params: any = {};
 
@@ -62,6 +63,9 @@ export class ProductsService extends BaseService {
 
     if (size) {
       params.size = size;
+    }
+    if (color) {
+      params.color = color;
     }
 
     if (minPrice) {
