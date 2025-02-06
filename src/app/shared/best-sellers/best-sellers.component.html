@@ -1,30 +1,98 @@
-<section class="container mx-auto px-4 py-12">
-    <h2 class="font-bebas text-5xl font-bold text-center mb-12">LO MÁS VENDIDO</h2>
+<section class="container mx-auto px-4 py-8">
+  <!-- Header with navigation -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h2 class="text-xl font-semibold">Lo más vendido de la semana</h2>
+      <a href="#" class="text-blue-600 text-sm hover:underline">Ver todo</a>
+    </div>
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div *ngFor="let product of products" 
-           class="group relative overflow-hidden transition-all duration-300 hover:shadow-xl">
-        <!-- Product Image -->
-        <div class="aspect-[3/4] overflow-hidden bg-gray-100">
-          <img 
-            [src]="product.image" 
-            [alt]="product.name"
-            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-        
-        <!-- Quick Shop Overlay -->
-        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <button class="bg-white text-black px-6 py-3 font-medium transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-            COMPRAR AHORA
-          </button>
-        </div>
-        
-        <!-- Product Info -->
-        <div class="pt-4 pb-6 px-4">
-          <h3 class="text-sm font-medium mb-2 line-clamp-2">{{product.name}}</h3>
-          <p class="text-lg font-bold">${{product.price}}</p>
-        </div>
+    <!-- Progress dots -->
+    <div class="flex gap-1">
+      @for (dot of progressDots; track dot; let i = $index) {
+        <button 
+          [class]="'w-2 h-2 rounded-full transition-all ' + (currentSlide === i ? 'bg-blue-600 w-4' : 'bg-gray-300')"
+          (click)="goToSlide(i)">
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Products carousel -->
+  <div class="relative">
+    <!-- Navigation buttons -->
+    @if (canScrollLeft) {
+      <button 
+        (click)="scroll('left')"
+        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 -ml-4 hover:scale-110 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+    }
+
+    <div 
+      #scrollContainer
+      class="overflow-x-auto scroll-smooth hide-scrollbar"
+      (scroll)="onScroll()">
+      <div class="flex gap-4 min-w-max">
+        @for (product of products; track product.id) {
+          <div class="w-[280px] group">
+            <!-- Product card -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-3">
+              <!-- Image -->
+              <div class="aspect-[3/4] overflow-hidden rounded-lg mb-3 relative">
+                <img 
+                  [src]="product.image" 
+                  [alt]="product.name"
+                  class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                />
+                <!-- Quick shop overlay -->
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <button class="bg-white text-black px-6 py-3 font-medium transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    COMPRAR AHORA
+                  </button>
+                </div>
+              </div>
+
+              <!-- Price info -->
+              <div class="space-y-1">
+                @if (product.originalPrice && product.discount) {
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-gray-400 line-through text-sm">
+                      ${{product.originalPrice.toLocaleString()}}
+                    </span>
+                    <span class="text-green-600 text-sm">
+                      {{product.discount}}% OFF
+                    </span>
+                  </div>
+                }
+                <div class="flex items-center gap-1">
+                  <span class="text-2xl font-medium">$</span>
+                  <span class="text-3xl font-medium">{{product.price.toLocaleString()}}</span>
+                </div>
+                @if (product.monthlyPayment) {
+                  <div class="text-sm text-gray-600">
+                    en 12 meses de ${{product.monthlyPayment.toLocaleString()}}
+                  </div>
+                }
+              </div>
+
+              <!-- Product name -->
+              <h3 class="mt-3 text-sm text-gray-600 line-clamp-2">{{product.name}}</h3>
+            </div>
+          </div>
+        }
       </div>
     </div>
-  </section>
+
+    @if (canScrollRight) {
+      <button 
+        (click)="scroll('right')"
+        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 -mr-4 hover:scale-110 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    }
+  </div>
+</section>
