@@ -10,6 +10,7 @@ export interface Products{
     size: string[];
     colors: string[];
     categories: Category[]
+    
 }
 
 export type ProductsWithoutCode = Omit<Products, 'code'>

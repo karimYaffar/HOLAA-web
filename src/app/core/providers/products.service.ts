@@ -51,7 +51,8 @@ export class ProductsService extends BaseService {
     size: string,
     minPrice: number,
     maxPrice: number,
-    color: string,
+    color: string
+    
   ): Observable<Products[]> {
     let params: any = {};
 
@@ -75,6 +76,8 @@ export class ProductsService extends BaseService {
     if (maxPrice) {
       params.maxPrice = maxPrice;
     }
+
+   
 
     return this.http
       .get<Products[]>(`${this.SERVER}/products/filter`, {

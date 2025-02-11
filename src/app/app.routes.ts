@@ -27,8 +27,29 @@ import { accountPendingGuard } from './core/guards/account-pending.guard';
 import { mfaPendingGuard } from './core/guards/mfa-pending.guard';
 import { AuthGuard } from './core/guards/auth.guard';
 import { CartComponent } from './features/public/cart/cart.component';
+import { SideBarComponent } from './features/Employee/side-bar/side-bar.component';
+import { HeaderComponent } from './features/Employee/header/header.component';
+import { ProductDetailComponent } from './features/public/product-detail/product-detail.component'
 
 export const routes: Routes = [
+
+
+   {//employed
+    path: 'Header-employed/',
+    component: HeaderComponent,
+    canActivate: [categoryExistsGuard],
+    data: {
+      
+    },
+  },
+  {//employed
+    path: 'sidebar-employed/',
+    component: SideBarComponent,
+    canActivate: [categoryExistsGuard],
+    data: {
+      
+    },
+  },
   {
     path: '',
     component: DashboardComponent,
@@ -49,6 +70,14 @@ export const routes: Routes = [
         label: 'Productos',
         info: 'icon-[hugeicons--dress-03]',
       },
+    },
+  },
+  {
+    path: 'ProductDetail/',
+    component: ProductDetailComponent,
+    canActivate: [categoryExistsGuard],
+    data: {
+      
     },
   },
   {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, of, throwError } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ApiResponse } from '../interfaces/api.response.interface';
 import { LoginResponse, SignUpResponse } from '../interfaces/auth.interface';
 import {
@@ -18,6 +19,8 @@ import { BaseService } from './base.service';
 })
 export class AuthService extends BaseService {
   private isLogged = new BehaviorSubject<boolean>(false);
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
   protected override httpOptions = {
     withCredentials: true,
@@ -25,6 +28,14 @@ export class AuthService extends BaseService {
 
   constructor(protected override readonly http: HttpClient) {
     super(http);
+    this.checkSession().subscribe(
+      (isLoggedIn) => {
+        this.setAuth(isLoggedIn);
+        if (isLoggedIn) {
+          this.fetchCurrentUser();
+        }
+      }
+    );
   }
 
   /**
@@ -52,7 +63,15 @@ export class AuthService extends BaseService {
         userCredentials,
         this.httpOptions,
       )
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError),
+        tap((response) => {
+          if (response.status === 200) {
+            this.setAuth(true);
+            this.fetchCurrentUser();
+          }
+        })
+      );
   }
 
   /**
@@ -82,7 +101,13 @@ export class AuthService extends BaseService {
         `${this.SERVER}/auth/logout`,
         this.httpOptions,
       )
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError),
+        tap(() => {
+          this.setAuth(false);
+          this.currentUserSubject.next(null);
+        })
+      );
   }
 
   acoountActivation(otp: string): Observable<ApiResponse> {
@@ -186,5 +211,21 @@ export class AuthService extends BaseService {
           return throwError(() => new Error(error.error.message));
         }),
       );
+  }
+
+  private fetchCurrentUser(): void {
+    this.http.get<User>(`${this.SERVER}/auth/current-user`, this.httpOptions)
+      .pipe(catchError(this.handleError))
+      .subscribe(user => {
+        this.currentUserSubject.next(user);
+      });
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.getValue();
+  }
+
+  updateCurrentUser(user: User) {
+    this.currentUserSubject.next(user);
   }
 }
