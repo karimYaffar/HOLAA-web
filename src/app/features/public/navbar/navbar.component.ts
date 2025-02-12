@@ -118,16 +118,16 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   onBlur() {
     // Delay hiding results to allow for clicking on results
-    setTimeout(() => {
-      this.showResults = false
-    }, 200)
+    // setTimeout(() => {
+    //   this.showResults = false
+    // }, 200)
   }
   
   onProductHover(product: any) {
     // Add pulse animation to hovered product
     const productElement = event?.currentTarget as HTMLElement
     productElement.classList.add("pulse")
-    setTimeout(() => productElement.classList.remove("pulse"), 500)
+    // setTimeout(() => productElement.classList.remove("pulse"), 500)
   }
 
   onProductLeave() {

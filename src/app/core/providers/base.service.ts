@@ -1,30 +1,38 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
-import { throwError } from 'rxjs';
+import { ToastifyService } from './toastify.service';
+import { inject } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
 
 export abstract class BaseService {
-  protected readonly SERVER = environment.BASE_URL;
+  protected readonly API = environment.API;
+  protected abstract endpoint: string;
 
-  protected abstract httpOptions: {};
+  protected http = inject(HttpClient);
 
-  constructor(protected readonly http: HttpClient) {}
+  private toastifyService = inject(ToastifyService);
 
-  protected handleError(error: HttpErrorResponse) {
-    console.error(error);
+  protected abstract options: {};
 
-    let errorMessage = 'Algo salió mal, por favor intente de nuevo.';
-
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      if (error.error.error) {
-        errorMessage = `${error.error.error.message}`;
-      } else {
-        errorMessage = `${error.error.message}`;
-      }
-      
-    }
-
-    return throwError(() => new Error(errorMessage));
+  protected handleError(error: HttpErrorResponse): Observable<never> {
+    this.toastifyService.onError(error.message)
+    return throwError(() => new Error('Hubo un problema al momento procesar la solicitud'))
   }
+
+  protected get<T>(path: string = '', options: object = {}): Observable<T> {
+    return this.http.get<T>(`${this.API}/${this.endpoint}/${path}`, options)
+      .pipe(catchError(this.handleError));
+  }
+
+  protected post<T>(path: string = '', body: any, options: object = {}): Observable<T> {
+    return this.http.post<T>(`${this.API}/${this.endpoint}/${path}`, body, options)
+      .pipe(catchError(this.handleError))
+  }
+
+  protected put<T>(path: string = '', body: Partial<any>, options: object = {}): Observable<T> {
+    return this.http.put<T>(`${this.API}/${this.endpoint}/${path}`, body, options)
+      .pipe(catchError(this.handleError))
+  }
+
+  
 }

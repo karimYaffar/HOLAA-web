@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
-import { JWT_INTERVAL } from '../../constants/constants';
+import { JWT_INTERVAL } from '../constants/constants';
 import { AuthService } from './auth.service';
 
 @Injectable({

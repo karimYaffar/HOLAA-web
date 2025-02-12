@@ -8,17 +8,17 @@ import { BaseService } from './base.service';
   providedIn: 'root',
 })
 export class CategoryService extends BaseService {
-  protected override httpOptions = {
+  protected override options = {
     withCredentials: true,
   };
 
-  constructor(protected override readonly http: HttpClient) {
-    super(http);
-  }
-
+  /**
+   * Obtiene todas las categorias desde la API
+   * @returns Regresa observable de todas las categorias
+   */
   getCategories(): Observable<Category[]> {
     return this.http
-      .get<Category[]>(`${this.SERVER}/category`, this.httpOptions)
+      .get<Category[]>(`${this.API}/category`, this.options)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error.error.message));

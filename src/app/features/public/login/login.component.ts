@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { COOKIE_AGE } from '../../../core/constants/constants';
 import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
-import { CookieService } from 'ngx-cookie-service';
-import { COOKIE_AGE } from '../../../constants/constants';
-import Toastify  from 'toastify-js';
 
 @Component({
   selector: 'app-login',

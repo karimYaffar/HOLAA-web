@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import {
-  Products,
-  ProductsWithoutCode,
+    Products,
+    ProductsWithoutCode,
 } from '../interfaces/products.interface';
 import { BaseService } from './base.service';
 
@@ -11,7 +11,7 @@ import { BaseService } from './base.service';
   providedIn: 'root',
 })
 export class ProductsService extends BaseService {
-  protected override httpOptions = {
+  protected override options = {
     withCredentials: true,
   };
 
@@ -24,7 +24,7 @@ export class ProductsService extends BaseService {
    */
   getProducts(): Observable<Products[]> {
     return this.http
-      .get<Products[]>(`${this.SERVER}/products`, this.httpOptions)
+      .get<Products[]>(`${this.API}/products`, this.options)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error.error.message));
@@ -37,7 +37,7 @@ export class ProductsService extends BaseService {
    */
   getProductsByCategory(category: string): Observable<Products[]> {
     return this.http
-      .get<Products[]>(`${this.SERVER}/products/by-category/${category}`)
+      .get<Products[]>(`${this.API}/products/by-category/${category}`)
       .pipe(
         catchError((error) => {
   
@@ -81,7 +81,7 @@ export class ProductsService extends BaseService {
    
 
     return this.http
-      .get<Products[]>(`${this.SERVER}/products/filter`, {
+      .get<Products[]>(`${this.API}/products/filter`, {
         params,
       })
       .pipe(
@@ -98,7 +98,7 @@ export class ProductsService extends BaseService {
    */
   createProduct(data: Products): Observable<any> {
     return this.http
-      .post(`${this.SERVER}/products/create`, data, this.httpOptions)
+      .post(`${this.API}/products/create`, data, this.options)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error.error.message));
@@ -109,7 +109,7 @@ export class ProductsService extends BaseService {
   searchProducts(keyword: string): Observable<Products[]> {
     const encodedKeyword = encodeURIComponent(keyword);
     return this.http
-      .get<Products[]>(`${this.SERVER}/products/search?keyword=${encodedKeyword}`)
+      .get<Products[]>(`${this.API}/products/search?keyword=${encodedKeyword}`)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error.error.message));
@@ -123,9 +123,9 @@ export class ProductsService extends BaseService {
   ): Observable<Products> {
     return this.http
       .put<Products>(
-        `${this.SERVER}/products/update/${id}`,
+        `${this.API}/products/update/${id}`,
         data,
-        this.httpOptions,
+        this.options,
       )
       .pipe(
         catchError((error) => {

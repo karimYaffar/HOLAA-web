@@ -1,10 +1,9 @@
+import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PATH_IMAGE } from '../../constants/constants';
-import { CommonModule } from '@angular/common';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { CarouselModule, OwlOptions,  } from 'ngx-owl-carousel-o';
-import { CategoryService } from '../../core/providers/category.service';
+import { CarouselModule, OwlOptions, } from 'ngx-owl-carousel-o';
+import { PATH_IMAGE } from '../../core/constants/constants';
 
 @Component({
   selector: 'app-slider-categories',
@@ -70,7 +69,7 @@ export class SliderCategoriesComponent {
   autoPlayInterval: any;
   totalSlides = this.categories.length;
 
-  redirectToProduct(category: string) {
+  redirectToProduct(category: string): any {
     this.router.navigate(['/productos', category.toLowerCase()]);
   }
   

@@ -29,56 +29,38 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { CartComponent } from './features/public/cart/cart.component';
 import { SideBarComponent } from './features/Employee/side-bar/side-bar.component';
 import { HeaderComponent } from './features/Employee/header/header.component';
-import { ProductDetailComponent } from './features/public/product-detail/product-detail.component'
+import { ProductDetailComponent } from './features/public/product-detail/product-detail.component';
 
 export const routes: Routes = [
-
-
-   {//employed
+  {
+    //employed
     path: 'Header-employed/',
     component: HeaderComponent,
     canActivate: [categoryExistsGuard],
-    data: {
-      
-    },
+    data: {},
   },
-  {//employed
+  {
+    //employed
     path: 'sidebar-employed/',
     component: SideBarComponent,
     canActivate: [categoryExistsGuard],
-    data: {
-      
-    },
+    data: {},
   },
   {
     path: '',
     component: DashboardComponent,
     canActivate: [AuthGuard],
-    data: {
-      breadcrumb: {
-        label: 'Dashboard',
-        info: 'icon-[hugeicons--home-11]',
-      },
-    },
   },
   {
     path: 'productos/:category',
     component: ProductCardComponent,
     canActivate: [categoryExistsGuard],
-    data: {
-      breadcrumb: {
-        label: 'Productos',
-        info: 'icon-[hugeicons--dress-03]',
-      },
-    },
   },
   {
     path: 'ProductDetail/',
     component: ProductDetailComponent,
     canActivate: [categoryExistsGuard],
-    data: {
-      
-    },
+    data: {},
   },
   {
     path: 'login',
@@ -102,7 +84,7 @@ export const routes: Routes = [
   },
   {
     path: 'cart',
-    component: CartComponent
+    component: CartComponent,
   },
   {
     path: 'contactanos',
@@ -138,12 +120,12 @@ export const routes: Routes = [
   {
     path: 'account-activation',
     component: AccountActivationComponent,
-    canActivate: [accountPendingGuard]
+    canActivate: [accountPendingGuard],
   },
   {
     path: 'account-verification',
     component: MfaVerificationComponent,
-    canActivate: [mfaPendingGuard]
+    canActivate: [mfaPendingGuard],
   },
   {
     path: 'request-forgot-password',

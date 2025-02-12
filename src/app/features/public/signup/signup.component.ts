@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha-2';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from '../../../../environments/environment.development';
+import { COOKIE_AGE } from '../../../core/constants/constants';
 import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
-import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
-import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha-2';
-import { environment } from '../../../../environments/environment.development';
-import { COOKIE_AGE } from '../../../constants/constants';
 
 @Component({
   selector: 'app-signup',

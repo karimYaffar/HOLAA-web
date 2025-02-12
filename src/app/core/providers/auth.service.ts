@@ -5,12 +5,11 @@ import { tap } from 'rxjs/operators';
 import { ApiResponse } from '../interfaces/api.response.interface';
 import { LoginResponse, SignUpResponse } from '../interfaces/auth.interface';
 import {
-  User,
-  UserCredentials,
-  UserEmail,
-  UserResetPassword,
-  UserVerification,
-  UserWithoutUsername,
+    User,
+    UserCredentials,
+    UserEmail,
+    UserResetPassword,
+    UserVerification
 } from '../interfaces/users.interface';
 import { BaseService } from './base.service';
 
@@ -22,7 +21,7 @@ export class AuthService extends BaseService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
-  protected override httpOptions = {
+  protected override options = {
     withCredentials: true,
   };
 
@@ -59,9 +58,9 @@ export class AuthService extends BaseService {
   login(userCredentials: UserCredentials): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(
-        `${this.SERVER}/auth/login`,
+        `${this.API}/auth/login`,
         userCredentials,
-        this.httpOptions,
+        this.options,
       )
       .pipe(
         catchError(this.handleError),
@@ -84,9 +83,9 @@ export class AuthService extends BaseService {
   signup(user: User): Observable<SignUpResponse> {
     return this.http
       .post<SignUpResponse>(
-        `${this.SERVER}/auth/signup`,
+        `${this.API}/auth/signup`,
         user,
-        this.httpOptions,
+        this.options,
       )
       .pipe(catchError(this.handleError));
   }
@@ -98,8 +97,8 @@ export class AuthService extends BaseService {
   logout(): Observable<{ status: boolean; message: string }> {
     return this.http
       .get<{ status: boolean; message: string }>(
-        `${this.SERVER}/auth/logout`,
-        this.httpOptions,
+        `${this.API}/auth/logout`,
+        this.options,
       )
       .pipe(
         catchError(this.handleError),
@@ -113,22 +112,22 @@ export class AuthService extends BaseService {
   acoountActivation(otp: string): Observable<ApiResponse> {
     return this.http
       .post<ApiResponse>(
-        `${this.SERVER}/auth/activate`,
+        `${this.API}/auth/activate`,
         { otp },
-        this.httpOptions,
+        this.options,
       )
       .pipe(catchError(this.handleError));
   }
 
   accountVerification(otp: string): Observable<ApiResponse> {
     return this.http
-      .post<ApiResponse>(`${this.SERVER}/mfa/verify`, { otp }, this.httpOptions)
+      .post<ApiResponse>(`${this.API}/mfa/verify`, { otp }, this.options)
       .pipe(catchError(this.handleError));
   }
 
   checkSession(): Observable<boolean> {
     return this.http
-      .post<boolean>(`${this.SERVER}/auth/check-session`, null, {
+      .post<boolean>(`${this.API}/auth/check-session`, null, {
         withCredentials: true,
       })
       .pipe(
@@ -151,9 +150,9 @@ export class AuthService extends BaseService {
   }> {
     return this.http
       .post<{ status: number; message: string; route: string }>(
-        `${this.SERVER}/auth/account-verification`,
+        `${this.API}/auth/account-verification`,
         user_verification,
-        this.httpOptions,
+        this.options,
       )
       .pipe(
         catchError((error) => {
@@ -176,9 +175,9 @@ export class AuthService extends BaseService {
         MFA: string;
         fromTo: string;
       }>(
-        `${this.SERVER}/auth/request/forgot-password`,
+        `${this.API}/auth/request/forgot-password`,
         userEmail,
-        this.httpOptions,
+        this.options,
       )
       .pipe(catchError(this.handleError));
   }
@@ -189,9 +188,9 @@ export class AuthService extends BaseService {
   }> {
     return this.http
       .post<{ status: number; message: string }>(
-        `${this.SERVER}/auth/reset-password`,
+        `${this.API}/auth/reset-password`,
         userResetPassword,
-        this.httpOptions,
+        this.options,
       )
       .pipe(catchError(this.handleError));
   }
@@ -203,8 +202,8 @@ export class AuthService extends BaseService {
     // que claro el usuario esta authenticado
     return this.http
       .get<{ authenticate: boolean }>(
-        `${this.SERVER}/auth/authenticate-verification`,
-        this.httpOptions,
+        `${this.API}/auth/authenticate-verification`,
+        this.options,
       )
       .pipe(
         catchError((error) => {
@@ -214,7 +213,7 @@ export class AuthService extends BaseService {
   }
 
   private fetchCurrentUser(): void {
-    this.http.get<User>(`${this.SERVER}/auth/current-user`, this.httpOptions)
+    this.http.get<User>(`${this.API}/auth/current-user`, this.options)
       .pipe(catchError(this.handleError))
       .subscribe(user => {
         this.currentUserSubject.next(user);

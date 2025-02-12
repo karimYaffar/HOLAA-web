@@ -9,7 +9,7 @@ import { BaseService } from './base.service';
 })
 export class SubCategoryService extends BaseService {
 
-  protected override httpOptions = {
+  protected override options = {
     withCredentials: true,
   };
 
@@ -22,7 +22,7 @@ export class SubCategoryService extends BaseService {
 	 */
 	getSubCategoriesByCategory(category: string): Observable<SubCategory[]> {
 		return this.http.get<SubCategory[]>(
-			`${this.SERVER}/sub-category/by-category/${category}`, this.httpOptions
+			`${this.API}/sub-category/by-category/${category}`, this.options
 		).pipe(
 			catchError((error) => {
 				return throwError(() => new Error(error.error.message))
