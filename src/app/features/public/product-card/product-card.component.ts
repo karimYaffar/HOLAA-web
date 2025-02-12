@@ -40,6 +40,7 @@ export class ProductCardComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.category = params['category'];
+      console.log(this.category)
       this.loadProductsByCategory(this.category);
       this.loadSubCategoriesByCategory(this.category);
     });

@@ -70,8 +70,8 @@ export class SliderCategoriesComponent {
   autoPlayInterval: any;
   totalSlides = this.categories.length;
 
-  redirectToProduct(tipoName: string) {
-    this.router.navigate(['/productos', tipoName.toLowerCase()]);
+  redirectToProduct(category: string) {
+    this.router.navigate(['/productos', category.toLowerCase()]);
   }
   
   next() {
