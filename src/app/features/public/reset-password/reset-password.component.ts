@@ -14,11 +14,10 @@ import { DataService } from '../../../core/providers/data.service';
 import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
-  selector: 'app-reset-password',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SweetAlert2Module],
-  templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.css',
+    selector: 'app-reset-password',
+    imports: [CommonModule, ReactiveFormsModule, SweetAlert2Module],
+    templateUrl: './reset-password.component.html',
+    styleUrl: './reset-password.component.css'
 })
 export class ResetPasswordComponent {
   resetForm: FormGroup;

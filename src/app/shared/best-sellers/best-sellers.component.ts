@@ -12,11 +12,10 @@ interface Product {
 }
 
 @Component({
-  selector: 'app-best-sellers',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './best-sellers.component.html',
-  styleUrls: ['./best-sellers.component.css']
+    selector: 'app-best-sellers',
+    imports: [CommonModule],
+    templateUrl: './best-sellers.component.html',
+    styleUrls: ['./best-sellers.component.css']
 })
 export class BestSellersComponent implements AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;

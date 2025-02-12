@@ -6,11 +6,10 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-social',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  templateUrl: './social.component.html',
-  styleUrl: './social.component.css'
+    selector: 'app-social',
+    imports: [CommonModule, ReactiveFormsModule, FormsModule],
+    templateUrl: './social.component.html',
+    styleUrl: './social.component.css'
 })
 export class SocialComponent implements OnInit {
 

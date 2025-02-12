@@ -14,11 +14,10 @@ import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
-  selector: 'app-mfa-verification',
-  standalone: true,
-  imports: [CommonModule, CountdownModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './mfa-verification.component.html',
-  styleUrl: './mfa-verification.component.css',
+    selector: 'app-mfa-verification',
+    imports: [CommonModule, CountdownModule, FormsModule, ReactiveFormsModule],
+    templateUrl: './mfa-verification.component.html',
+    styleUrl: './mfa-verification.component.css'
 })
 export class MfaVerificationComponent {
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef>;

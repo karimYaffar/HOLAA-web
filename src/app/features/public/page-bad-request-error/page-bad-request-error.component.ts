@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-page-bad-request-error',
-  standalone: true,
-  imports: [],
-  templateUrl: './page-bad-request-error.component.html',
-  styleUrl: './page-bad-request-error.component.css',
+    selector: 'app-page-bad-request-error',
+    imports: [],
+    templateUrl: './page-bad-request-error.component.html',
+    styleUrl: './page-bad-request-error.component.css'
 })
 export class PageBadRequestErrorComponent {
   constructor(private readonly router: Router) {}

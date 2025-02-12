@@ -7,11 +7,10 @@ import { AdminService } from '../../../core/providers/admin.service';
 import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
-  selector: 'app-incidents',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './incidents.component.html',
-  styleUrls: ['./incidents.component.css'],
+    selector: 'app-incidents',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './incidents.component.html',
+    styleUrls: ['./incidents.component.css']
 })
 export class IncidentsComponent implements OnInit {
   // Configuración del correo

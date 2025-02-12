@@ -10,11 +10,10 @@ interface User {
 }
 
 @Component({
-  selector: 'app-user',
-  standalone: true,
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
-  imports: [CommonModule],
+    selector: 'app-user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.css'],
+    imports: [CommonModule]
 })
 export class UserComponent {
   users: User[] = []; // Define el array de usuarios

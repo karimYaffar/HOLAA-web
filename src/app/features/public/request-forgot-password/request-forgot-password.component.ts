@@ -14,11 +14,10 @@ import { DataService } from '../../../core/providers/data.service';
 import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
-  selector: 'app-requestpassword',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './request-forgot-password.component.html',
-  styleUrl: './request-forgot-password.component.css',
+    selector: 'app-requestpassword',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './request-forgot-password.component.html',
+    styleUrl: './request-forgot-password.component.css'
 })
 export class RequestForgotPasswordComponent {
   requestForm: FormGroup;

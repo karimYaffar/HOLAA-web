@@ -8,11 +8,10 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, AdminHeaderComponent, SidebarComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+    selector: 'app-dashboard',
+    imports: [CommonModule, RouterOutlet, AdminHeaderComponent, SidebarComponent],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css']
 })
 export class DashboardAdminComponent {
   isSidebarOpen = true;

@@ -4,11 +4,10 @@ import { Audit } from '../../../core/interfaces/audit';
 import { AdminService } from '../../../core/providers/admin.service';
 import { NotificationService } from '../../../core/providers/notification.service';
 @Component({
-  selector: 'app-audit',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './audit.component.html',
-  styleUrls: ['./audit.component.css']
+    selector: 'app-audit',
+    imports: [CommonModule],
+    templateUrl: './audit.component.html',
+    styleUrls: ['./audit.component.css']
 })
 export class AuditComponent implements OnInit {
 

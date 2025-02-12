@@ -9,16 +9,15 @@ import { catchError, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [
-    PromotionalBannerComponent,
-    ServiceFeaturesComponent,
-    SliderCategoriesComponent,
-    BestSellersComponent,
-    ProductDetailComponent
-  ],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+    selector: 'app-dashboard',
+    imports: [
+        PromotionalBannerComponent,
+        ServiceFeaturesComponent,
+        SliderCategoriesComponent,
+        BestSellersComponent,
+        ProductDetailComponent
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {}

@@ -6,11 +6,10 @@ import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    imports: [ReactiveFormsModule, CommonModule, RouterLink],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginAdminComponent {
   loginForm: FormGroup;

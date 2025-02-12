@@ -13,11 +13,10 @@ import { NotificationService } from '../../../core/providers/notification.servic
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-account-activation',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, CountdownModule],
-  templateUrl: './account-activation.component.html',
-  styleUrl: './account-activation.component.css',
+    selector: 'app-account-activation',
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, CountdownModule],
+    templateUrl: './account-activation.component.html',
+    styleUrl: './account-activation.component.css'
 })
 export class AccountActivationComponent {
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef>;

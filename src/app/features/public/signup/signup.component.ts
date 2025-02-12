@@ -15,18 +15,17 @@ import { AuthService } from '../../../core/providers/auth.service';
 import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
-  selector: 'app-signup',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    RouterLink,
-    RecaptchaModule,
-    RecaptchaFormsModule,
-  ],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css',
-  providers: [CookieService],
+    selector: 'app-signup',
+    imports: [
+        ReactiveFormsModule,
+        CommonModule,
+        RouterLink,
+        RecaptchaModule,
+        RecaptchaFormsModule,
+    ],
+    templateUrl: './signup.component.html',
+    styleUrl: './signup.component.css',
+    providers: [CookieService]
 })
 export class SignupComponent implements OnInit {
   registerForm: FormGroup;

@@ -10,11 +10,10 @@ import { AdminService } from "../../../core/providers/admin.service";
 import { NotificationService } from "../../../core/providers/notification.service";
 
 @Component({
-  selector: "app-business",
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: "./business.component.html",
-  styleUrls: ["./business.component.css"],
+    selector: "app-business",
+    imports: [CommonModule, FormsModule],
+    templateUrl: "./business.component.html",
+    styleUrls: ["./business.component.css"]
 })
 export class BusinessComponent implements OnInit {
   businessProfile: Partial<CompanyProfile> = {};

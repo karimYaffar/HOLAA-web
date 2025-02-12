@@ -6,10 +6,9 @@ import { AdminHeaderComponent } from "../admin-header/admin-header.component";
 
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    imports: [CommonModule],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 export class HomeAdminComponent {}

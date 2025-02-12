@@ -6,19 +6,18 @@ import { CarouselModule, OwlOptions, } from 'ngx-owl-carousel-o';
 import { PATH_IMAGE } from '../../core/constants/constants';
 
 @Component({
-  selector: 'app-slider-categories',
-  standalone: true,
-  imports: [CommonModule, CarouselModule],
-  templateUrl: './slider-categories.component.html',
-  styleUrl: './slider-categories.component.css',
-  animations: [
-    trigger('slideAnimation', [
-      transition('void => *', [
-        style({ opacity: 0 }),
-        animate('300ms', style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
+    selector: 'app-slider-categories',
+    imports: [CommonModule, CarouselModule],
+    templateUrl: './slider-categories.component.html',
+    styleUrl: './slider-categories.component.css',
+    animations: [
+        trigger('slideAnimation', [
+            transition('void => *', [
+                style({ opacity: 0 }),
+                animate('300ms', style({ opacity: 1 })),
+            ]),
+        ]),
+    ]
 })
 export class SliderCategoriesComponent {
   categories = [

@@ -12,11 +12,10 @@ import { AdminService } from "../../../core/providers/admin.service";
 import { NotificationService } from "../../../core/providers/notification.service";
 
 @Component({
-  selector: "app-document",
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  templateUrl: "./document.component.html",
-  styleUrls: ["./document.component.css"],
+    selector: "app-document",
+    imports: [CommonModule, ReactiveFormsModule, FormsModule],
+    templateUrl: "./document.component.html",
+    styleUrls: ["./document.component.css"]
 })
 export class DocumentComponent implements OnInit {
   formDocument: FormGroup;
