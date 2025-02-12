@@ -35,11 +35,12 @@ export class ProductsService extends BaseService {
   /**
    * Metodo que obtiene todos los products por categoria
    */
-  getProductsByCategory(categorie: string): Observable<Products[]> {
+  getProductsByCategory(category: string): Observable<Products[]> {
     return this.http
-      .get<Products[]>(`${this.SERVER}/products/by-category/${categorie}`)
+      .get<Products[]>(`${this.SERVER}/products/by-category/${category}`)
       .pipe(
         catchError((error) => {
+  
           return throwError(() => new Error(error.error.message));
         }),
       );
