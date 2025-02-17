@@ -1,60 +1,86 @@
-import {
-  Component,
-  AfterViewInit,
-  Inject,
-  PLATFORM_ID,
-  OnInit,
-} from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Products } from '../../../core/interfaces/products.interface';
-import { ProductsService } from '../../../core/providers/products.service';
-import { catchError, map, of, Subject, switchMap } from 'rxjs';
-import { AuthService } from '../../../core/providers/auth.service';
-import { Router, RouterLink } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { catchError, of, Subject, switchMap } from 'rxjs';
+import { Product } from '../../../core/interfaces/products.interface';
+import { AuthService } from '../../../core/providers/auth.service';
+import { ProductsService } from '../../../core/providers/products.service';
+import { TopSocialBarComponent } from '../ui/top-social-bar/top-social-bar.component';
+import { UnpicImageDirective } from '@unpic/angular';
 
 @Component({
-    selector: 'app-navbar',
-    imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css'],
-    animations: [
-        trigger("slideInOut", [
-            transition(":enter", [
-                style({ transform: "translateY(-10%)", opacity: 0 }),
-                animate("200ms ease-out", style({ transform: "translateY(0)", opacity: 1 })),
-            ]),
-            transition(":leave", [animate("200ms ease-in", style({ transform: "translateY(-10%)", opacity: 0 }))]),
-        ]),
-        trigger("dropdownAnimation", [
-            transition(":enter", [
-                style({ opacity: 0, transform: "translateY(-10px)" }),
-                animate("200ms ease-out", style({ opacity: 1, transform: "translateY(0)" })),
-            ]),
-            transition(":leave", [animate("200ms ease-in", style({ opacity: 0, transform: "translateY(-10px)" }))]),
-        ]),
-    ]
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterLink,
+    TopSocialBarComponent,
+    UnpicImageDirective,
+  ],
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translateY(-10%)', opacity: 0 }),
+        animate(
+          '200ms ease-out',
+          style({ transform: 'translateY(0)', opacity: 1 }),
+        ),
+      ]),
+      transition(':leave', [
+        animate(
+          '200ms ease-in',
+          style({ transform: 'translateY(-10%)', opacity: 0 }),
+        ),
+      ]),
+    ]),
+    trigger('dropdownAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate(
+          '200ms ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' }),
+        ),
+      ]),
+      transition(':leave', [
+        animate(
+          '200ms ease-in',
+          style({ opacity: 0, transform: 'translateY(-10px)' }),
+        ),
+      ]),
+    ]),
+  ],
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
   keyword: string = '';
   isLoading = false;
   isMobileMenuOpen: boolean = false;
-  products: Products[] = [];
+  products: Product[] = [];
   totalResults = 0;
-  isOpen = false
+  isOpen = false;
   isAuthenticated = false;
-  showResults = false
-  isDropdownOpen = false
+  showResults = false;
+  isDropdownOpen = false;
 
   categories = [
-    { name: "Ropa", icon: "👚", link: "/categoria/ropa" },
-    { name: "Zapatos", icon: "👠", link: "/categoria/zapatos" },
-    { name: "Accesorios", icon: "👜", link: "/categoria/accesorios" },
-    { name: "Belleza", icon: "💄", link: "/categoria/belleza" },
-    { name: "Hogar", icon: "🏠", link: "/categoria/hogar" },
-    { name: "Electrónicos", icon: "📱", link: "/categoria/electronicos" },
-  ]
+    { name: 'Ropa', icon: '👚', link: '/categoria/ropa' },
+    { name: 'Zapatos', icon: '👠', link: '/categoria/zapatos' },
+    { name: 'Accesorios', icon: '👜', link: '/categoria/accesorios' },
+    { name: 'Belleza', icon: '💄', link: '/categoria/belleza' },
+    { name: 'Hogar', icon: '🏠', link: '/categoria/hogar' },
+    { name: 'Electrónicos', icon: '📱', link: '/categoria/electronicos' },
+  ];
 
   private searchSubject = new Subject<string>();
 
@@ -65,13 +91,18 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     private readonly router: Router,
   ) {}
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
+    this.preLoadProducts();
+    this.onAuthenticate();
+  }
+
+  preLoadProducts() {
     this.searchSubject
       .pipe(
         switchMap((keyword) => {
           if (!keyword) {
             this.products = [];
-            return of([]); 
+            return of([]);
           }
 
           this.isLoading = true;
@@ -79,7 +110,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
           return this.productsService.searchProducts(keyword).pipe(
             catchError(() => {
               this.isLoading = false;
-              return of([]); 
+              return of([]);
             }),
           );
         }),
@@ -90,11 +121,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         this.totalResults = products.length;
         this.isLoading = false;
       });
+  }
 
-      this.authService.isAuth().subscribe((isAuth) => {
-        this.isAuthenticated = isAuth;
-      })
-
+  onAuthenticate() {
+    this.authService.checkSession().subscribe((response) => {
+      this.isAuthenticated = response.data?.authenticate;
+    })
   }
 
   toggleMobileMenu() {
@@ -102,7 +134,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   onSearch() {
@@ -111,7 +143,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   onFocus() {
     if (this.products.length > 0) {
-      this.showResults = true
+      this.showResults = true;
     }
   }
 
@@ -121,11 +153,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     //   this.showResults = false
     // }, 200)
   }
-  
+
   onProductHover(product: any) {
     // Add pulse animation to hovered product
-    const productElement = event?.currentTarget as HTMLElement
-    productElement.classList.add("pulse")
+    const productElement = event?.currentTarget as HTMLElement;
+    productElement.classList.add('pulse');
     // setTimeout(() => productElement.classList.remove("pulse"), 500)
   }
 
@@ -134,15 +166,15 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   toggleMenu() {
-    this.isOpen = !this.isOpen
+    this.isOpen = !this.isOpen;
   }
 
   closeMenu() {
-    this.isOpen = false
+    this.isOpen = false;
   }
 
   viewProfile() {
-    this.closeMenu()
+    this.closeMenu();
   }
 
   logout() {
@@ -152,11 +184,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
     this.router.navigate(['./login']);
 
-    this.closeMenu()
+    this.closeMenu();
   }
-
-
-  
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {

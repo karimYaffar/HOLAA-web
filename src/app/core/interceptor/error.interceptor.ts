@@ -1,22 +1,27 @@
-import { HttpErrorResponse, HttpInterceptorFn, HttpStatusCode } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpInterceptorFn,
+  HttpStatusCode,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { catchError, switchMap, throwError } from 'rxjs';
+import { HotToastService } from '@ngneat/hot-toast';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-    const router = inject(Router);
+  const router = inject(Router);
 
-    return next(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === HttpStatusCode.InternalServerError) {
-            router.navigate(['/error-500', { state: { fromInterceptor: true }}]);
-          }
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === HttpStatusCode.InternalServerError) {
+        router.navigate(['/error-500', { state: { fromInterceptor: true } }]);
+      }
 
-          if (error.status === HttpStatusCode.BadRequest) {
-            router.navigate(['/error-400'], { state: { fromInterceptor: true }})
-          }
+      if (error.status === HttpStatusCode.BadRequest) {
+        router.navigate(['/error-400'], { state: { fromInterceptor: true } });
+      }
 
-          return throwError(() => error);
-        })
-      );
+      return throwError(() => error);
+    }),
+  );
 };

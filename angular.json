@@ -13,10 +13,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "externalDependencies": [""],
             "outputPath": "dist/holaa-web",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -28,7 +29,8 @@
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
               "src/styles.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@ngneat/hot-toast/src/styles/styles.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",
@@ -68,13 +70,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-serve",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "holaa-web:build:production"
+              "buildTarget": "holaa-web:build:production"
             },
             "development": {
-              "browserTarget": "holaa-web:build:development"
+              "buildTarget": "holaa-web:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +85,7 @@
           "builder": "@ngx-env/builder:extract-i18n"
         },
         "test": {
-          "builder": "@ngx-env/builder:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",

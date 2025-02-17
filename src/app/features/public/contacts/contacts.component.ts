@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
 
 @Component({
     selector: 'app-contacts',
-    imports: [CommonModule, FormsModule, BreadcrumbComponent, BreadcrumbItemDirective],
+    imports: [CommonModule, FormsModule],
     templateUrl: './contacts.component.html',
     styleUrl: './contacts.component.css'
 })

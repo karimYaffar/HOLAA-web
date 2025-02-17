@@ -1,46 +1,42 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import {
-    Products,
-    ProductsWithoutCode,
-} from '../interfaces/products.interface';
+import { Product, ProductsWithoutCode } from '../interfaces/products.interface';
 import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService extends BaseService {
-  protected override options = {
+  private options = {
     withCredentials: true,
   };
 
+  protected override endpoint = 'products';
+
   constructor(protected override readonly http: HttpClient) {
-    super(http);
+    super();
   }
 
   /**
    * Metodo que obtiene todos los productos desde la API
    */
-  getProducts(): Observable<Products[]> {
-    return this.http
-      .get<Products[]>(`${this.API}/products`, this.options)
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.API}/products`, this.options).pipe(
+      catchError((error) => {
+        return throwError(() => new Error(error.error.message));
+      }),
+    );
   }
 
   /**
    * Metodo que obtiene todos los products por categoria
    */
-  getProductsByCategory(category: string): Observable<Products[]> {
+  getProductsByCategory(category: string): Observable<Product[]> {
     return this.http
-      .get<Products[]>(`${this.API}/products/by-category/${category}`)
+      .get<Product[]>(`${this.API}/products/by-category/${category}`)
       .pipe(
         catchError((error) => {
-  
           return throwError(() => new Error(error.error.message));
         }),
       );
@@ -52,9 +48,8 @@ export class ProductsService extends BaseService {
     size: string,
     minPrice: number,
     maxPrice: number,
-    color: string
-    
-  ): Observable<Products[]> {
+    color: string,
+  ): Observable<Product[]> {
     let params: any = {};
 
     params.category = category;
@@ -78,17 +73,7 @@ export class ProductsService extends BaseService {
       params.maxPrice = maxPrice;
     }
 
-   
-
-    return this.http
-      .get<Products[]>(`${this.API}/products/filter`, {
-        params,
-      })
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
+    return this.get<Product[]>('filter', { params });
   }
 
   /**
@@ -96,7 +81,7 @@ export class ProductsService extends BaseService {
    * @param data estructura para crear un producto
    * @returns respuesta del servidor
    */
-  createProduct(data: Products): Observable<any> {
+  createProduct(data: Product): Observable<any> {
     return this.http
       .post(`${this.API}/products/create`, data, this.options)
       .pipe(
@@ -106,10 +91,10 @@ export class ProductsService extends BaseService {
       );
   }
 
-  searchProducts(keyword: string): Observable<Products[]> {
+  searchProducts(keyword: string): Observable<Product[]> {
     const encodedKeyword = encodeURIComponent(keyword);
     return this.http
-      .get<Products[]>(`${this.API}/products/search?keyword=${encodedKeyword}`)
+      .get<Product[]>(`${this.API}/products/search?keyword=${encodedKeyword}`)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error.error.message));
@@ -120,13 +105,9 @@ export class ProductsService extends BaseService {
   updateProduct(
     id: string | undefined,
     data: Partial<ProductsWithoutCode>,
-  ): Observable<Products> {
+  ): Observable<Product> {
     return this.http
-      .put<Products>(
-        `${this.API}/products/update/${id}`,
-        data,
-        this.options,
-      )
+      .put<Product>(`${this.API}/products/update/${id}`, data, this.options)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error.error.message));

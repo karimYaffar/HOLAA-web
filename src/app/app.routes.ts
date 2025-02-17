@@ -1,170 +1,62 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './features/public/home/dashboard.component';
-import { LoginComponent } from './features/public/login/login.component';
-import { SignupComponent } from './features/public/signup/signup.component';
-import { LoginAdminComponent } from './features/admin/login/login.component';
-import { DashboardAdminComponent } from './features/admin/dashboard/dashboard.component';
-import { HomeAdminComponent } from './features/admin/home/home.component';
-import { BusinessComponent } from './features/admin/business/business.component';
-import { UserComponent } from './features/admin/user/user.component';
-import { IncidentsComponent } from './features/admin/incidents/incidents.component';
-import { AuditComponent } from './features/admin/audit/audit.component';
-import { DocumentComponent } from './features/admin/document/document.component';
-import { SocialComponent } from './features/admin/social/social.component';
-import { RequestForgotPasswordComponent } from './features/public/request-forgot-password/request-forgot-password.component';
-import { ResetPasswordComponent } from './features/public/reset-password/reset-password.component';
-import { ProductCardComponent } from './features/public/product-card/product-card.component'; // Importa ProductCardComponent
-import { PageNotFoundComponent } from './features/public/page-not-found/page-not-found.component';
-import { ContactsComponent } from './features/public/contacts/contacts.component';
-import { PageInternalServerErrorComponent } from './features/public/page-internal-server-error/page-internal-server-error.component';
-import { PageBadRequestErrorComponent } from './features/public/page-bad-request-error/page-bad-request-error.component';
-import { AboutUsComponent } from './features/public/about-us/about-us.component';
-import { PoliciesComponent } from './features/public/policies/policies.component';
-import { categoryExistsGuard } from './core/guards/category-exists.guard';
-import { AccountActivationComponent } from './features/public/account-activation/account-activation.component';
-import { MfaVerificationComponent } from './features/public/mfa-verification/mfa-verification.component';
-import { accountPendingGuard } from './core/guards/account-pending.guard';
-import { mfaPendingGuard } from './core/guards/mfa-pending.guard';
-import { AuthGuard } from './core/guards/auth.guard';
-import { CartComponent } from './features/public/cart/cart.component';
-import { SideBarComponent } from './features/Employee/side-bar/side-bar.component';
-import { HeaderComponent } from './features/Employee/header/header.component';
-import { ProductDetailComponent } from './features/public/product-detail/product-detail.component';
 
 export const routes: Routes = [
   {
-    //employed
-    path: 'Header-employed/',
-    component: HeaderComponent,
-    canActivate: [categoryExistsGuard],
-    data: {},
-  },
-  {
-    //employed
-    path: 'sidebar-employed/',
-    component: SideBarComponent,
-    canActivate: [categoryExistsGuard],
-    data: {},
-  },
-  {
     path: '',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./features/public/public.routes').then(
+        (m) => m.PUBLIC_ROUTES,
+      ),
   },
   {
-    path: 'productos/:category',
-    component: ProductCardComponent,
-    canActivate: [categoryExistsGuard],
+    path: 'auth',
+    loadChildren: () =>
+      import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
-    path: 'ProductDetail/',
-    component: ProductDetailComponent,
-    canActivate: [categoryExistsGuard],
-    data: {},
+    path: 'products',
+    loadChildren: () =>
+      import('./features/products/product.routes').then(
+        (m) => m.PRODUCT_ROUTES,
+      ),
   },
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      breadcrumb: {
-        label: 'Login',
-        info: 'icon-[hugeicons--login-02]',
-      },
-    },
-  },
-  {
-    path: 'signup',
-    component: SignupComponent,
-    data: {
-      breadcrumb: {
-        label: 'Registrate',
-        info: 'icon-[hugeicons--user]',
-      },
-    },
-  },
-  {
-    path: 'cart',
-    component: CartComponent,
-  },
-  {
-    path: 'contactanos',
-    component: ContactsComponent,
-    data: {
-      breadcrumb: {
-        label: 'Contactanos',
-        info: 'icon-[hugeicons--contact-01]',
-      },
-    },
-  },
-  {
-    path: 'sobre-nosotros',
-    component: AboutUsComponent,
-    data: {
-      breadcrumb: {
-        label: 'Sobre nosotros',
-        info: 'icon-[hugeicons--user-group]',
-      },
-    },
-  },
-  {
-    path: 'politicas',
-    component: PoliciesComponent,
-    data: {
-      breadcrumb: {
-        label: 'Politicas',
-        info: 'icon-[hugeicons--policy]',
-      },
-    },
-  },
-
-  {
-    path: 'account-activation',
-    component: AccountActivationComponent,
-    canActivate: [accountPendingGuard],
-  },
-  {
-    path: 'account-verification',
-    component: MfaVerificationComponent,
-    canActivate: [mfaPendingGuard],
-  },
-  {
-    path: 'request-forgot-password',
-    component: RequestForgotPasswordComponent,
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordComponent,
-  },
-  { path: 'ht/admin/login', component: LoginAdminComponent },
-
-  {
-    path: 'admin',
-    component: DashboardAdminComponent,
-    canActivate: [],
-    children: [
-      { path: '', component: HomeAdminComponent },
-      { path: 'document', component: DocumentComponent },
-      { path: 'homeAdmin', component: HomeAdminComponent },
-      { path: 'business', component: BusinessComponent },
-      { path: 'socials', component: SocialComponent },
-      { path: 'user', component: UserComponent },
-      { path: 'incidents', component: IncidentsComponent },
-      { path: 'audit', component: AuditComponent },
-    ],
-  },
-
   {
     path: '500',
-    component: PageInternalServerErrorComponent,
+    loadComponent: () =>
+      import('./shared/error-page/error-page.component').then(
+        (m) => m.ErrorPageComponent,
+      ),
+    data: {
+      error: '500',
+      title: '¡Oops... algo salio mal!',
+      subtitle:
+        'Hemos encontrado un problema inesperado mientras procesábamos tu solicitud. No te preocupes, ya estamos trabajando para solucionarlo.',
+    },
   },
   {
     path: '400',
-    component: PageBadRequestErrorComponent,
+    loadComponent: () =>
+      import('./shared/error-page/error-page.component').then(
+        (m) => m.ErrorPageComponent,
+      ),
+    data: {
+      error: '400',
+      title: 'Algo salió mal con tu solicitud',
+      subtitle:
+        'Parece que hubo un problema con la solicitud que enviaste. Asegúrate de que todo esté correcto e inténtalo de nuevo. ¡No te preocupes, estamos aquí para ayudarte a volver al camino!',
+    },
   },
   {
     path: '404',
-    component: PageNotFoundComponent,
+    loadComponent: () =>
+      import('./shared/error-page/error-page.component').then(
+        (m) => m.ErrorPageComponent,
+      ),
+    data: {
+      error: '404',
+      title: 'Página no encontrada',
+      subtitle: 'No pudimos encontrar la página que buscas.',
+    },
   },
-
   { path: '**', redirectTo: '404' },
 ];

@@ -1,6 +1,6 @@
 import { Category } from "./categories.interface";
 
-export interface Products{
+export interface Product {
     code: string;
     name: string;
     imgUri: string;
@@ -13,4 +13,4 @@ export interface Products{
     
 }
 
-export type ProductsWithoutCode = Omit<Products, 'code'>
+export type ProductsWithoutCode = Omit<Product, 'code'>

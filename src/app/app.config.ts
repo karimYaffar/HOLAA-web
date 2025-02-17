@@ -12,8 +12,9 @@ import {
 import { provideToastr } from 'ngx-toastr';
 import { provideAuth0 } from '@auth0/auth0-angular';
 import { errorInterceptor } from './core/interceptor/error.interceptor';
-import { serviceInterceptor } from './core/interceptor/service.interceptor';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
+import { authInterceptor } from './core/interceptor/auth.interceptor';
+import { serviceInterceptor } from './core/interceptor/service.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

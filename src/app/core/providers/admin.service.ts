@@ -24,13 +24,13 @@ import {
   SocialSite,
   UpdateSocialSite,
 } from "../interfaces/social.site";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../environments/environment.development";
 
 @Injectable({
   providedIn: "root",
 })
 export class AdminService {
-  private readonly api = environment.BASE_URL;
+private readonly api = environment.API;
 
   private httpOptions = {
     withCredentials: true,

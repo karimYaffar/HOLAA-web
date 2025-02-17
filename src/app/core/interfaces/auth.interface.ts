@@ -1,4 +1,4 @@
-export interface LoginResponse {
+export interface AuthResponse {
     status: number;
     message: string;
     MFA: string;

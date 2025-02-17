@@ -1,4 +1,4 @@
 export interface SubCategory {
-    code: string;
-    description: string;
+  id: string;
+  name: string;
 }
