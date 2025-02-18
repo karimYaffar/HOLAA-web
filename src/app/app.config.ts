@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(
       withFetch(),
-      withInterceptors([errorInterceptor, serviceInterceptor]),
+      withInterceptors([errorInterceptor]),
     ),
     provideToastr(),
     provideAuth0({
