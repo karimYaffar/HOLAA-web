@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, shareReplay, throwError } from 'rxjs';
 import { Product, ProductsWithoutCode } from '../interfaces/products.interface';
 import { BaseService } from './base.service';
+import { IApiResponse } from '../interfaces/api.response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,28 +19,53 @@ export class ProductsService extends BaseService {
     super();
   }
 
+
   /**
-   * Metodo que obtiene todos los productos desde la API
+   * Get all product provide of the API
+   * @returns An observable that resolves when the products is successfully retrieved
    */
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.API}/products`, this.options).pipe(
-      catchError((error) => {
-        return throwError(() => new Error(error.error.message));
-      }),
+    return this.get<Product[]>();
+  }
+
+  /**
+   * Get all products by view
+   * @param view view's name provide to the data base
+   * @returns An observable than resolves when the products is successfully retrieved
+   */
+  getProductsByView(
+    view: 'new-arrivals' | 'best-offers' | 'best-sellers',
+  ): Observable<Product[]> {
+    return this.get<Product[]>(`view/${view}`).pipe(
+      shareReplay(1),
     );
   }
 
   /**
-   * Metodo que obtiene todos los products por categoria
+   * 
+   * @param keyword keyword for search product
+   * @returns 
    */
-  getProductsByCategory(category: string): Observable<Product[]> {
+  searchProducts(keyword: string): Observable<Product[]> {
+    const encodedKeyword = encodeURIComponent(keyword);
     return this.http
-      .get<Product[]>(`${this.API}/products/by-category/${category}`)
+      .get<Product[]>(`${this.API}/products/search?keyword=${encodedKeyword}`)
       .pipe(
         catchError((error) => {
           return throwError(() => new Error(error.error.message));
         }),
       );
+  }
+
+  getProductByCode(code: string): Observable<IApiResponse> {
+    return this.get<IApiResponse>(`by-code/${code}`);
+  }
+
+  // Metodo que obtieene los productos por categoria
+  getProductsByCategory(category: string): Observable<IApiResponse> {
+    return this.get<IApiResponse>(`by-category/${category}`).pipe(
+      shareReplay(1),
+    )
   }
 
   getFilteredProducts(
@@ -91,16 +117,7 @@ export class ProductsService extends BaseService {
       );
   }
 
-  searchProducts(keyword: string): Observable<Product[]> {
-    const encodedKeyword = encodeURIComponent(keyword);
-    return this.http
-      .get<Product[]>(`${this.API}/products/search?keyword=${encodedKeyword}`)
-      .pipe(
-        catchError((error) => {
-          return throwError(() => new Error(error.error.message));
-        }),
-      );
-  }
+  
 
   updateProduct(
     id: string | undefined,

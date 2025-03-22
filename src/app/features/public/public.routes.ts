@@ -14,9 +14,25 @@ export const PUBLIC_ROUTES: Routes = [
       import('./about-us/about-us.component').then(m => m.AboutUsComponent)
   },
   {
+    path: 'policies',
+    loadComponent: () =>
+      import('./policies/policies.component').then(m => m.PoliciesComponent)
+  },
+  {
+    path: 'contacts',
+    loadComponent: () =>
+      import('./contacts/contacts.component').then(m => m.ContactsComponent)
+  },
+  {
     path: 'cart',
     loadComponent: () =>
       import('./cart/cart.component').then(m => m.CartComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'wishlist',
+    loadComponent: () =>
+      import('./wishlist/wishlist.component').then(m => m.WishlistComponent),
     canActivate: [authGuard]
   }
 ];

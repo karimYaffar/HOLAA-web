@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { EmailConfiguration, UpdateEmailConfiguration } from '../../../core/interfaces/emal.configuration';
 import { IncidentConfiguration, UpdateIncidentConfiguration } from '../../../core/interfaces/incident.configuration';
 import { AdminService } from '../../../core/providers/admin.service';
-import { NotificationService } from '../../../core/providers/notification.service';
 
 @Component({
     selector: 'app-incidents',
@@ -32,7 +31,6 @@ export class IncidentsComponent implements OnInit {
    */
   constructor(
     private readonly adminService: AdminService,
-    private readonly notificationService: NotificationService
   ) {
   }
 
@@ -48,18 +46,7 @@ export class IncidentsComponent implements OnInit {
    * Metodo para cargar la configuracion del modulo de incidencias
    */
   loadIncidentConfiguration(): void {
-    this.adminService.getIncidentConfiguration().subscribe({
-      next: (configuration) => {
-        
-        this.incidentConfiguration = configuration
-      },
-      error: (err) => {
-        this.notificationService.error(
-          "Excepcion producida: Configuracion Incidencias",
-          "Error al cargar datos de configuracion"
-        )
-      }
-    })
+
   }
 
 
@@ -67,67 +54,21 @@ export class IncidentsComponent implements OnInit {
    * Metodo para cargar la configuracion del modelo de email
    */
   loadEmailConfiguration(): void {
-    this.adminService.getEmailConfiguration().subscribe({
-      next: (configuration) => {
-        this.emailConfiguration = configuration
-      },
-      error: (err) => {
-        this.notificationService.error(
-          "Excepcion Producida: Configuracion Email",
-          "Error al cargar datos de configuracion"
-        )
-      }
-    })
+
   }
 
   /**
    * Metodo que actualiza la configuracion de email
    */
   editEmailConfiguration(): void {
-    const { _id, ...configuration }  = this.emailConfiguration;
-
-    this.updateEmailConfiguration = configuration;
-
-    this.adminService.updateEmailConfiguration(
-      _id,
-      this.updateEmailConfiguration
-    ).subscribe({
-      next: (response) => {
-        this.notificationService.success("Actualizacion Exitosa", response.message);
-        this.loadEmailConfiguration();
-      },
-      error: (err) => {
-        this.notificationService.error(
-          "Excepcion Producida: Configuracion Email",
-          "Error al actualizar datos de configuracion"
-        )
-      }
-    })
+    
   }
 
   /**
    * Metodo que actualiza la configuracion de incidencias
    */
   editIncidentConfiguration(): void {
-    const { _id, ...configuration }  = this.incidentConfiguration;
-
-    this.updateIncidentConfiguration = configuration;
-
-    this.adminService.updateIncidentConfiguration(
-      _id,
-      this.updateIncidentConfiguration
-    ).subscribe({
-      next: (response) => {
-        this.notificationService.success("Actualizacion Exitosa", response.message);
-        this.loadIncidentConfiguration();
-      },
-      error: (err) => {
-        this.notificationService.error(
-          "Excepcion Producida: Configuracion Email",
-          "Error al actualizar datos de configuracion"
-        )
-      }
-    })
+    
   }
 
 }

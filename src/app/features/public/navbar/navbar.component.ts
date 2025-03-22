@@ -1,20 +1,20 @@
-import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  Inject,
-  OnInit,
-  PLATFORM_ID,
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, computed, effect, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { catchError, of, Subject, switchMap } from 'rxjs';
+import { catchError, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { IApiResponse } from '../../../core/interfaces/api.response.interface';
 import { Product } from '../../../core/interfaces/products.interface';
 import { AuthService } from '../../../core/providers/auth.service';
+import { CartService } from '../../../core/providers/cart.service';
+import { NavbarService } from '../../../core/providers/navbar.service';
 import { ProductsService } from '../../../core/providers/products.service';
+import { UserService } from '../../../core/providers/user.service';
+import { IconLinkControlComponent } from '../../../shared/ui/icon-link-control/icon-link-control.component';
+import { ImageControlComponent } from '../../../shared/ui/image/image-control.component';
+import { NavigationLinkComponent } from '../../../shared/ui/navigation-link/navigation-link.component';
+import { ControlSearchProductsComponent } from '../ui/control-search-products/control-search-products.component';
 import { TopSocialBarComponent } from '../ui/top-social-bar/top-social-bar.component';
-import { UnpicImageDirective } from '@unpic/angular';
 
 @Component({
   selector: 'app-navbar',
@@ -25,78 +25,72 @@ import { UnpicImageDirective } from '@unpic/angular';
     FormsModule,
     RouterLink,
     TopSocialBarComponent,
-    UnpicImageDirective,
+    NavigationLinkComponent,
+    ControlSearchProductsComponent,
+    IconLinkControlComponent,
+    ImageControlComponent,
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({ transform: 'translateY(-10%)', opacity: 0 }),
-        animate(
-          '200ms ease-out',
-          style({ transform: 'translateY(0)', opacity: 1 }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '200ms ease-in',
-          style({ transform: 'translateY(-10%)', opacity: 0 }),
-        ),
-      ]),
-    ]),
-    trigger('dropdownAnimation', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-10px)' }),
-        animate(
-          '200ms ease-out',
-          style({ opacity: 1, transform: 'translateY(0)' }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '200ms ease-in',
-          style({ opacity: 0, transform: 'translateY(-10px)' }),
-        ),
-      ]),
-    ]),
-  ],
 })
-export class NavbarComponent implements OnInit, AfterViewInit {
-  keyword: string = '';
-  isLoading = false;
-  isMobileMenuOpen: boolean = false;
-  products: Product[] = [];
-  totalResults = 0;
-  isOpen = false;
-  isAuthenticated = false;
-  showResults = false;
-  isDropdownOpen = false;
-
-  categories = [
-    { name: 'Ropa', icon: '👚', link: '/categoria/ropa' },
-    { name: 'Zapatos', icon: '👠', link: '/categoria/zapatos' },
-    { name: 'Accesorios', icon: '👜', link: '/categoria/accesorios' },
-    { name: 'Belleza', icon: '💄', link: '/categoria/belleza' },
-    { name: 'Hogar', icon: '🏠', link: '/categoria/hogar' },
-    { name: 'Electrónicos', icon: '📱', link: '/categoria/electronicos' },
-  ];
-
+export class NavbarComponent implements OnInit {
   private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
+
+  products: Product[] = [];
+
+  totalResults: number = 0;
+  numberProductsInBag: number = 0;
+
+  isLoading: boolean = false;
+  isOpen: boolean = false;
+  showResults: boolean = false;
+  isDropdownOpen: boolean = false;
+
+  /** A signal for handling the logic to show/hidden the navbar */
+  isVisible = computed(() => this.navbarService.visible());
+
+  /** A signal for handling the logic to show/hidden auth options */
+  isAuth = computed(() => this.authService.isAuth());
+
+  /** A signal for handling the user's avatar */
+  avatar = computed(() => this.userService.avatar());
 
   constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly productsService: ProductsService,
+    private readonly navbarService: NavbarService,
+    private readonly userService: UserService,
     private readonly authService: AuthService,
+    private readonly cartService: CartService,
     private readonly router: Router,
-  ) {}
-
-  ngOnInit(): void {
-    this.preLoadProducts();
-    this.onAuthenticate();
+  ) {
+    effect(() => {
+      this.initializeAuthState()
+    })
   }
 
-  preLoadProducts() {
+  ngOnInit(): void {
+    this.displaySearchProducts();
+    this.initializeAuthState();
+    // this.getNumberProducts();
+  }
+
+  private initializeAuthState(): void {
+    this.authService
+      .checkSession()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: IApiResponse) => {
+          if (response.data.authenticate) {
+          }
+        },
+        error: () => {
+          this.router.navigate(['/auth/login']);
+        },
+      });
+  }
+
+  displaySearchProducts() {
     this.searchSubject
       .pipe(
         switchMap((keyword) => {
@@ -114,6 +108,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
             }),
           );
         }),
+        takeUntil(this.destroy$),
       )
       .subscribe((products) => {
         this.products = products;
@@ -123,46 +118,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onAuthenticate() {
-    this.authService.checkSession().subscribe((response) => {
-      this.isAuthenticated = response.data?.authenticate;
-    })
-  }
-
-  toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  }
-
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  onSearch() {
-    this.searchSubject.next(this.keyword.trim());
-  }
-
-  onFocus() {
-    if (this.products.length > 0) {
-      this.showResults = true;
-    }
-  }
-
-  onBlur() {
-    // Delay hiding results to allow for clicking on results
-    // setTimeout(() => {
-    //   this.showResults = false
-    // }, 200)
-  }
-
-  onProductHover(product: any) {
-    // Add pulse animation to hovered product
-    const productElement = event?.currentTarget as HTMLElement;
-    productElement.classList.add('pulse');
-    // setTimeout(() => productElement.classList.remove("pulse"), 500)
-  }
-
-  onProductLeave() {
-    // Remove pulse animation when mouse leaves
+  onSearch(keyword: string) {
+    this.searchSubject.next(keyword.trim());
   }
 
   toggleMenu() {
@@ -171,41 +132,41 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   closeMenu() {
     this.isOpen = false;
+    this.isDropdownOpen = false;
   }
 
   viewProfile() {
     this.closeMenu();
+    this.router.navigate(['/profile']);
   }
 
   logout() {
-    this.authService.logout().subscribe((response) => {
-      console.log(response);
-    });
-
-    this.router.navigate(['./login']);
-
-    this.closeMenu();
+    this.authService
+      .logout()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/auth/login']);
+          this.closeMenu();
+        },
+        error: () => {
+          this.router.navigate(['/auth/login']);
+          this.closeMenu();
+        },
+      });
   }
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const menuToggle = document.getElementById('menu-toggle');
-      const navbarMenu = document.getElementById('navbar-menu');
-      menuToggle?.addEventListener('click', () => {
-        navbarMenu?.classList.toggle('hidden');
+  getNumberProducts() {
+    this.cartService
+      .getCart()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((cart) => {
+        this.numberProductsInBag = cart.cartItems.length;
       });
+  }
 
-      const userIcon = document.getElementById('user-icon');
-      const modal = document.getElementById('auth-modal');
-      const closeModal = document.getElementById('close-modal');
-
-      userIcon?.addEventListener('click', () => {
-        modal?.classList.remove('hidden');
-      });
-
-      closeModal?.addEventListener('click', () => {
-        modal?.classList.add('hidden');
-      });
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

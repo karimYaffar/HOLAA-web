@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Audit } from '../../../core/interfaces/audit';
+import { Audit } from '../../../core/interfaces/audit.interface';
 import { AdminService } from '../../../core/providers/admin.service';
-import { NotificationService } from '../../../core/providers/notification.service';
 @Component({
     selector: 'app-audit',
     imports: [CommonModule],
@@ -19,27 +18,32 @@ export class AuditComponent implements OnInit {
   
 
   constructor(private readonly adminService: AdminService,
-    private readonly notificationService: NotificationService,
   ) {
 
   }
 
-  ngOnInit(): void {
+ /*  ngOnInit(): void {
     this.loadAuditInformation();
-  }
+  } */
+
+    ngOnInit(): void {
+      this.auditInformation = [
+        { id: 1, action: 'Login', user: 'admin', date: '2024-03-04', details: 'Usuario admin inició sesión' },
+        { id: 2, action: 'Update', user: 'user1', date: '2024-03-03', details: 'Usuario user1 actualizó un registro' },
+        { id: 3, action: 'Delete', user: 'admin', date: '2024-03-02', details: 'Usuario admin eliminó un registro' },
+        { id: 4, action: 'Create', user: 'user2', date: '2024-03-01', details: 'Usuario user2 creó un nuevo registro' },
+        { id: 5, action: 'Logout', user: 'user3', date: '2024-02-28', details: 'Usuario user3 cerró sesión' },
+        { id: 6, action: 'Update', user: 'user1', date: '2024-02-27', details: 'Usuario user1 actualizó su perfil' },
+        { id: 7, action: 'Delete', user: 'admin', date: '2024-02-26', details: 'Usuario admin eliminó un usuario' },
+        { id: 8, action: 'Login', user: 'user4', date: '2024-02-25', details: 'Usuario user4 inició sesión' }
+      ];
+      this.totalAudits = this.auditInformation.length;
+      this.setPage(1);
+    }
+    
 
   loadAuditInformation(): void {
-    this.adminService.getAuditData().subscribe({
-      next: (info) =>  {
-        this.auditInformation = info;
-        this.totalAudits = info.length;
-        this.setPage(1);
-      },
-      error: (err) => {
-        console.error(err);
-        this.notificationService.error("Excepcion Producida", "No se pudieron obtener los datos de la auditoria");
-      }
-    })
+   
   }
 
    // Establece los datos a mostrar para la página actual

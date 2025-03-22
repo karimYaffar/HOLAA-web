@@ -1,11 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'dropdown',
   standalone: true,
-  imports: [],
-  template: ` 
-  <div class="relative group">
+  imports: [CommonModule],
+  template: ` <div class="relative group">
     <button
       (click)="toggleDropdown()"
       (blur)="isDropdownOpen = false"
@@ -49,21 +49,20 @@ import { Component, Input } from '@angular/core';
       aria-labelledby="categories-menu"
     >
       <div class="py-1" role="none">
-        <a
-          *ngFor="let category of categories"
-          href="{{ category.link }}"
-          class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#E91E63] hover:text-white transition-colors duration-200"
-          role="menuitem"
-        >
-          <span class="mr-2">{{ category.icon }}</span>
-          {{ category.name }}
-        </a>
+        @for(d of data; track d.id) {
+          <a
+            href="{{ d.link }}"
+            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[#E91E63] hover:text-white transition-colors duration-200"
+            role="menuitem"
+          >
+            <span class="mr-2">{{ d.icon }}</span>
+            {{ d.name }}
+          </a>
+        }
       </div>
     </div>
   </div>`,
 })
 export class DropdownComponent {
-  @Input({ required: true }) data: any | [];
-  
-
+  @Input({ required: true }) data: any;
 }

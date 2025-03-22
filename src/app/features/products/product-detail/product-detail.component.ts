@@ -1,47 +1,169 @@
-import { Component, type OnInit } from "@angular/core"
-import { CommonModule } from "@angular/common"
+import { Component, type OnInit, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ProductsService } from '../../../core/providers/products.service';
+import { Product } from '../../../core/interfaces/products.interface';
+import { ImageControlComponent } from '../../../shared/ui/image/image-control.component';
+import { finalize } from 'rxjs';
+import { IApiResponse } from '../../../core/interfaces/api.response.interface';
+import { FeaturedProductsComponent } from "../../public/featured-products/featured-products.component";
 
 @Component({
-    selector: "app-product-detail",
-    imports: [CommonModule],
-    templateUrl: "./product-detail.component.html",
-    styleUrls: ["./product-detail.component.css"]
+  selector: 'app-product-detail',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgxImageZoomModule,
+    ImageControlComponent,
+    FeaturedProductsComponent
+],
+  templateUrl: './product-detail.component.html',
+  styleUrl: './product-detail.component.css',
 })
 export class ProductDetailComponent implements OnInit {
-  product = {
-    code: "P001",
-    name: "Vestido Mini con Olanes y Estampado Floral Negro",
-    imgUri: [
-      "https://highstreet.com.mx/cdn/shop/files/HIGH-STREET-Vestido-maxi-satinado-cruzado-de-un-hombro-dcca-230114_01_4829b10c-4f42-45d9-a26f-d4abf2ae6ed8_720x.jpg?v=1737402174",
-      "https://highstreet.com.mx/cdn/shop/files/HIGH-STREET-Vestido-maxi-satinado-cruzado-de-un-hombro-dcca-230114_02_dc9d9877-aaf8-49b1-9aa3-78d55affd7c5_720x.jpg?v=1737402174",
-      "https://highstreet.com.mx/cdn/shop/files/HIGH-STREET-Vestido-maxi-satinado-cruzado-de-un-hombro-dcca-230114_03_d4a76555-0b98-4392-aa44-8f7770eb1f68_720x.jpg?v=1737402174",
-      "https://highstreet.com.mx/cdn/shop/files/HIGH-STREET-Vestido-maxi-satinado-cruzado-de-un-hombro-dcca-230114_04_a500157c-72f2-4652-bbaf-79214fa2f82d_720x.jpg?v=1737402174",
-    ],
-    description: "Modelo: 1,73 cms de altura y talla CH. 93% Viscosa, 3% Lino.",
-    price: 299.0,
-    stock: 15,
-    size: ["CH - S", "MD - M", "GD - L", "XGD - XL"],
-    colors: ["#000000", "#FFFFFF", "#808080"],
+  sameProducts: Product[] = [];
+  bestSellers: Product[] = [];
+  bestOffers: Product[] = [];
+  newArrivals: Product[] = [];
+
+  product: Product | null = null;
+  loading = signal<boolean>(false);
+  error = signal<boolean>(false);
+
+  productCode: string = '';
+  selectedColor: string = '';
+  selectedSize: string = '';
+  selectedImage: number = 0;
+  quantity: number = 1;
+
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly productService: ProductsService,
+  ) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe({
+      next: (params) => this.handleParamsSuccess(params),
+      error: () => this.error.set(true),
+    });
+
+    this.fetchBestSellers();
+    this.fetchBestOffers();
+    this.fetchNewArribals();
   }
 
-  selectedImage: string = ""
-  selectedSize: string | null = null
-  selectedColor: string | null = null
-
-  ngOnInit() {
-    this.selectedImage = this.product.imgUri[0]
+  handleParamsSuccess(params: Params): void {
+    this.productCode = params['code'];
+    if (this.productCode) {
+      this.fetchProductByCode(this.productCode);
+    }
   }
 
-  selectImage(image: string) {
-    this.selectedImage = image
+  fetchProductByCode(code: string): void {
+    this.productService
+      .getProductByCode(code)
+      .pipe(finalize(() => this.loading.set(true)))
+      .subscribe({
+        next: (response) => this.onSuccess(response),
+        error: () => this.error.set(true),
+        complete: () => this.loading.set(false)
+      });
   }
 
-  selectSize(size: string) {
-    this.selectedSize = size
+  onSuccess(response: IApiResponse): void {
+    this.product = response.data;
+
+    this.fetchSameProducts();
+
+
+    if (!this.product) {
+      return this.error.set(true);
+    }
+    
+
+    this.selectedColor = response.data.colorsNames[0] || '';
+    this.selectedSize = response.data.sizesNames[0] || '';
   }
 
-  selectColor(color: string) {
-    this.selectedColor = color
+  setSelectedImage(index: number): void {
+    this.selectedImage = index;
   }
+
+  setSelectedColor(color: string): void {
+    this.selectedColor = color;
+  }
+
+  setSelectedSize(size: string): void {
+    this.selectedSize = size;
+  }
+
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+
+  increaseQuantity(): void {
+    if (this.product && this.quantity < this.product.stock) {
+      this.quantity++;
+    }
+  }
+
+  addToCart(): void {
+    if (!this.product) return;
+  }
+
+  addToWishlist(): void {
+    if (!this.product) return;
+  }
+
+  calculateDiscountPercentage(): number {
+    if (!this.product || !this.product.discount || this.product.discount === 0)
+      return 0;
+    return Math.round((this.product.discount / this.product.price) * 100);
+  }
+
+  isColorSelected(color: string): boolean {
+    return this.selectedColor === color;
+  }
+
+  isSizeSelected(size: string): boolean {
+    return this.selectedSize === size;
+  }
+
+  fetchSameProducts() {
+    this.productService
+      .getProductsByCategory(this.product?.categoryName || '')
+      .subscribe((response: IApiResponse) => {
+        this.sameProducts = response.data;
+      });
+  }
+
+  fetchBestSellers() {
+    this.productService
+      .getProductsByView('best-sellers')
+      .subscribe((bestSellers) => {
+        this.bestSellers = bestSellers;
+      });
+  }
+
+  fetchBestOffers() {
+    this.productService
+      .getProductsByView('best-offers')
+      .subscribe((bestOffers) => {
+        this.bestOffers = bestOffers;
+      });
+  }
+
+  fetchNewArribals() {
+    this.productService
+      .getProductsByView('new-arrivals')
+      .subscribe((newArrivals) => {
+        this.newArrivals = newArrivals;
+      });
+  }
+  
 }
-

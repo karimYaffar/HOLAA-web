@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PhoneFormatDirective } from './directives/phone-format.directive';
 
 @Component({
-  selector: 'app-form-phone-control',
+  selector: 'form-phone-control',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, PhoneFormatDirective],
   template: `<div class="space-y-2" [formGroup]="form">
     <label
       for="phone"
@@ -31,8 +32,9 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
       <input
         id="phone"
         type="tel"
+        phoneFormat
         [formControlName]="controlName"
-        placeholder="1234567890"
+        placeholder="123 456 789 0"
         class="w-full pl-[4.5rem] pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-[#E91E63] focus:border-[#E91E63] transition-colors duration-300 font-popins"
         [class.border-red-300]="
           form.get(controlName)?.invalid && form.get(controlName)?.touched
@@ -43,7 +45,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
     <!-- Error Messages -->
     <div
       *ngIf="form.get(controlName)?.invalid && form.get(controlName)?.touched"
-      class="text-red-500 text-sm mt-1 font-popins animate-fade-in"
+      class="text-red-500 text-left text-sm mt-1 font-popins animate-fade-in"
     >
       <p *ngIf="form.get(controlName)?.errors?.['required']">
         El número de teléfono es requerido

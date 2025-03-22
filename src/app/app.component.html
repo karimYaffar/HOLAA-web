@@ -1,10 +1,17 @@
-<!-- Navbar -->
-<app-navbar></app-navbar>
+<ng-container *ngIf="isServerAvailable() else maintenance"> 
+  <app-navbar  *ngIf="isRouterOutletLoaded()"></app-navbar>
 
-<!-- Section -->
-<main>
-  <router-outlet></router-outlet>
-</main>
+  <announcement-modal *ngIf="isViewAvailable() && isRouterOutletLoaded()" modalId="offer"/>
 
-<!-- Footer -->
-<app-footer></app-footer>
+  <router-outlet 
+    (activate)="onActivate($event)"
+    (deactivate)="onDesactivate($event)">
+  </router-outlet>
+  
+  <app-footer *ngIf="isRouterOutletLoaded()"></app-footer>
+
+</ng-container>
+
+<ng-template #maintenance>
+  <maintenance />
+</ng-template>

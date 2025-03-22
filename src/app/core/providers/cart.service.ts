@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { BaseService } from "./base.service";
 import { Observable } from "rxjs";
+import { IApiResponse } from "../interfaces/api.response.interface";
 import { AddProduct, Cart, UpdateQuantity } from '../interfaces/cart.interface';
-import { ApiResponse } from "../interfaces/api.response.interface";
+import { BaseService } from "./base.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +14,19 @@ export class CartService extends BaseService {
   constructor() { super(); }
 
   getCart(): Observable<Cart> {
-    return this.get<Cart>('', { withCredentials: true });
+    return this.get<Cart>('' , { withCredentials: true });
   }
 
-  addProductToCart(addProduct: AddProduct): Observable<ApiResponse> {
-    return this.post<ApiResponse>('add', addProduct, { withCredentials: true })
+  addProductToCart(addProduct: AddProduct): Observable<IApiResponse> {
+    return this.post<IApiResponse>('add', addProduct, { withCredentials: true })
   }
 
-  updateQuantityProductToCart(updateQuantity: UpdateQuantity): Observable<ApiResponse> {
-    return this.put<ApiResponse>('update/quantity', updateQuantity, { withCredentials: true })
+  updateQuantityProductToCart(updateQuantity: UpdateQuantity): Observable<IApiResponse> {
+    return this.put<IApiResponse>('update/quantity', updateQuantity, { withCredentials: true })
   }
 
-  removeProductToCart(productCode: string): Observable<ApiResponse> {
-    return this.delete<ApiResponse>('remove/product', { productCode: productCode }, { withCredentials: true } )
+  removeProductToCart(productCode: string): Observable<IApiResponse> {
+    return this.delete<IApiResponse>('remove/product', { productCode: productCode }, { withCredentials: true } )
   }
 
 

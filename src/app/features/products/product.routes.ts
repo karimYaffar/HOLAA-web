@@ -7,10 +7,9 @@ export const PRODUCT_ROUTES: Routes = [
       import('./product-list/product-list.component').then(
         (m) => m.ProductListComponent,
       ),
-    title: 'Lista de productos',
   },
   {
-    path: 'detail',
+    path: 'detail/:code',
     loadComponent: () =>
       import(
         './product-detail/product-detail.component'

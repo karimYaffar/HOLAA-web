@@ -1,138 +1,21 @@
-<div class="flex flex-col lg:flex-row h-screen overflow-hidden">
-  <!-- Left Image (hidden on small screens) -->
-  <div class="w-full lg:w-1/2 hidden lg:block relative">
-    <img
-      src="./assets/webp/login-wallpaper.webp"
-      alt="data-image-model"
-      class="object-cover w-full h-full"
-    />
-    <div
-      class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"
-    ></div>
-  </div>
+<div class="flex flex-col h-screen overflow-hidden relative">
+  <!-- Animated Background -->
+  <animated-background></animated-background>
 
-  <!-- Right Form -->
-  <div
-    class="flex items-center justify-center w-full lg:w-1/2 p-6 md:p-10 lg:p-12 bg-white"
-  >
-    <div class="w-full max-w-md">
-      <!-- Title -->
-      <h1
-        class="text-3xl font-bold mb-4 text-center text-gray-800 dark:text-gray-200"
-      >
-        ¡Unete a nuestra familia!
-      </h1>
-
-      <!-- Registration Form -->
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="">
-        <!-- Username -->
-        <div class="mb-5">
-          <app-form-control
-            [form]="registerForm"
-            controlName="username"
-            label="Nombre de Usuario"
-            iconClass="icon-[mdi--account-outline]"
-            errorMessage="Introduzca un nombre usuario válido"
-            placeholder="Nombre de usuario"
-          />
-        </div>
-
-        <!-- Email -->
-        <div class="mb-5">
-          <app-form-control
-            [form]="registerForm"
-            controlName="email"
-            label="Correo Electronico"
-            iconClass="icon-[mdi--email-outline]"
-            errorMessage="Introduzca un correo electrónico válido."
-            placeholder="correo@electronico.com"
-          />
-        </div>
-
-        <!-- Phone Number -->
-        <div class="mb-5">
-          <app-form-phone-control
-            [form]="registerForm"
-            controlName="phone"
-            label="Numero de telefono"
-          />
-        </div>
-
-        <div class="mb-5">
-          <app-form-password-control
-            [form]="registerForm"
-            controlName="password"
-            label="Contraseña"
-            iconClass="icon-[mdi--key-outline]"
-            errorMessage="La contraseña no cumple con los requisitos."
-            placeholder="Ingresa tu contraseña"
-            [enableRequirements]="true"
-          />
-        </div>
-
-        <div class="mb-5">
-          <app-form-password-control
-            [form]="registerForm"
-            controlName="confirmPassword"
-            label="Confirmar contraseña"
-            iconClass="icon-[mdi--key-outline]"
-            errorMessage="Las contraseña no coinciden"
-            placeholder="Confirma tu contraseña"
-            [enableRequirements]="false"
-          />
-        </div>
-
-        <re-captcha
-          class="flex justify-center items-center mb-2"
-          [siteKey]="SITE_KEY"
-          (resolved)="resolved($event)"
-          required
-        >
-        </re-captcha>
-
-        <!-- Register Button -->
-        <button
-          type="submit"
-          [disabled]="registerForm.invalid"
-          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#E91E63] hover:bg-[#D81B60] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E91E63] transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-        >
-          <svg
-            *ngIf="isLoading"
-            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-          {{ isLoading ? 'Uniendote...' : 'Unete' }}
-        </button>
-      </form>
-
-      <!-- Login Link -->
-      <small
-        class="block mt-4 text-center font-popins text-gray-500 dark:text-neutral-400 text-sm"
-      >
-        ¿Ya tienes cuenta?
-        <a
-          routerLink="auth/login"
-          class="text-blue-500 hover:text-blue-700 font-medium transition-colors duration-200"
-        >
-          aquí
-        </a>
-        para inciar sesion.
-      </small>
-    </div>
+  <div class="flex items-center justify-center w-full h-full p-6 z-10">
+    @switch (step()) {
+      @case('signup') {
+        <signup-form />
+      }
+      @case('success') {
+        <success-view
+          successTitle="!Cuenta activada con exito!"
+          successMessage="Ahora puedes iniciar sesión en tu cuenta."        
+          [hasCustomButtonText]="true"
+          [customButtonText]="'Iniciar sesión'"
+          (onClick)="onRedirect()"
+        />
+      }
+    }
   </div>
 </div>

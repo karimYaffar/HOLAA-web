@@ -4,16 +4,14 @@ import { inject, Injector } from '@angular/core';
 import { map } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const router = inject(Router);
   const injector = inject(Injector);
+  const router = inject(Router);
   const authService = injector.get(AuthService);
-  return authService.checkSession().pipe(
-    map((response) => {
-      if (response.data?.authenticate) {
-        return true;
-      } else {
-        return router.createUrlTree(['auth/login']);
-      }
-    }),
-  );
+
+  if (!authService.isAuth()) {
+    return router.createUrlTree(['auth/login'])
+  } 
+  return true;
 };
+
+

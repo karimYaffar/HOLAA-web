@@ -1,13 +1,17 @@
 import { Routes } from '@angular/router';
+import { maintenanceGuard } from './core/guards/maintenance.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./features/public/public.routes').then(
-        (m) => m.PUBLIC_ROUTES,
-      ),
+      import('./features/public/public.routes').then((m) => m.PUBLIC_ROUTES),
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES),
+  }, 
   {
     path: 'auth',
     loadChildren: () =>

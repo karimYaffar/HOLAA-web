@@ -9,7 +9,6 @@ import {
 } from "@angular/forms";
 import { CreateDocument, Document, UpdateDocument } from "../../../core/interfaces/document";
 import { AdminService } from "../../../core/providers/admin.service";
-import { NotificationService } from "../../../core/providers/notification.service";
 
 @Component({
     selector: "app-document",
@@ -36,11 +35,13 @@ export class DocumentComponent implements OnInit {
   titleFilter: string = '';
   statusFilter: string = '';
   
+  // Propiedades computadas para reemplazar las expresiones complejas en la plantilla
+  activeDocumentsCount: number = 0;
+  inactiveDocumentsCount: number = 0;
 
   constructor(
     private readonly adminService: AdminService,
     private readonly fb: FormBuilder,
-    private readonly notificationService: NotificationService
   ) {
     this.formDocument = fb.group({
       title: ["", [Validators.required]],
@@ -53,14 +54,20 @@ export class DocumentComponent implements OnInit {
     this.loadDocuments();
   }
 
-
   loadDocuments(): void {
     this.adminService.getAllDocuments().subscribe((documents) => {
       this.documents = documents;
       this.totalDocuments = documents.length;
+      this.updateDocumentCounts();
       this.applyFilters();
       this.setPage(1);
     });
+  }
+
+  // Método para actualizar los contadores de documentos
+  updateDocumentCounts(): void {
+    this.activeDocumentsCount = this.documents.filter(doc => doc.current && !doc.isDelete).length;
+    this.inactiveDocumentsCount = this.documents.filter(doc => !doc.current || doc.isDelete).length;
   }
 
   applyFilters(): void {
@@ -85,6 +92,11 @@ export class DocumentComponent implements OnInit {
     this.displayedDocuments = this.filteredDocument.slice(start, end);
   }
 
+  // Método para obtener el índice del último elemento mostrado en la página actual
+  getLastItemIndex(): number {
+    return Math.min(this.currentPage * this.documentsPerPage, this.totalDocuments);
+  }
+
   openAddModal(): void {
     this.isAddMode = true;
   }
@@ -101,93 +113,20 @@ export class DocumentComponent implements OnInit {
   }
 
   createDocument(): void {
-    this.formDocument.controls['effective_date'].setValue(new Date());
 
-    if (this.formDocument.valid) {
-      this.newDocument = this.formDocument.value;
-
-      this.adminService.createDocument(this.newDocument).subscribe({
-        next: (res) => {
-          this.notificationService.success(
-            "Creado con exito",
-            "Se ha creado con exito el documento"
-          );
-          this.loadDocuments();
-          this.closeModals();
-        },
-        error: (err) => {
-          console.log(err);
-          this.notificationService.error(
-            "Excepcion producida",
-            "Error al crear documento"
-          );
-        },
-      });
-    } else {
-      this.notificationService.error(
-        "Por favor revise campos",
-        "Campos invalidos"
-      );
-    }
   }
 
   editDocument(): void {
-    const { _id, update_date, create_date, version, current, isDelete, ...document } = this.currentDocument;
-
-    document.effective_date = new Date();
-
-    this.updateDocument = document;
-
-    this.adminService.updateDocument(_id, this.updateDocument).subscribe({
-      next: (res) => {
-        this.notificationService.success(
-          "Actualizado con exito",
-          res.message
-        );
-
-        this.loadDocuments();
-
-        this.closeModals();
-
-      },
-      error: (err) => {
-        console.log(err);
-        this.notificationService.error(
-          "Excepcion producida",
-          "Error al editar los datos"
-        )
-      }
-    })
+  
 
   }
 
   deleteDocument(documentId: string): void {
-    this.adminService.deleteDocument(documentId).subscribe({
-      next: (res) => {
-        this.notificationService.success("Documento eliminado", res.message);
-        this.loadDocuments();
-      },
-      error: (err) => {
-        this.notificationService.error("Excepcion producida", "Error al momento de eliminar documento")
-      }
-    })
+
   }
 
   activeDocument(documentId: string, state: boolean): void {
-    if (state) { 
-      return;
-    }
-
-    this.adminService.activeDocument(documentId).subscribe({
-      next: (res) => {
-        this.notificationService.success("Documento Activado", res.message);
-        this.loadDocuments();
-      },
-      error: (err) => {
-        console.log(err);
-        this.notificationService.error("Excepcion producida", "Error al momento de activar documento")
-      }
-    })
+   
   } 
 
   getTotalPages(): number[] {

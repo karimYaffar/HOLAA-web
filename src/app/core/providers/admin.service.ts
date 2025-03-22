@@ -1,30 +1,30 @@
-  import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+  import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { catchError, Observable, throwError } from "rxjs";
+import { environment } from "../../../environments/environment.development";
+import { Audit } from "../interfaces/audit.interface";
 import {
-  CreateDocument,
-  Document,
-  UpdateDocument,
+    CompanyProfile,
+    UpdateBusinessProfile,
+} from "../interfaces/business.profile";
+import {
+    CreateDocument,
+    Document,
+    UpdateDocument,
 } from "../interfaces/document";
 import {
-  CompanyProfile,
-  UpdateBusinessProfile,
-} from "../interfaces/business.profile";
-import { Audit } from "../interfaces/audit";
-import {
-  IncidentConfiguration,
-  UpdateIncidentConfiguration,
-} from "../interfaces/incident.configuration";
-import {
-  EmailConfiguration,
-  UpdateEmailConfiguration,
+    EmailConfiguration,
+    UpdateEmailConfiguration,
 } from "../interfaces/emal.configuration";
 import {
-  CreateSocialSite,
-  SocialSite,
-  UpdateSocialSite,
+    IncidentConfiguration,
+    UpdateIncidentConfiguration,
+} from "../interfaces/incident.configuration";
+import {
+    CreateSocialSite,
+    SocialSite,
+    UpdateSocialSite,
 } from "../interfaces/social.site";
-import { environment } from "../../../environments/environment.development";
 
 @Injectable({
   providedIn: "root",

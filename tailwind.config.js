@@ -2,10 +2,10 @@ const { addDynamicIconSelectors } = require('@iconify/tailwind');
 
 
 module.exports = {
-  darkMode: 'false',
+  purge: ['./src/**/*.{html,ts}'],
+  darkMode: 'class',
   content: [
     "./src/**/*.{html,ts}",
-    './node_modules/preline/preline.js'
   ],
   theme: {
     extend: {
@@ -15,7 +15,7 @@ module.exports = {
         inter: ['Inter', 'sans-serif'],
         wedgie: ['Wedgie', 'sans-serif'],
         josefina_sans: ['Josefina Sans', 'sans-serif'],
-        bebas: ['"Bebas Neue"', 'sans-serif'],
+        bebas: ['Bebas Neue', 'sans-serif'],
         cinzel: ['Cinzel', 'sans-serif'],
         popins: ['Poppins', 'sans-serif'],
       },
@@ -27,6 +27,9 @@ module.exports = {
       },
       animation: {
         marquee: 'marquee 20s linear infinite',
+      },
+      maskImage: {
+        'fade': 'linear-gradient(to bottom, black 60%, transparent 100%)',
       },
     },
   },

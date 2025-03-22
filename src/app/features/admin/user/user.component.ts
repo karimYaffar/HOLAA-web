@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AdminService } from '../../../core/providers/admin.service';
-import { NotificationService } from '../../../core/providers/notification.service';
 
 interface User {
   username: string;
@@ -16,23 +15,16 @@ interface User {
     imports: [CommonModule]
 })
 export class UserComponent {
-  users: User[] = []; // Define el array de usuarios
+  users: User[] = [
+    { username: 'johndoe', email: 'johndoe@example.com', verification: true },
+    { username: 'janedoe', email: 'janedoe@example.com', verification: false },
+    { username: 'michael123', email: 'michael123@example.com', verification: true },
+    { username: 'sarah_w', email: 'sarah_w@example.com', verification: false },
+    { username: 'david99', email: 'david99@example.com', verification: true }
+  ]; // Define el array de usuarios
 
   constructor(private adminService: AdminService,
-    private notificationService: NotificationService
   ) {}
 
-  ngOnInit(): void {
-    this.adminService.getAllUsers().subscribe(
-      (data) => {
-        this.users = data; 
-      },
-      (error) => {
-        this.notificationService.error(
-          "Error Obteniendo datos",
-          error
-        );
-      }
-    );
-  }
+  ngOnInit(): void {}
 }

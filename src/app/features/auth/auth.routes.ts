@@ -1,8 +1,14 @@
 import { Routes } from '@angular/router';
+import { emailVerificationPendingGuard } from '../../core/guards/email-verification.guard';
 
 export const AUTH_ROUTES: Routes = [
   {
     path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'login/:step/:token',
     loadComponent: () =>
       import('./login/login.component').then((m) => m.LoginComponent),
   },
@@ -12,18 +18,9 @@ export const AUTH_ROUTES: Routes = [
       import('./signup/signup.component').then((m) => m.SignupComponent),
   },
   {
-    path: 'account-activation',
+    path: 'signup/:step/:token',
     loadComponent: () =>
-      import('./account-activation/account-activation.component').then(
-        (m) => m.AccountActivationComponent,
-      ),
-  },
-  {
-    path: 'account-verification',
-    loadComponent: () =>
-      import('./mfa-verification/mfa-verification.component').then(
-        (m) => m.MfaVerificationComponent,
-      ),
+      import('./signup/signup.component').then((m) => m.SignupComponent),
   },
   {
     path: 'request-forgot-password',

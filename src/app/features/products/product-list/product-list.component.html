@@ -110,7 +110,12 @@
       >
         @if (!isLoading && products.length > 0) { @for(product of products;
         track product.code) {
-        <product-card [product]="product" (addToCartEvent)="onAdd($event)" />
+          <product-card 
+            [product]="product" 
+            (addToCartEvent)="onAdd($event)"
+            (addWishlistEvent)="onAddWishlist($event)"
+            (onClickProduct)="redirectToProductDetail($event)"
+          />
         } }
       </div>
     </div>

@@ -1,43 +1,56 @@
-import { HttpErrorResponse, HttpInterceptorFn, HttpStatusCode } from "@angular/common/http";
-import { inject, Injector } from "@angular/core";
-import { Router } from "@angular/router";
-import { catchError, switchMap, throwError } from "rxjs";
-import { AuthService } from "../providers/auth.service";
+import {
+  HttpErrorResponse,
+  HttpHandlerFn,
+  HttpInterceptorFn,
+  HttpRequest,
+  HttpStatusCode,
+} from '@angular/common/http';
+import { inject, Injector, signal } from '@angular/core';
+import { catchError, switchMap, tap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService } from '../providers/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const router = inject(Router);
-  const injector = inject(Injector);
-  let isRefreshing = false;
+  const authService = inject(AuthService); // Servicio de autenticación
+  const router = inject(Router); // Router para redirecciones
+  let isRefreshing = false; // Bandera para evitar múltiples solicitudes de refresco
 
-  return next(req).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === HttpStatusCode.Unauthorized) {
-        const authService = injector.get(AuthService);
+  // Manejar errores 401 (token expirado)
+  const handle401Error = (request: HttpRequest<any>, next: HttpHandlerFn) => {
+    if (!isRefreshing) {
+      isRefreshing = true;
 
-        if (isRefreshing) {
-          return throwError(() => new Error('El token ya esta refrescado'))
-        }
-
-        isRefreshing = true;
-
-        return authService.refreshToken().pipe(
-          switchMap((success: boolean) => {
-            if (success) {
-              return next(req);
-            } else {
-              authService.logout();
-              router.navigate(['/login'])
-              return throwError(() => new Error('Session expired'));
-            }
-          }),
-          catchError((refreshError) => {
-            authService.logout();
-            router.navigate(['/login']);
-            return throwError(() => refreshError);
+      return authService.refreshToken().pipe(
+        switchMap(() => {
+          isRefreshing = false;
+          // Reintentar la solicitud original después de refrescar el token
+          return next(request);
+        }),
+        catchError((error) => {
+          isRefreshing = false;
+          // Si el refresh token también falla, cerrar sesión
+          authService.logout();
+          router.navigate(['/login']); // Redirigir al login
+          return throwError(() => error);
         })
-        )
+      );
+    } else {
+      // Si ya se está refrescando el token, lanzar un error
+      return throwError(() => new Error('Token refresh in progress'));
+    }
+  };
+
+  // Continuar con la solicitud y manejar errores
+  return next(req).pipe(
+    catchError((error) => {
+      if (
+        error instanceof HttpErrorResponse &&
+        error.status === HttpStatusCode.Unauthorized && // Error 401
+        !req.url.includes('refresh-token') // Evitar bucle en la solicitud de refresco
+      ) {
+        return handle401Error(req, next);
       }
       return throwError(() => error);
-    }) 
-  )
-}
+    })
+  );
+};

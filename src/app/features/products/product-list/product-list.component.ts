@@ -2,23 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, type OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { HotToastService } from '@ngneat/hot-toast';
+import { HotToastService } from '@ngxpert/hot-toast';
+import { Color } from '../../../core/interfaces/color.interface';
 import { Product } from '../../../core/interfaces/products.interface';
+import { Size } from '../../../core/interfaces/size.interface';
 import { SubCategory } from '../../../core/interfaces/sub-category.interface';
 import { AuthService } from '../../../core/providers/auth.service';
 import { CartService } from '../../../core/providers/cart.service';
+import { ColorService } from '../../../core/providers/color.service';
 import { ProductsService } from '../../../core/providers/products.service';
+import { SizeService } from '../../../core/providers/size.service';
 import { SubCategoryService } from '../../../core/providers/sub-category.service';
-import { ProductCardComponent } from '../ui/product-card/product-card.component';
-import { FilterSubCategoryComponent } from '../ui/filters/filter-subcategory.component';
+import { FilterColorsComponent } from '../ui/filters/filter-colors.component';
 import { FilterPriceComponent } from '../ui/filters/filter-price.component';
 import { FilterSizesComponent } from '../ui/filters/filter-sizes.component';
-import { Size } from '../../../core/interfaces/size.interface';
-import { SizeService } from '../../../core/providers/size.service';
-import { FilterColorsComponent } from '../ui/filters/filter-colors.component';
-import { ColorService } from '../../../core/providers/color.service';
-import { Color } from '../../../core/interfaces/color.interface';
+import { FilterSubCategoryComponent } from '../ui/filters/filter-subcategory.component';
+import { ProductCardComponent } from '../ui/product-card/product-card.component';
+import { WishlistService } from '../../../core/providers/wishlist.service';
 
 @Component({
   standalone: true,
@@ -53,7 +53,6 @@ export class ProductListComponent implements OnInit {
 
   isLoading = true;
 
-  // Paginación
   currentPage = 1;
   itemsPerPage = 5;
 
@@ -67,6 +66,7 @@ export class ProductListComponent implements OnInit {
     private readonly cartService: CartService,
     private readonly sizeService: SizeService,
     private readonly colorService: ColorService,
+    private readonly wishlistService: WishlistService,
   ) {}
 
   ngOnInit(): void {
@@ -104,12 +104,12 @@ export class ProductListComponent implements OnInit {
     this.filteredProduct();
   }
 
-  async loadProductsByCategory(category: string) {
+  loadProductsByCategory(category: string) {
     this.isLoading = true;
     this.productsService
       .getProductsByCategory(category)
-      .subscribe((products) => {
-        this.products = products;
+      .subscribe((response) => {
+        this.products = response.data;
         this.isLoading = false;
       });
   }
@@ -145,54 +145,45 @@ export class ProductListComponent implements OnInit {
         this.selectColor,
       )
       .subscribe((products) => {
+        console.log(products);
+
         this.products = products;
         this.currentPage = 1;
       });
   }
 
-  get paginatedProducts(): Product[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.products.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.products.length / this.itemsPerPage);
-  }
-
-  onPageChange(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-    }
-  }
-
-  getPaginationRange(): number[] {
-    const range = [];
-    const maxVisiblePages = 5;
-    let start = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
-    const end = Math.min(this.totalPages, start + maxVisiblePages - 1);
-
-    if (end - start + 1 < maxVisiblePages) {
-      start = Math.max(1, end - maxVisiblePages + 1);
-    }
-
-    for (let i = start; i <= end; i++) {
-      range.push(i);
-    }
-
-    return range;
+  onAddWishlist(productCode: string): void {
+    debugger;
+    this.authService.checkSession().subscribe((response) => {
+      if (response.data.authenticate) {
+        return this.wishlistService
+          .addProduct(productCode)
+          .subscribe((response) => {
+            this.toast.success(response.message);
+          });
+      }
+      return this.redirectToLogin();
+    });
   }
 
   onAdd(productCode: string) {
-    if (!this.authService.isAuthenticate()) {
-      this.router.navigate(['auth/login']);
-    } else {
-      this.cartService
-        .addProductToCart({ productCode: productCode, quantity: 1 })
-        .subscribe((response) => {
-          this.toast.success(response.message, {
-            position: 'top-right',
+    this.authService.checkSession().subscribe((response) => {
+      if (response.data.authenticate) {
+        return this.cartService
+          .addProductToCart({ productCode: productCode, quantity: 1 })
+          .subscribe((response) => {
+            this.toast.success(response.message);
           });
-        });
-    }
+      }
+      return this.redirectToLogin();
+    });
+  }
+
+  redirectToProductDetail(productCode: string) {
+    this.router.navigate(['/products/detail', productCode]);
+  }
+
+  redirectToLogin() {
+    this.router.navigate(['auth/login']);
   }
 }

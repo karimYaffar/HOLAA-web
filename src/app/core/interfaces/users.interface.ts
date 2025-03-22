@@ -1,4 +1,4 @@
-export interface User {
+export interface IUser {
     username: string,
     email: string,
     password: string,
@@ -14,6 +14,6 @@ export interface UserResetPassword {
     newPassword: string;
 }
 
-export type UserCredentials = Omit<User, "email">
-export type UserEmail = Omit<User, "username" | "password" | "phone">
-export type UserWithoutUsername = Omit<User, "username">
+export type UserCredentials = Omit<IUser, "email">
+export type UserEmail = Omit<IUser, "username" | "password" | "phone">
+export type UserWithoutUsername = Omit<IUser, "username">

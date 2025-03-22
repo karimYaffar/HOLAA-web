@@ -41,14 +41,13 @@ export class LoginAdminComponent {
 
       // Enviamos a la nueva ruta que es el auth dashboard
       
-      this.authService.login(credentials).subscribe({
+      this.authService.login(credentials.username, credentials.password).subscribe({
         next: (res) => {
           this.notificationService
             .success(
               "Bienvenido administrador",
               "Que bueno que esta devuelta"
-            )
-            .onHidden.subscribe({
+            )          .onHidden.subscribe({
               next: () => {
                 // Implementacion de la logica para guardar la cookie de manera segura
                 // Enviamos a la nueva ruta

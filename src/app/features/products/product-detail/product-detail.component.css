@@ -1,14 +1,44 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap");
-
-h1 {
-  font-family: "Playfair Display", serif;
+::ng-deep .ngxImageZoomContainer {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3/4;
 }
 
-.ring-2 {
-  --tw-ring-color: black;
+::ng-deep .ngxImageZoomThumbnail {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
 }
 
-.ring-offset-2 {
-  --tw-ring-offset-width: 2px;
+::ng-deep .ngxImageZoomFullContainer {
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
+/* Estilos para el acordeón */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+details {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+details:last-child {
+  border-bottom: none;
+}
+
+/* Animaciones */
+.group-open\:rotate-180 {
+  transform: rotate(180deg);
+}
+
+.group[open] .group-open\:rotate-180 {
+  transform: rotate(180deg);
+}

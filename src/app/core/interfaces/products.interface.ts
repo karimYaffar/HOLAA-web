@@ -1,16 +1,19 @@
-import { Category } from "./categories.interface";
-
 export interface Product {
-    code: string;
-    name: string;
-    imgUri: string;
-    description: string;
-    price: number;
-    stock: number;
-    size: string[];
-    colors: string[];
-    categories: Category[]
-    
+  code: string  ;
+  name: string;
+  imgUri: string;
+  images: string[];
+  description: string;
+  price: number;
+  discount: number;
+  finalPrice: number;
+  stock: number;
+  categoryName: string;
+  subCategoryName: string;
+  colorsNames: string[];
+  sizesNames: string[];
 }
 
-export type ProductsWithoutCode = Omit<Product, 'code'>
+
+
+export type ProductsWithoutCode = Omit<Product, 'code'>;

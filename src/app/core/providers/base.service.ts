@@ -1,45 +1,51 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpStatusCode,
-} from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, NEVER, Observable, of, throwError } from 'rxjs';
-import { HotToastService } from '@ngneat/hot-toast';
+import { catchError, NEVER, Observable, of, switchMap, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
+import { ServerService } from './server.service';
 
 export abstract class BaseService {
   protected readonly API = environment.API;
   protected abstract endpoint: string;
-
+  private server = inject(ServerService);
   protected http = inject(HttpClient);
 
   protected handleError(error: HttpErrorResponse): Observable<never> {
-    const errorMessage =
-      error.error?.message ||
-      'Ocurrió un error inesperado. Inténtalo de nuevo más tarde.';
-    console.warn("Estado de Conexion del Servidor:", error.status === 0 ? "Desconectado": "Conectado", )
-    console.error('Razon:', error.error.message);
+    if (error.status === 0) {}
 
-    return of();
+    let errorMessage: string =
+      'Hubo un problema al momento de procesar la solicitud';
+
+    if (error.error && error.error.message) {
+      errorMessage = error.error.message;
+    }
+
+    console.error(`API Error (${error.status}): ${errorMessage}`);
+
+    return throwError(() => new Error(errorMessage));
+  }
+
+  protected handleResponse<T>(response: T): Observable<T> {
+    return of(response);
   }
 
   protected get<T>(path: string = '', options: object = {}): Observable<T> {
-    if (path != '') {
-      return this.http
-        .get<T>(`${this.API}/${this.endpoint}/${path}`, options)
-        .pipe(catchError(this.handleError));
-    }
     return this.http
-      .get<T>(`${this.API}/${this.endpoint}`, options)
-      .pipe(catchError(this.handleError));
+    .get<T>(
+      `${this.API}/${this.endpoint}${path ? `/${path}` : ''}`,
+      options,
+    )
+    .pipe(
+      switchMap((response) => this.handleResponse(response)),
+      catchError(this.handleError),
+    );
   }
 
   protected post<T>(
     path: string = '',
     body: any,
     options: object = {},
-  ): Observable<T> {
+  ): Observable<T> {    
     return this.http
       .post<T>(`${this.API}/${this.endpoint}/${path}`, body, options)
       .pipe(catchError(this.handleError));

@@ -3,26 +3,14 @@ import { Injectable, Signal, signal } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class DataService<T> {
+  readonly #data = signal<T | null>(null);
 
-  private readonly emailSignal = signal<string>('');
-
-  private readonly navigateSignal = signal<string>('');
-
-  setNavigate(navigate: string) {
-    this.navigateSignal.set(navigate);
+  get data(): T | null {
+    return this.#data();
   }
 
-  getNavigate(): string {
-    return this.navigateSignal();
+  set data(value: T) {
+    this.#data.set(value);
   }
-
-  setEmail(email: string) {
-    this.emailSignal.set(email);
-  }
-
-  getEmail(): string {
-    return this.emailSignal();
-  }
-
 }

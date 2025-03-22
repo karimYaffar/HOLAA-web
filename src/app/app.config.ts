@@ -1,44 +1,47 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideZoneChangeDetection,
+} from '@angular/core';
+import {
+  PreloadAllModules,
+  provideRouter,
+  withInMemoryScrolling,
+  withPreloading,
+} from '@angular/router';
 
-import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   provideHttpClient,
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { provideToastr } from 'ngx-toastr';
-import { provideAuth0 } from '@auth0/auth0-angular';
+import { provideClientHydration } from '@angular/platform-browser';
+import { routes } from './app.routes';
 import { errorInterceptor } from './core/interceptor/error.interceptor';
-import { provideHotToastConfig } from '@ngneat/hot-toast';
+import { provideCountdown } from 'ngx-countdown';
+import { provideAnimations, provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { authInterceptor } from './core/interceptor/auth.interceptor';
-import { serviceInterceptor } from './core/interceptor/service.interceptor';
+import { WINDOW } from './core/constants/constants';
+import { QuicklinkStrategy } from 'ngx-quicklink';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    { provide: WINDOW, useFactory: () => window},
     provideHotToastConfig(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideCountdown({ format: 'mm:ss' }),
     provideRouter(
       routes,
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
       }),
+      withPreloading(QuicklinkStrategy),
     ),
     provideClientHydration(),
     provideAnimations(),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([errorInterceptor]),
-    ),
-    provideToastr(),
-    provideAuth0({
-      domain: 'dev-mxd0iyxdhh7uq4me.us.auth0.com',
-      clientId: 'uu52MLVHuccsBhEygc7WKbtSg864QCfn',
-      authorizationParams: {
-        redirect_uri: '',
-      },
-    }),
+    provideHttpClient(withFetch(), withInterceptors([errorInterceptor])),
   ],
 };
